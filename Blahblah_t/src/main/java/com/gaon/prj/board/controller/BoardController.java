@@ -20,8 +20,10 @@ public class BoardController {
 	 * 게시글 작성하러 이동
 	 * @return
 	 */	
-	@RequestMapping("/boardPost")
-	public String boardPost() {
-		return "board/boardPost";
+	@RequestMapping("/writeText")
+	public String writeText() {
+		return "board/writeText";
 	}
+	
+	
 }

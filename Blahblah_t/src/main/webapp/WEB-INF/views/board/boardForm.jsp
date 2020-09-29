@@ -15,11 +15,7 @@
 	src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 
 </head>
-<script>
-	function fn_postFn() {
-		location.href = "${contextPath}/prj/board/boardPost";
-	}
-</script>
+
 <body>
 	<!-- uppermost -->
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
@@ -59,7 +55,7 @@
 			</tbody>
 		</table>
 		<input type="button" class="btn btn-default pull-right"
-			onClick="location.href='/prj/board/boardPost'" value="글쓰기" />
+			onClick="location.href='/prj/board/writeText'" value="글쓰기" />
 	</div>
 
 	<!-- footer -->
