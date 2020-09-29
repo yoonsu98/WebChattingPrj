@@ -24,6 +24,14 @@ public class BoardController {
 	public String writeText() {
 		return "board/writeText";
 	}
+	/**
+	 * 게시글 작성글 보기
+	 * @return
+	 */	
+	@RequestMapping("/viewBoard")
+	public String viewBoard() {
+		return "board/viewBoard";
+	}
 	
 	
 }

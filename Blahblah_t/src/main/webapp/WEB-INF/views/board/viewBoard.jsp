@@ -22,38 +22,30 @@
 	<!-- nav -->
 	<%@ include file="/resources/include/main/nav.jsp"%>
 
+
 	<div class="container">
-		<form>
-			<select name="search">
-				<option value="title" selected>제목</option>
-				<option value="writer">작성자</option>
-			</select> <input type="text" name="search" value="" /> <input type="submit"
-				value="검색" />
-		</form>
-		<table class="table" style="text-align: center;">
-			<thead>
-				<tr>
-					<th class="text-center">번호</th> 
-					<th class="text-center">제목</th>
-					<th class="text-center">작성자</th>
-					<th class="text-center">조회수</th>
-					<th class="text-center">작성일</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>1</td>
-					<td><input type="button" class="btn btn-default" onClick="location.href='/prj/board/viewBoard'" value="이렇게 할거야" /></td>
-					<td>윤수현</td>
-					<td>912</td>
-					<td>2020-09-24</td>
-				</tr>
-			</tbody>
+		<input type="button" class="btn btn-default pull-right" value="칭찬하기" />
+		<input type="button" class="btn btn-default pull-right" value="신고하기" />
+		<table class="table table-bordered" style="text-align: center;">
+			<tr>
+				<td colspan="6">이렇게 할거야</td>
+			</tr>
+			<tr>
+				<td bgcolor="skyblue">작성자</td>
+				<td>윤수현</td>
+				<td bgcolor="skyblue">작성일</td>
+				<td>2020-09-24</td>
+				<td bgcolor="skyblue">조회수</td>
+				<td>912</td>
+			</tr>
+			<tr>
+				<td colspan="6" rowspan="6">이렇게 하는게 맞을랑가 ㅎㅎㅎㅎ ㅇㅓ렵고 못생겼어</td>
+			</tr>
+
 		</table>
 		<input type="button" class="btn btn-default pull-right"
-			onClick="location.href='/prj/board/writeText'" value="글쓰기" />
+			onClick="location.href='/prj/board/boardForm'" value="뒤로" />
 	</div>
-
 	<!-- footer -->
 	<%@ include file="/resources/include/main/footer.jsp"%>
 </body>
