@@ -1,5 +1,7 @@
 package com.gaon.prj.board.dao;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -12,8 +14,15 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Inject
 	private SqlSession sqlSession;
+
 	@Override
 	public int writeBoard(BoardVO boardVO) {
-		return sqlSession.insert("mappers.BoardDAO-mapper.writeBoard",boardVO);
+		return sqlSession.insert("mappers.BoardDAO-mapper.writeBoard", boardVO);
 	}
+
+	@Override
+	public List<BoardVO> boardList(){
+		return sqlSession.selectList("mappers.BoardDAO-mapper.boardList");
+	}
+
 }

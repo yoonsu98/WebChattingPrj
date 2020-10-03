@@ -33,12 +33,21 @@
 		<table class="table" style="text-align: center;">
 			<thead>
 				<tr>
-					<th class="text-center">번호</th> 
+					<th class="text-center">번호</th>
 					<th class="text-center">제목</th>
 					<th class="text-center">작성자</th>
 					<th class="text-center">조회수</th>
 					<th class="text-center">작성일</th>
 				</tr>
+				<c:forEach var="board" items="${list}">
+					<tr>
+						<th class="text-center">${board.pnum }</th>
+						<th class="text-center">${board.title }</th>
+						<th class="text-center">${board.writer }</th>
+						<th class="text-center">${board.rcnt }</th>
+						<th class="text-center">${board.wdate }</th>
+					</tr>
+				</c:forEach>
 			</thead>
 		</table>
 		<input type="button" class="btn btn-default pull-right"

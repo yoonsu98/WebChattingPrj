@@ -1,5 +1,7 @@
 package com.gaon.prj.board.svc;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,5 +20,10 @@ public class BoardSVCImpl implements BoardSVC {
 	@Override
 	public int writeBoard(BoardVO boardVO) {
 		return boardDAO.writeBoard(boardVO);
+	}
+	
+	@Override
+	public List<BoardVO> boardList(){
+		return boardDAO.boardList();
 	}
 }

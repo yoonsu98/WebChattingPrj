@@ -1,15 +1,19 @@
 package com.gaon.prj.board.controller;
 
 import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gaon.prj.board.dao.BoardDAO;
 import com.gaon.prj.board.svc.BoardSVC;
 import com.gaon.prj.board.vo.BoardVO;
 
@@ -18,12 +22,11 @@ import com.gaon.prj.board.vo.BoardVO;
 public class BoardController {
 	@Inject
 	BoardSVC boardSVC;
-	/**
-	 * 게시판으로 이동
-	 * @return
-	 */	
+	
 	@RequestMapping("/boardList")
-	public String boardList() {
+	public String boardList(Model model) {
+		List<BoardVO> list = boardSVC.boardList();
+		model.addAttribute("list",list);
 		return "board/boardList";
 	}
 	/**
@@ -58,3 +61,4 @@ public class BoardController {
 		return boardSVC.writeBoard(boardVO);
 	}
 }
+	
