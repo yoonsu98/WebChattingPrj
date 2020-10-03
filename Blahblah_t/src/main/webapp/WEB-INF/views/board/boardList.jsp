@@ -40,18 +40,9 @@
 					<th class="text-center">작성일</th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr>
-					<td>1</td>
-					<td><input type="button" class="btn btn-default" onClick="location.href='/prj/board/viewBoard'" value="이렇게 할거야" /></td>
-					<td>윤수현</td>
-					<td>912</td>
-					<td>2020-09-24</td>
-				</tr>
-			</tbody>
 		</table>
 		<input type="button" class="btn btn-default pull-right"
-			onClick="location.href='/prj/board/writeText'" value="글쓰기" />
+			onClick="location.href='/prj/board/writeBoard'" value="글쓰기" />
 	</div>
 
 	<!-- footer -->

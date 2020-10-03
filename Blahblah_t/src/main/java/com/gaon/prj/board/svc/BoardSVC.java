@@ -1,5 +1,7 @@
 package com.gaon.prj.board.svc;
 
-public interface BoardSVC {
+import com.gaon.prj.board.vo.BoardVO;
 
+public interface BoardSVC {
+	public int writeBoard(BoardVO boardVO);
 }

@@ -1,5 +1,7 @@
 package com.gaon.prj.board.dao;
 
-public interface BoardDAO {
+import com.gaon.prj.board.vo.BoardVO;
 
+public interface BoardDAO {
+	public int writeBoard(BoardVO boardVO);
 }

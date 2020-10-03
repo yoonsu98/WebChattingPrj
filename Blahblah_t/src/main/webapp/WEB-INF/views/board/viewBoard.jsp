@@ -38,9 +38,6 @@
 				<td bgcolor="skyblue">조회수</td>
 				<td>912</td>
 			</tr>
-			<tr>
-				<td colspan="6" rowspan="6">이렇게 하는게 맞을랑가 ㅎㅎㅎㅎ ㅇㅓ렵고 못생겼어</td>
-			</tr>
 
 		</table>
 		<input type="button" class="btn btn-default pull-right"
