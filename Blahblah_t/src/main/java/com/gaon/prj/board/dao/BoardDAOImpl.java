@@ -25,4 +25,13 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.selectList("mappers.BoardDAO-mapper.boardList");
 	}
 
+	@Override
+	public BoardVO viewBoard(int pnum) {
+		return sqlSession.selectOne("mappers.BoardDAO-mapper.viewBoard",pnum);
+	}
+	
+	@Override
+	public void increaseRcnt(int pnum) {
+		sqlSession.update("mappers.BoardDAO-mapper.increaseRcnt",pnum);
+	}
 }

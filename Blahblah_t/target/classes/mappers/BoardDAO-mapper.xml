@@ -17,4 +17,13 @@
 		SELECT PNUM,WRITER,TITLE,RCNT,WDATE FROM BOARD_TBL
 		ORDER BY PNUM DESC
 	</select>
+	
+	<select id = "viewBoard" parameterType = "com.gaon.prj.board.vo.BoardVO" resultType = "com.gaon.prj.board.vo.BoardVO">
+		SELECT PNUM,WRITER,TITLE,CONTENT,RCNT,WDATE FROM BOARD_TBL
+		WHERE PNUM = #{PNUM}
+	</select>
+	
+	<update id="increaseRcnt" parameterType="int">
+		UPDATE BOARD_TBL SET RCNT = RCNT+1 WHERE PNUM=#{PNUM}	
+	</update>
 </mapper>

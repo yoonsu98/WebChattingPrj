@@ -16,6 +16,14 @@
 
 </head>
 
+
+<!-- <script>
+	function loginWriteBoard() {
+		String user_id = (String)session.getAttribute("id");
+		alert(user_id);
+	}
+</script> -->
+
 <body>
 	<!-- uppermost -->
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
@@ -42,7 +50,7 @@
 				<c:forEach var="board" items="${list}">
 					<tr>
 						<th class="text-center">${board.pnum }</th>
-						<th class="text-center">${board.title }</th>
+						<th class="text-center"><a href="viewBoard/${board.pnum}">${board.title }</a></th>
 						<th class="text-center">${board.writer }</th>
 						<th class="text-center">${board.rcnt }</th>
 						<th class="text-center">${board.wdate }</th>

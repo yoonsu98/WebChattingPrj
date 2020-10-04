@@ -26,4 +26,14 @@ public class BoardSVCImpl implements BoardSVC {
 	public List<BoardVO> boardList(){
 		return boardDAO.boardList();
 	}
+	
+	@Override
+	public BoardVO viewBoard(int pnum) {
+		boardDAO.increaseRcnt(pnum);
+		return boardDAO.viewBoard(pnum);
+	}
+	
+	public void increaseRcnt(int pnum) {
+		return;
+	}
 }

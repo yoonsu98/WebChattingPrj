@@ -5,19 +5,22 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gaon.prj.board.dao.BoardDAO;
 import com.gaon.prj.board.svc.BoardSVC;
 import com.gaon.prj.board.vo.BoardVO;
 
 @Controller
+
 @RequestMapping(value="/board/*")
 public class BoardController {
 	@Inject
@@ -29,29 +32,20 @@ public class BoardController {
 		model.addAttribute("list",list);
 		return "board/boardList";
 	}
-	/**
-	 * 게시판으로 이동
-	 * @return
-	 */	
+
 	@RequestMapping("/writeBoard")
 	public String writingBoardForm() {
 		return "board/writeBoard";
 	}
-	/**
-	 * 게시글 작성글 보기
-	 * @return
-	 */	
-	@RequestMapping("/viewBoard")
-	public String viewBoard() {
+
+	@GetMapping("/viewBoard/{pnum}")
+	public String viewBoard(@PathVariable("pnum") int pnum, BoardVO view, Model model){
+		view = boardSVC.viewBoard(pnum);
+		boardSVC.increaseRcnt(pnum);
+		model.addAttribute("view",view);
 		return "board/viewBoard";
 	}
-	/**
-	 * 글쓰기 처리
-	 * @param writeBoardInfo
-	 * @param boardVO
-	 * @return
-	 * @throws Exception
-	 */
+
 	@ResponseBody	
 	@RequestMapping(value = "/writeTextBoard", method = RequestMethod.POST,produces = "application/json")
 	public int writeTextBoard(@RequestBody HashMap<String,String> writeBoardInfo, BoardVO boardVO) {
@@ -61,4 +55,3 @@ public class BoardController {
 		return boardSVC.writeBoard(boardVO);
 	}
 }
-	

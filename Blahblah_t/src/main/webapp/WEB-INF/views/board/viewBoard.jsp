@@ -21,13 +21,32 @@
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
 	<!-- nav -->
 	<%@ include file="/resources/include/main/nav.jsp"%>
-
+		<table class="table" style="text-align: center;">
+			<thead>
+				<tr>
+					<th class="text-center">번호</th>
+					<th class="text-center">제목</th>
+					<th class="text-center">작성자</th>
+					<th class="text-center">조회수</th>
+					<th class="text-center">작성일</th>
+					<th class="text-center">내용</th>
+				</tr>
+					<tr>
+						<th class="text-center">${view.pnum }</th>
+						<th class="text-center">${view.title }</th>
+						<th class="text-center">${view.writer }</th>
+						<th class="text-center">${view.rcnt }</th>
+						<th class="text-center">${view.wdate }</th>
+						<th class="text-center">${view.content }</th>
+					</tr>
+			</thead>
+		</table>
 
 	<div class="container">
 		<input type="button" class="btn btn-default pull-right" value="칭찬하기" />
 		<input type="button" class="btn btn-default pull-right" value="신고하기" />
 		<input type="button" class="btn btn-default pull-right"
-			onClick="location.href='/prj/board/boardForm'" value="뒤로" />
+			onClick="location.href='/prj/board/boardList'" value="목록" />
 	</div>
 	<!-- footer -->
 	<%@ include file="/resources/include/main/footer.jsp"%>
