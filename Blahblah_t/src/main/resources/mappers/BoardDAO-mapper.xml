@@ -5,8 +5,8 @@
 	<insert id="writeBoard"
 		parameterType="com.gaon.prj.board.vo.BoardVO">
 		insert into board_tbl
-		(writer,title,content)
-		values(
+		(pnum,writer,title,content)
+		values(board_tbl_seq.nextval,
 		#{writer},
 		#{title},
 		#{content}
