@@ -229,7 +229,7 @@
 		</dependency>
 
 		<!-- spring 시큐리티 끝 -->
-<<<<<<< HEAD
+
 		<!--Mail API -->
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
 		<dependency>
@@ -248,13 +248,7 @@
 			<artifactId>jasypt-spring31</artifactId>
 			<version>1.9.2</version>
 		</dependency>
-=======
-		 <dependency>
-            <groupId>org.jasypt</groupId>
-            <artifactId>jasypt-spring31</artifactId>
-            <version>1.9.2</version>
-        </dependency>
-        
+
         <!-- 웹 소켓 시작 -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
 		<dependency>
@@ -264,7 +258,6 @@
 		</dependency>
 		<!-- 웹 소켓 끝 -->
         
->>>>>>> branch 'master' of https://github.com/ITGaon/WebChattingPrj_Repos.git
 	</dependencies>
 	<build>
 		<plugins>

@@ -1,13 +1,5 @@
-<<<<<<< HEAD
 Manifest-Version: 1.0
 Built-By: jisoo
 Build-Jdk: 1.8.0_261
 Created-By: Maven Integration for Eclipse
 
-=======
-Manifest-Version: 1.0
-Built-By: ms199
-Build-Jdk: 14.0.2
-Created-By: Maven Integration for Eclipse
-
->>>>>>> branch 'master' of https://github.com/ITGaon/WebChattingPrj_Repos.git
