@@ -14,5 +14,14 @@ public class ChattingController {
 	public String chattingForm() {
 		return "chatting/chattingForm";
 	}
+	
+	/**
+	 * 1:1 채팅으로 이동
+	 * @return
+	 */	
+	@RequestMapping("/singlechattingForm")
+	public String singlechattingForm() {
+		return "chatting/singlechattingForm";
+	}
 
 }
