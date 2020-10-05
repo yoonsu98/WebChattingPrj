@@ -26,4 +26,5 @@
 	<update id="increaseRcnt" parameterType="int">
 		UPDATE BOARD_TBL SET RCNT = RCNT+1 WHERE PNUM=#{PNUM}	
 	</update>
+	
 </mapper>
