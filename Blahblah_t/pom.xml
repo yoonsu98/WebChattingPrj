@@ -184,15 +184,15 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- junit 끝 -->
-		<!-- for korean path  -->
+		<!-- for korean path -->
 		<dependency>
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
 			<version>2.9.1</version>
 		</dependency>
-		<!-- End for korean path  -->
+		<!-- End for korean path -->
 
-<!-- json포맷을 java객체로 변환 or java객체를 json포맷으로 변환 -->
+		<!-- json포맷을 java객체로 변환 or java객체를 json포맷으로 변환 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -229,11 +229,24 @@
 		</dependency>
 
 		<!-- spring 시큐리티 끝 -->
-		 <dependency>
-            <groupId>org.jasypt</groupId>
-            <artifactId>jasypt-spring31</artifactId>
-            <version>1.9.2</version>
-        </dependency>
+		<!--Mail API -->
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>3.2.8.RELEASE</version>
+		</dependency>
+		<!-- Mail API END -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-spring31</artifactId>
+			<version>1.9.2</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

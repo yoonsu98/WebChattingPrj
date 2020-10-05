@@ -34,7 +34,7 @@
 /* Modal Content/Box */
 .modal-content {
 	background-color: #fefefe;
-	margin:30% auto; /* 15% from the top and centered */
+	margin:15% auto; /* 15% from the top and centered */
 	padding: 20px;
 	border: 1px solid #888;
 	width: 50%; /* Could be more or less, depending on screen size */
@@ -174,7 +174,6 @@ function ajaxCallFindPassword(){
 	if(emailchk()){
 		let email = document.getElementById('EntertheEmail').value;
 		const emailInfo = JSON.stringify({email:email});
-		console.log(emailInfo);
 		$.ajax({
 			data : emailInfo,
 			url : "${contextPath}/prj/member/sendEmailforPW",
@@ -184,9 +183,7 @@ function ajaxCallFindPassword(){
 			success : function(data){
 				if(data.chkResult){
 					 chkemailExist = 1;
-					 alert("임시비밀번호가 전송되었습니다. 메일을 확인해주세요 ");
-					 modal.style.display = "none";
-					 
+					 ajaxCallUpdatePassword(email);
 					 }
 				else {
 					$("#email_check").text("존재하지 않는 정보입니다.");
@@ -197,6 +194,30 @@ function ajaxCallFindPassword(){
 			}
 		});
 	}
+}
+function ajaxCallUpdatePassword(email){
+
+	const emailInfo = JSON.stringify({email:email});
+	$.ajax({
+		data : emailInfo,
+		url : "${contextPath}/prj/member/updatePw",
+		type : "post",
+		dataType: "json",
+		contentType : "application/json; charset=UTF-8",
+		success : function(data){
+			if(data.chkResult){
+				 alert("임시비밀번호가 전송되었습니다. 메일을 확인해주세요 ");
+				 modal.style.display = "none";
+			}
+			else {
+				$("#email_check").text("메일전송에 실패하였습니다.");
+				$("#email_check").css('color', 'red');
+			}
+		},
+		error : function(e){
+			console.log("실패");
+		}
+	});
 }
 </script>
 </body>
