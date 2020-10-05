@@ -34,9 +34,10 @@
 		<form>
 			<select name="search">
 				<option value="title" selected>제목</option>
+				<option value="writer">내용</option>
 				<option value="writer">작성자</option>
-			</select> <input type="text" name="search" value="" /> <input type="submit"
-				value="검색" />
+			</select> <input type="text" name="search" value="" />
+			<button onClick="#">검색</button>
 		</form>
 		<table class="table" style="text-align: center;">
 			<thead>
