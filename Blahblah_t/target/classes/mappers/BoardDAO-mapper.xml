@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mappers.BoardDAO-mapper">
+
+	<insert id="writeBoard"
+		parameterType="com.gaon.prj.board.vo.BoardVO">
+		insert into board_tbl
+		(pnum,writer,title,content)
+		values(board_tbl_seq.nextval,
+		#{writer},
+		#{title},
+		#{content}
+		)
+	</insert>
+	
+	<select id = "boardList" parameterType="com.gaon.prj.board.vo.BoardVO" resultType = "com.gaon.prj.board.vo.BoardVO">
+		SELECT PNUM,WRITER,TITLE,RCNT,WDATE FROM BOARD_TBL
+		ORDER BY PNUM DESC
+	</select>
+	
+	<select id = "viewBoard" parameterType = "com.gaon.prj.board.vo.BoardVO" resultType = "com.gaon.prj.board.vo.BoardVO">
+		SELECT PNUM,WRITER,TITLE,CONTENT,RCNT,WDATE FROM BOARD_TBL
+		WHERE PNUM = #{PNUM}
+	</select>
+	
+	<update id="increaseRcnt" parameterType="int">
+		UPDATE BOARD_TBL SET RCNT = RCNT+1 WHERE PNUM=#{PNUM}	
+	</update>
+</mapper>
