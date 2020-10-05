@@ -3,6 +3,8 @@ package com.gaon.prj.member.controller;
 import java.util.HashMap;
 
 import java.util.Map;
+import java.util.Random;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -106,5 +108,25 @@ public class MemberController {
 	@RequestMapping(value="/sendEmailforPW",method=RequestMethod.POST)
 	public @ResponseBody Map<String, Boolean> sendEmailforPW(@RequestBody HashMap<String, String> EmailInfo) throws Exception {
 		return memberSVC.sendEmailforPW(EmailInfo.get("email"));
+	}
+	@RequestMapping(value="/updatePw",method=RequestMethod.POST)
+	public @ResponseBody Map<String, Boolean> updatePw(@RequestBody HashMap<String, String> EmailInfo) throws Exception {
+		HashMap<String,String> randPWInfo= new HashMap<String,String>();
+		String randPW = makeRandomPassword();
+		randPWInfo.put("email",EmailInfo.get("email"));
+		randPWInfo.put("originPW",randPW);
+		randPWInfo.put("encodePW",pwdEncoder.encode(randPW));
+		return memberSVC.updatePw(randPWInfo);
+	}
+	public String makeRandomPassword() {
+		Random rnd = new Random();
+		char[] randChar = new char[8];
+		String pass = "";
+		for (int i = 0; i < 8; i += 2) {
+			randChar[i] = (char) ((int) (rnd.nextInt(26)) + 65);
+			randChar[i + 1] = (char) ((int) (rnd.nextInt(10)) + 48);
+		}
+		pass = String.copyValueOf(randChar);
+		return pass;
 	}
 }

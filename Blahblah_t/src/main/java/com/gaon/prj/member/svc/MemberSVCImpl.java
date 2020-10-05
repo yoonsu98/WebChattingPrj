@@ -39,4 +39,9 @@ public class MemberSVCImpl implements MemberSVC {
 	public Map<String,Boolean> sendEmailforPW(String email){
 		return memberDAO.sendEmailforPW(email);
 	}
+
+	@Override
+	public Map<String, Boolean> updatePw(HashMap<String,String> randPWInfo){
+		return memberDAO.updatePw(randPWInfo);
+	}
 }
