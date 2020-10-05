@@ -6,12 +6,12 @@ import lombok.Data;
 
 @Data
 public class MemberVO {
-	private String id;				//ID	VARCHAR2(40 BYTE)	No		1	¾ÆÀÌµğ
-	private String pw;				//PW	VARCHAR2(40 BYTE)	No		2	ºñ¹Ğ¹øÈ£
-	private String nickname;		//NICKNAME	VARCHAR2(40 BYTE)	No		3	
-	private String email;			//EMAIL	VARCHAR2(100 BYTE)	No		4	
-	private String phone;			//PHONE	VARCHAR2(15 BYTE)	No		5	ÀüÈ­¹øÈ£
-	private int dcnt;				//DCNT	NUMBER	Yes	"0 "	6	½Å°íÈ½¼ö
-	private int gcnt;				//GCNT	NUMBER	Yes	"0 "	7	ÄªÂùÈ½¼ö
-	private Date cdate;				//CDATE	TIMESTAMP(6)	Yes	"systimestamp "	8	°¡ÀÔ³¯Â¥
+	private String id;				//ID	VARCHAR2(40 BYTE)	No		1	ì•„ì´ë””
+	private String pw;				//PW	VARCHAR2(40 BYTE)	No		2	ë¹„ë°€ë²ˆí˜¸
+	private String nickname;		//NICKNAME	VARCHAR2(40 BYTE)	No		3	ë‹‰ë„¤ì„
+	private String email;			//EMAIL	VARCHAR2(100 BYTE)	No		4	ì´ë©”ì¼
+	private String phone;			//PHONE	VARCHAR2(15 BYTE)	No		5	ì „í™”ë²ˆí˜¸
+	private int dcnt;				//DCNT	NUMBER	Yes	"0 "	6	ì‹ ê³ íšŸìˆ˜
+	private int gcnt;				//GCNT	NUMBER	Yes	"0 "	7	ì¹­ì°¬íšŸìˆ˜
+	private Date cdate;				//CDATE	TIMESTAMP(6)	Yes	"systimestamp "	8	ê°€ì…ì¼
 }

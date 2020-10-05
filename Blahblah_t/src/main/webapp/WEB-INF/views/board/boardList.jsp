@@ -15,11 +15,15 @@
 	src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 
 </head>
-<script>
-	function fn_postFn() {
-		location.href = "${contextPath}/prj/board/boardPost";
+
+
+<!-- <script>
+	function loginWriteBoard() {
+		String user_id = (String)session.getAttribute("id");
+		alert(user_id);
 	}
-</script>
+</script> -->
+
 <body>
 	<!-- uppermost -->
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
@@ -30,9 +34,10 @@
 		<form>
 			<select name="search">
 				<option value="title" selected>제목</option>
+				<option value="writer">내용</option>
 				<option value="writer">작성자</option>
-			</select> <input type="text" name="search" value="" /> <input type="submit"
-				value="검색" />
+			</select> <input type="text" name="search" value="" />
+			<button onClick="#">검색</button>
 		</form>
 		<table class="table" style="text-align: center;">
 			<thead>
@@ -40,26 +45,22 @@
 					<th class="text-center">번호</th>
 					<th class="text-center">제목</th>
 					<th class="text-center">작성자</th>
+					<th class="text-center">조회수</th>
 					<th class="text-center">작성일</th>
 				</tr>
+				<c:forEach var="board" items="${list}">
+					<tr>
+						<th class="text-center">${board.pnum }</th>
+						<th class="text-center"><a href="viewBoard/${board.pnum}">${board.title }</a></th>
+						<th class="text-center">${board.writer }</th>
+						<th class="text-center">${board.rcnt }</th>
+						<th class="text-center">${board.wdate }</th>
+					</tr>
+				</c:forEach>
 			</thead>
-			<tbody>
-				<tr>
-					<td>2</td>
-					<td>이렇게 할거야!!</td>
-					<td>윤수현</td>
-					<td>2020-09-25</td>
-				</tr>
-				<tr>
-					<td>1</td>
-					<td>이렇게 할거야</td>
-					<td>윤수현</td>
-					<td>2020-09-24</td>
-				</tr>
-			</tbody>
 		</table>
 		<input type="button" class="btn btn-default pull-right"
-			onClick="location.href='/prj/board/boardPost'" value="글쓰기" />
+			onClick="location.href='/prj/board/writeBoard'" value="글쓰기" />
 	</div>
 
 	<!-- footer -->
