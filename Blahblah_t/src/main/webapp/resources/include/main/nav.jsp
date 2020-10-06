@@ -49,7 +49,8 @@
 			</div>
 		</div>
 	</nav>
-
-
 </body>
+<script>
+console.log(window.sessionStorage);
+</script>
 </html>

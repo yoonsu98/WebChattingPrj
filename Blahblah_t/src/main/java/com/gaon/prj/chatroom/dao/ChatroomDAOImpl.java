@@ -17,11 +17,11 @@ public class ChatroomDAOImpl implements ChatroomDAO {
 	
 	@Override
 	public void add(Map<String, Object> param) {
-		sqlSession.insert("mappers.ServiceDAO-mapper.add", param);
+		sqlSession.insert("mappers.ChatroomDAO-mapper.add", param);
 	}
 	
 	@Override
 	public List<ChatroomVO> roomList() {
-		return sqlSession.selectList("mappers.ServiceDAO-mapper.roomList");
+		return sqlSession.selectList("mappers.ChatroomDAO-mapper.roomList");
 	}
 }

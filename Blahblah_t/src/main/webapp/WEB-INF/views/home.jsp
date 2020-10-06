@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page session="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
@@ -61,14 +60,13 @@
 			</div>
 			<div class="col-sm-4">
 				<p>
-					<strong>기능3</strong>
+					<strong>친구</strong>
 				</p>
-				<br> <img src="${pageContext.request.contextPath}/resources/img/sub3.jpg" style="width:200; height:200;" alt="Random Name">
+				<br> <a href="${pageContext.request.contextPath}/friend/friendHome"><img src="${pageContext.request.contextPath}/resources/img/sub3.jpg" style="width:200; height:200;" alt="Random Name"></a>
 			</div>
 		</div>
 	</div>
 	<!-- footer -->
 	<%@ include file="/resources/include/main/footer.jsp"%>
-
 </body>
 </html>
