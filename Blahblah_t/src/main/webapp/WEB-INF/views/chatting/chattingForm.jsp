@@ -3,6 +3,7 @@
 <%@ page session="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
 <html>
 <head>
 <meta charset="UTF-8">
@@ -24,10 +25,12 @@
 	
 	<div class="container text-center" >
 		<br><br><br>
-		<button type="submit" class="btn btn-primary btn-lg" style="height:100px; width:200px;">1:1 chatting</button>
+		<button type="submit" class="btn btn-primary btn-lg" onClick="location.href='/prj/chatting/singlechattingForm'" 
+		style="height:100px; width:200px;">1:1 chatting</button>
 		<button type="submit" class="btn btn-primary btn-lg" style="height:100px; width:200px;">1:n chatting</button>
 		<br><br><br>
 	</div>
+	
 	<!-- footer -->
 	<%@ include file="/resources/include/main/footer.jsp"%>
 	

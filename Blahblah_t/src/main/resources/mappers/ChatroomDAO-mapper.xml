@@ -3,14 +3,14 @@
 <mapper namespace="mappers.ChatroomDAO-mapper">
 
 	<insert id="add" parameterType="map">
-		insert into chatroom
+		insert into chatroom_tbl
 		(cno,id,title) values
 		(room_seq.nextval,#{id},#{title})
 	</insert>
 
 	<select id="roomList"
 		resultType="com.gaon.prj.chatroom.vo.ChatroomVO">
-		select cno,id,title,cdate from chatroom
+		select cno,id,title,cdate from chatroom_tbl
 	</select>
 	
 </mapper>

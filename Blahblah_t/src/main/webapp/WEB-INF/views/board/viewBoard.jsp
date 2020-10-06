@@ -21,32 +21,38 @@
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
 	<!-- nav -->
 	<%@ include file="/resources/include/main/nav.jsp"%>
-		<table class="table" style="text-align: center;">
-			<thead>
-				<tr>
-					<th class="text-center">번호</th>
-					<th class="text-center">제목</th>
-					<th class="text-center">작성자</th>
-					<th class="text-center">조회수</th>
-					<th class="text-center">작성일</th>
-					<th class="text-center">내용</th>
-				</tr>
-					<tr>
-						<th class="text-center">${view.pnum }</th>
-						<th class="text-center">${view.title }</th>
-						<th class="text-center">${view.writer }</th>
-						<th class="text-center">${view.rcnt }</th>
-						<th class="text-center">${view.wdate }</th>
-						<th class="text-center">${view.content }</th>
-					</tr>
-			</thead>
+	<div class="container">
+		<table class="table" border="1" style="text-align: center;">
+			<tr>
+				<th class="text-center">글번호 : ${view.pnum }</th>
+				<th class="text-center" colspan="2">제목 : ${view.title }</th>
+			</tr>
+			<tr>
+				<th class="text-center">작성자 : ${view.writer }</th>
+				<th class="text-center">조회수 : ${view.rcnt }</th>
+				<th class="text-center">작성일 : ${view.wdate }</th>
+			</tr>
+			<tr>
+				<th class="text-center" colspan="3">${view.content }</th>
+			</tr>
 		</table>
+	</div>
+	<div class="container">
+		<input type="button" class="btn btn-default pull-right"
+				onClick="location.href='/prj/board/boardList'" value="목록"/>
+		<c:if test="${!empty sessionScope.member }">
+			<input type="button" class="btn btn-default pull-right" value="칭찬하기" />
+			<input type="button" class="btn btn-default pull-right" value="신고하기" />
+		</c:if>
+	</div>
 
 	<div class="container">
-		<input type="button" class="btn btn-default pull-right" value="칭찬하기" />
-		<input type="button" class="btn btn-default pull-right" value="신고하기" />
-		<input type="button" class="btn btn-default pull-right"
-			onClick="location.href='/prj/board/boardList'" value="목록" />
+		<c:if test="${sessionScope.member.nickname eq view.writer }">
+			<input type="button" class="btn btn-default pull-right" value="수정하기" />
+			<input type="button" class="btn btn-default pull-right" value="삭제하기" />
+		</c:if>
+
+
 	</div>
 	<!-- footer -->
 	<%@ include file="/resources/include/main/footer.jsp"%>
