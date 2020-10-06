@@ -72,7 +72,6 @@
 				}
 			},
 			 error : function(data){
-
 				alert("실패");
 			} 
 		})
