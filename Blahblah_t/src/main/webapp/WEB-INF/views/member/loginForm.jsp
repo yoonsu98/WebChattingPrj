@@ -71,9 +71,9 @@
 					//alert("회원정보를 다시 확인해주세요.");
 				}
 			},
-			error : function(data){
+			/* error : function(data){
 				alert("실패");
-			}
+			} */
 		})
 	}
 </script>
