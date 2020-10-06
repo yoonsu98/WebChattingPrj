@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page session="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html>
@@ -40,7 +39,7 @@
 	<div class="container">
 		<input type="button" class="btn btn-default pull-right"
 				onClick="location.href='/prj/board/boardList'" value="목록"/>
-		<c:if test="${!empty sessionScope.member }">
+		<c:if test="${empty sessionScope.member}">
 			<input type="button" class="btn btn-default pull-right" value="칭찬하기" />
 			<input type="button" class="btn btn-default pull-right" value="신고하기" />
 		</c:if>
