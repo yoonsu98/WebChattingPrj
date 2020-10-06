@@ -72,7 +72,7 @@
 				}
 			},
 			 error : function(data){
-				alert("실패sdfwsdfsdfsdf");
+				alert("실패");
 			} 
 		})
 	}
