@@ -20,9 +20,7 @@
 <style>
 <%@ include file="/resources/css/singlechat.css"%>
 </style>
-	
 </head>
- 
 
 <body>
 	<!-- uppermost -->
@@ -43,6 +41,7 @@
       </div>
      </div>
 	</main>
+	
 	<!-- footer -->
 	<%@ include file="/resources/include/main/footer.jsp"%>
 </body>
