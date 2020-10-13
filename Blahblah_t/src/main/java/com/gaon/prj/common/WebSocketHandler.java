@@ -31,6 +31,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		
 		//모든 유저에게 메시지 출력
 		for(WebSocketSession sess : sessionList) {
+	
 			sess.sendMessage(new TextMessage(message.getPayload()));
 		}
 	}

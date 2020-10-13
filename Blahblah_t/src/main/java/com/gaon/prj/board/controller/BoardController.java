@@ -4,12 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,16 +19,15 @@ import com.gaon.prj.board.svc.BoardSVC;
 import com.gaon.prj.board.vo.BoardVO;
 
 @Controller
-
-@RequestMapping(value="/board/*")
+@RequestMapping(value = "/board/*")
 public class BoardController {
 	@Inject
 	BoardSVC boardSVC;
-	
+
 	@RequestMapping("/boardList")
 	public String boardList(Model model) {
 		List<BoardVO> list = boardSVC.boardList();
-		model.addAttribute("list",list);
+		model.addAttribute("list", list);
 		return "board/boardList";
 	}
 
@@ -39,19 +37,29 @@ public class BoardController {
 	}
 
 	@GetMapping("/viewBoard/{pnum}")
-	public String viewBoard(@PathVariable("pnum") int pnum, BoardVO view, Model model){
+	public String viewBoard(@PathVariable("pnum") int pnum, BoardVO view, Model model) {
 		view = boardSVC.viewBoard(pnum);
 		boardSVC.increaseRcnt(pnum);
-		model.addAttribute("view",view);
+		model.addAttribute("view", view);
 		return "board/viewBoard";
 	}
 
-	@ResponseBody	
-	@RequestMapping(value = "/writeTextBoard", method = RequestMethod.POST,produces = "application/json")
-	public int writeTextBoard(@RequestBody HashMap<String,String> writeBoardInfo, BoardVO boardVO) {
+	@ResponseBody
+	@RequestMapping(value = "/writeTextBoard", method = RequestMethod.POST, produces = "application/json")
+	public int writeTextBoard(@RequestBody HashMap<String, String> writeBoardInfo, BoardVO boardVO) {
 		boardVO.setWriter(writeBoardInfo.get("writer"));
 		boardVO.setTitle(writeBoardInfo.get("title"));
 		boardVO.setContent(writeBoardInfo.get("content"));
 		return boardSVC.writeBoard(boardVO);
+	}
+
+	@RequestMapping(value = "/loginWriteBoard", method = RequestMethod.POST)
+	public String loginWriteBoard(HttpSession session) {
+		if (session.getAttribute("member")!= null) {
+			return "board/writeBoard";
+		}
+		else {
+			return "member/loginForm";
+		}
 	}
 }
