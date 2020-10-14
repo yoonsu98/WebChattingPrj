@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.gaon.prj.board.vo.BoardVO;
+import com.gaon.prj.paging.PagingVO;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -19,10 +20,14 @@ public class BoardDAOImpl implements BoardDAO {
 	public int writeBoard(BoardVO boardVO) {
 		return sqlSession.insert("mappers.BoardDAO-mapper.writeBoard", boardVO);
 	}
-
 	@Override
-	public List<BoardVO> boardList(){
-		return sqlSession.selectList("mappers.BoardDAO-mapper.boardList");
+	public Integer countBoard() {
+		return sqlSession.selectOne("mappers.BoardDAO-mapper.countBoard");
+	}
+	
+	@Override
+	public List<BoardVO> boardList(PagingVO paging){
+		return sqlSession.selectList("mappers.BoardDAO-mapper.boardList",paging);
 	}
 
 	@Override

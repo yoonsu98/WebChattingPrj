@@ -53,6 +53,7 @@
 </head>
 <script>
 	function fn_loginFn(){
+		
 		let id = document.getElementById('id').value;
 		let pw = document.getElementById('pw').value;
 		const memberInfo = JSON.stringify({id:id,pw:pw});
@@ -68,7 +69,7 @@
 					alert("로그인 되었습니다.");
 					location.href="${contextPath}/prj";
 				}else{
-					//alert("회원정보를 다시 확인해주세요.");
+					alert("회원정보를 다시 확인해주세요.");
 				}
 			},
 			 error : function(data){
