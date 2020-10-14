@@ -10,6 +10,11 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
+
+<script>
+console.log("dd");
+console.log(${followingList});
+</script>
 </head>
 <body>
 	<!-- uppermost -->
@@ -22,19 +27,16 @@
 		 <caption>following list</caption>
 			<thead>
 				<tr>
-					<th class="text-center">NickName</th>
-					<th class="text-center">photo</th>
+					<th class="text-center">id</th>
+					<th class="text-center">nickname</th>
 					<th class="text-center">country</th>
 				</tr>
-<%-- 				<c:forEach var="board" items="${list}">
+ 				<c:forEach var="member" items="${followingList}">
 					<tr>
-						<th class="text-center">${board.pnum }</th>
-						<th class="text-center"><a href="viewBoard/${board.pnum}">${board.title }</a></th>
-						<th class="text-center">${board.writer }</th>
-						<th class="text-center">${board.rcnt }</th>
-						<th class="text-center">${board.wdate }</th>
+						<th class="text-center">${member.id }</th>
+						<th class="text-center">${member.nickname }</th>
 					</tr>
-				</c:forEach> --%>
+				</c:forEach>
 			</thead>
 		</table>
 	</div>
