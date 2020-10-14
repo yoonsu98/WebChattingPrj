@@ -1,4 +1,4 @@
-package com.gaon.prj.freind.svc;
+package com.gaon.prj.friend.svc;
 
 import java.util.List;
 
@@ -7,9 +7,8 @@ import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.gaon.prj.freind.dao.FriendDAO;
+import com.gaon.prj.friend.dao.FriendDAO;
 import com.gaon.prj.member.vo.MemberVO;
-
 
 @Service
 public class FriendSVCImpl implements FriendSVC{

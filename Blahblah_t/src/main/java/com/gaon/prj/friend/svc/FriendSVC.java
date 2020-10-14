@@ -1,10 +1,9 @@
-package com.gaon.prj.freind.dao;
+package com.gaon.prj.friend.svc;
 
 import java.util.List;
 
 import com.gaon.prj.member.vo.MemberVO;
 
-
-public interface FriendDAO {
+public interface FriendSVC {
 	public List<MemberVO> getFollowingList(String id);
 }

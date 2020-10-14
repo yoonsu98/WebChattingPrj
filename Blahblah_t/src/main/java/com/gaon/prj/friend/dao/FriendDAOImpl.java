@@ -1,4 +1,4 @@
-package com.gaon.prj.freind.dao;
+package com.gaon.prj.friend.dao;
 
 import java.util.List;
 
@@ -9,10 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import com.gaon.prj.member.vo.MemberVO;
 
-
 @Repository
-public class FriendDAOImpl implements FriendDAO{
-	
+public class FriendDAOImpl implements FriendDAO {
 	@Inject
 	private SqlSession sqlSession;
 	@Override
