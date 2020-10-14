@@ -27,4 +27,8 @@
 		UPDATE BOARD_TBL SET RCNT = RCNT+1 WHERE PNUM=#{PNUM}	
 	</update>
 	
+	<select id = "countBoard" resultType = "int">
+		SELECT COUNT(*) FROM BOARD_TBL
+	</select>
+	
 </mapper>

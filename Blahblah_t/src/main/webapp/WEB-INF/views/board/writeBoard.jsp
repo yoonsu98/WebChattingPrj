@@ -57,7 +57,7 @@
 				placeholder="여기를 눌러서 글을 작성할 수 있습니다." style="resize: none;"></textarea>
 		</div>
 		<button class="btn btn-default pull-right"
-			onClick=writeTextToTheBoard()>등록</button>
+			onClick="writeTextToTheBoard()">등록</button>
 	</div>
 	<!-- footer -->
 	<%@ include file="/resources/include/main/footer.jsp"%>

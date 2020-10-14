@@ -15,14 +15,6 @@
 
 </head>
 
-
-<!-- <script>
-	function loginWriteBoard() {
-		String user_id = (String)session.getAttribute("id");
-		alert(user_id);
-	}
-</script> -->
-
 <body>
 	<!-- uppermost -->
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
@@ -33,7 +25,7 @@
 		<form>
 			<select name="search">
 				<option value="title" selected>제목</option>
-				<option value="writer">내용</option>
+				<option value="content">내용</option>
 				<option value="writer">작성자</option>
 			</select> <input type="text" name="search" value="" />
 			<button onClick="#">검색</button>
@@ -58,8 +50,10 @@
 				</c:forEach>
 			</thead>
 		</table>
-		<input type="button" class="btn btn-default pull-right"
-			onClick="location.href='/prj/board/writeBoard'" value="글쓰기" />
+		<form method="post" action="loginWriteBoard" encType="UTF-8">
+			<input type="submit" class="btn btn-default pull-right" value="글쓰기" />
+		</form>
+
 	</div>
 
 	<!-- footer -->
