@@ -12,6 +12,7 @@ public class ChattingController {
 	 */	
 	@RequestMapping("/chattingForm")
 	public String chattingForm() {
+		
 		return "chatting/chattingForm";
 	}
 	
