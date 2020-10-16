@@ -40,15 +40,22 @@
     
     
     function sendMessage(){
-
-            //websocket으로 메시지를 보내겠다.
-            sock.send($("#message").val());
+        //websocket으로 메시지를 보내겠다.
+      	console.log($("#message").val())
+        if($("#message").val()==""){
+        	alert("메시지를 입력해주세요.");
+        }
+        else{
+	        var senderName= "${member.nickname}";
+	        sock.send(senderName+ " : "+$("#message").val());
+        }
         
-    }
+	}
             
     //evt 파라미터는 websocket이 보내준 데이터다.
     function onMessage(evt){  //변수 안에 function자체를 넣음.
         var data = evt.data;
+        
         $("#data").append(data+"<br/>");
         /* sock.close(); */
     }
