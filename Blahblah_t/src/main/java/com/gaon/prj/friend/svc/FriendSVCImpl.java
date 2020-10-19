@@ -23,4 +23,8 @@ public class FriendSVCImpl implements FriendSVC{
 	public List<MemberVO> getFollowerList(String id){
 		return friendDAO.getFollowerList(id);
 	}
+	@Override
+	public List<MemberVO> getMemberList(){
+		return friendDAO.getMemberList();
+	}
 }

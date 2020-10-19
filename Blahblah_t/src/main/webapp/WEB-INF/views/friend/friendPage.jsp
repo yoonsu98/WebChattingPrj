@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-<title>Home</title>
+<title>친구정보</title>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
 <link rel="stylesheet" type="text/css"
@@ -19,23 +19,30 @@
 	<%@ include file="/resources/include/main/nav.jsp"%>
 	<!-- main -->
 	<div class="container text-center">
-		<h2>추천 친구</h2>
 		<div class="div_people">
-			<c:forEach var="member" items="${memberList}">
-				<div class="div_person">
-					<div class="div_img">
-						<a href="friendPage/${member.id}">
-						<img
-							src="${pageContext.request.contextPath}/resources/img/spongebob.jpg"
-							class="img_people"></a>
-					</div>
-					<div class="div_info">${member.nickname }</div>
-					<div class="div_info">한국</div>
-					<div class="div_info">레벨</div>
+			<div class="div_person_detail">
+				<div class="div_img">
+					<img
+						src="${pageContext.request.contextPath}/resources/img/spongebob.jpg"
+						class="img_people">
 				</div>
-			</c:forEach>
+				<div class="div_info">${member.nickname }</div>
+				<div class="div_info">한국</div>
+				<div class="div_info">레벨</div>
+			</div>
+			<c:if test="${not empty sessionScope.member}">
+				<div class="div_btn">
+					<input class="btn btn-primary" type="button" value="Follow" />
+					<input class="btn btn-primary" type="button" value="DM" />
+					 <input	class="btn btn-primary" type="button" value="Chatting" />
+				</div>
+			</c:if>
+			<c:if test="${empty sessionScope.member}">
+				<div class="div_btn">
+					<a href="${contextPath}/prj/member/loginForm">로그인 해서 채팅을 시작해보세요!</a>
+				</div>
+			</c:if>
 		</div>
-
 	</div>
 	<!-- footer -->
 	<%@ include file="/resources/include/main/footer.jsp"%>

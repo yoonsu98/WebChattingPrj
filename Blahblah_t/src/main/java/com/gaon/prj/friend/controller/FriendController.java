@@ -7,8 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gaon.prj.board.vo.BoardVO;
 import com.gaon.prj.friend.svc.FriendSVC;
 import com.gaon.prj.friend.vo.FriendVO;
 import com.gaon.prj.member.vo.MemberVO;
@@ -21,7 +24,9 @@ public class FriendController {
 	MemberVO memberVO;
 
 	@RequestMapping("/friendHome")
-	public String friendHome() {
+	public String friendHome(Model model) {
+		List<MemberVO> memberList = friendSVC.getMemberList();
+		model.addAttribute("memberList",memberList);
 		return "friend/friendHome";
 	}
 	@RequestMapping("/myPage")
@@ -44,4 +49,11 @@ public class FriendController {
 		model.addAttribute("followerList",followerList);
 		return "friend/followerList";
 	}
+	@GetMapping("/friendPage/{id}")
+	public String friendInfo(@PathVariable("id") String id) {
+
+		//model.addAttribute("view", view);
+		return "friend/friendPage";
+	}
+
 }
