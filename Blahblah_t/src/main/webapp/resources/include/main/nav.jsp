@@ -42,7 +42,7 @@
 					<li><a href="${contextPath}/prj/board/boardList">자유게시판</a></li>
 					<li><a href="${contextPath}/prj/chatting/chattingForm">채팅</a></li>
 					<li><a href="#">QnA</a></li>
-					<li><a href="#">마이페이지</a></li>
+					<li><a href="${contextPath}/prj/friend/myPage">마이페이지</a></li>
 					<li><a href="${contextPath}/prj/member/logout">로그아웃</a></li>
 				</ul>
 				</c:if>

@@ -24,6 +24,10 @@ public class FriendController {
 	public String friendHome() {
 		return "friend/friendHome";
 	}
+	@RequestMapping("/myPage")
+	public String myPage() {
+		return "friend/myPage";
+	}
 	@RequestMapping("/followingList")
 	public String followingList(Model model, HttpServletRequest request) {
 		Object temp_memberVO= request.getSession().getAttribute("member");
@@ -33,7 +37,11 @@ public class FriendController {
 		return "friend/followingList";
 	}
 	@RequestMapping("/followerList")
-	public String followerList() {
+	public String followerist(Model model, HttpServletRequest request) {
+		Object temp_memberVO= request.getSession().getAttribute("member");
+		memberVO= (MemberVO)temp_memberVO;
+		List<MemberVO> followerList = friendSVC.getFollowingList(memberVO.getId());
+		model.addAttribute("followerList",followerList);
 		return "friend/followerList";
 	}
 }

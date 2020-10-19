@@ -5,4 +5,7 @@
 	<select id="getFollowingMemberInfo" parameterType="String" resultType="com.gaon.prj.member.vo.MemberVO">
 	select id,nickname from member_tbl where id in (select fiid from friend_tbl where feid=#{id})
 	</select>
+		<select id="getFollowerMemberInfo" parameterType="String" resultType="com.gaon.prj.member.vo.MemberVO">
+	select id,nickname from member_tbl where id in (select feid from friend_tbl where fiid=#{id})
+	</select>
 </mapper>

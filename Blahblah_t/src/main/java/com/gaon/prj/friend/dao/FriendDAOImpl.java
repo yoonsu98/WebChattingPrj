@@ -19,4 +19,10 @@ public class FriendDAOImpl implements FriendDAO {
 		System.out.println(followingMemberInfo);
 		return followingMemberInfo;
 	}
+	@Override
+	public List<MemberVO> getFollowerList(String id){
+		List<MemberVO>followerMemberInfo = sqlSession.selectList("mappers.FriendDAO-mapper.getFollowerMemberInfo",id);
+		System.out.println(followerMemberInfo);
+		return followerMemberInfo;
+	}
 }
