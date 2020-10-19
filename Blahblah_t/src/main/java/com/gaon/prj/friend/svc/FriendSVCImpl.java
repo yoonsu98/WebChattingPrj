@@ -1,6 +1,8 @@
 package com.gaon.prj.friend.svc;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -26,5 +28,14 @@ public class FriendSVCImpl implements FriendSVC{
 	@Override
 	public List<MemberVO> getMemberList(){
 		return friendDAO.getMemberList();
+	}
+	@Override
+	public MemberVO getOneMemberInfo(String id){
+		return friendDAO.getOneMemberInfo(id);
+	}
+
+	@Override
+	public Map<String, Boolean> setFollowing(HashMap<String,String> IDInfo){
+		return friendDAO.setFollowing(IDInfo);
 	}
 }

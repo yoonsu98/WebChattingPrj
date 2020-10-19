@@ -16,6 +16,20 @@
 	</select>
 	<select id="getMemberInfo"
 		resultType="com.gaon.prj.member.vo.MemberVO">
-		select id , nickname from member_tbl <![CDATA[where rownum <= 6]]> order by gcnt desc
+		select id , nickname from member_tbl <![CDATA[where rownum <= 6]]>
+		order by gcnt desc
+	</select>
+	<select id="getOneMemberInfo" parameterType="String"
+		resultType="com.gaon.prj.member.vo.MemberVO">
+		select id , nickname from member_tbl where id = #{id}
+	</select>
+	<select id="setFollowing" parameterType="hashMap"
+		resultType="String">
+		insert into friend_tbl
+		(fiid,feid)
+		values(
+		#{followingID},
+		#{followerID}
+		)
 	</select>
 </mapper>

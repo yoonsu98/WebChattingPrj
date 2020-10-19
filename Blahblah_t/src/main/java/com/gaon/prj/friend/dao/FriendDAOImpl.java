@@ -1,6 +1,8 @@
 package com.gaon.prj.friend.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -28,7 +30,26 @@ public class FriendDAOImpl implements FriendDAO {
 	@Override
 	public List<MemberVO> getMemberList(){
 		List<MemberVO>memberInfo = sqlSession.selectList("mappers.FriendDAO-mapper.getMemberInfo");
-		System.out.println(memberInfo);
 		return memberInfo;
+	}
+
+	@Override
+	public MemberVO getOneMemberInfo(String id){
+		MemberVO oneMemberInfo = sqlSession.selectOne("mappers.FriendDAO-mapper.getOneMemberInfo",id);
+		System.out.println(oneMemberInfo);
+		return oneMemberInfo;
+	}
+
+	@Override
+	public Map<String, Boolean> setFollowing(HashMap<String,String> IDInfo){
+
+		System.out.println(IDInfo);
+		String a = sqlSession.selectOne("mappers.FriendDAO-mapper.setFollowing", IDInfo);
+		Map<String, Boolean> chkResult = new HashMap<>();
+		if (a == null)
+			chkResult.put("chkResult", true);
+		else
+			chkResult.put("chkResult", false);
+		return chkResult;
 	}
 }

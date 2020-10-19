@@ -21,15 +21,15 @@
 	<div class="container text-center">
 		<h2>추천 친구</h2>
 		<div class="div_people">
-			<c:forEach var="member" items="${memberList}">
+			<c:forEach var="members" items="${memberList}">
 				<div class="div_person">
 					<div class="div_img">
-						<a href="friendPage/${member.id}">
+						<a href="friendPage/${members.id}">
 						<img
 							src="${pageContext.request.contextPath}/resources/img/spongebob.jpg"
 							class="img_people"></a>
 					</div>
-					<div class="div_info">${member.nickname }</div>
+					<div class="div_info">${members.nickname }</div>
 					<div class="div_info">한국</div>
 					<div class="div_info">레벨</div>
 				</div>
