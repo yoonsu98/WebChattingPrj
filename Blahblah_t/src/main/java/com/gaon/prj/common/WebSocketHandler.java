@@ -44,10 +44,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		log.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
 		
-		
 		JSONObject object = mapper.readValue(message.getPayload(), JSONObject.class);
 		String type = (String)object.get("type");
-		
 		
 		//1:1 chat - 등록
 		if(type.equals("register")) { 
