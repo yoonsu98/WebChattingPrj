@@ -23,13 +23,11 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 	private Logger log = LoggerFactory.getLogger(WebSocketHandler.class);
 	
-	private List<WebSocketSession> users;
 	private Map<String, Object> userMap;
 	
 	ObjectMapper mapper = new ObjectMapper();
 	
 	public WebSocketHandler() {
-		users = new ArrayList<WebSocketSession>();
 		userMap = new HashMap<String, Object>();
 		
 	}
@@ -38,7 +36,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		sessionList.add(session);
-		users.add(session);
 		log.info("{} 연결됨" , session.getId());
 	}
 	 
@@ -47,20 +44,17 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		log.info("{}로 부터 {} 받음", session.getId(), message.getPayload());
 		
-		
 		JSONObject object = mapper.readValue(message.getPayload(), JSONObject.class);
-		
 		String type = (String)object.get("type");
 		
-		
-		//등록
+		//1:1 chat - 등록
 		if(type.equals("register")) { 
 			System.out.println("등록");
 			String user = (String)object.get("userid");
 			userMap.put(user, session);
 		}
 		
-		//채팅
+		//1:1 chat - 채팅
 		else if(type.equals("chat")){
 			System.out.println("서버에서 메시지보냄");
 			String target = (String)object.get("target");
@@ -71,17 +65,13 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			if(ws != null) {
 				ws.sendMessage(new TextMessage(msg));
 			}
-			else {
-				
-			}
-			
 		}
 		
 		else {
-		//모든 유저에게 메시지 출력
-		for(WebSocketSession sess : sessionList) {
-			sess.sendMessage(new TextMessage(message.getPayload()));
-			}
+			//모든 유저에게 메시지 출력
+			for(WebSocketSession sess : sessionList) {
+				sess.sendMessage(new TextMessage(message.getPayload()));
+				}
 		}
 	}
 	
@@ -89,7 +79,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		sessionList.remove(session);
-		users.remove(session);
 		log.info("{} 연결 끊김.", session.getId());
 	}
 	
