@@ -1,0 +1,55 @@
+
+.div_people{
+    border-style: solid;
+    border-color: lightgray;
+    border-width: thin;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+
+}
+.div_person{
+    display: inline-block;
+    height: 50%;
+    width: 30%;
+    padding: 10px;
+
+}
+.div_img{
+    border-style: solid;
+    border-color: lightgray;
+    border-width: thin;
+    border-bottom-style: none;
+    height: 60%;
+    padding: 2%;
+
+}
+.div_info{
+    border-style: solid;
+    border-color: lightgray;
+    border-width: thin;
+    height: 10%;
+    padding: 5%;
+
+}
+.img_people{
+    display: inline-block;
+    height:100%;    width:100%;
+   
+}
+
+.div_person_detail{
+    display: inline-block;
+    height: 80%;
+    width: 50%;
+}
+.div_btn{
+    display: inline-block;
+    height: 20%;
+    width: 50%;
+    text-align: center;
+}
+.bt_btn{
+    padding:15%;
+}
