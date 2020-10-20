@@ -57,13 +57,14 @@
 			$('#msgArea').append(data+"<br/>");
  	 	} */
  	}
+ 	
 	function register(){
 		var msg = {
 				type : 'register',
 				userid : '${member.id}'
 		};
 		sock.send(JSON.stringify(msg));
-		}
+	}
 
 	function sendMsg(){
 		console.log("메세지 보냄");
