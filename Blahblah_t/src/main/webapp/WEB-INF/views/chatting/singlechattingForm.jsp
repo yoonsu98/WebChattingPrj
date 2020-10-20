@@ -51,10 +51,11 @@
  	function addMsg(msg){
 		var data = msg.data;
 		console.log("서버에서 받은 data"+data);
+		$('#msgArea').append(data+"<br/>");
 		//var userid = JSON.parse(data).target;
-		if (userid=="${member.id}"){
+		/* if (userid=="${member.id}"){
 			$('#msgArea').append(data+"<br/>");
- 	 	}
+ 	 	} */
  	}
 	function register(){
 		var msg = {
