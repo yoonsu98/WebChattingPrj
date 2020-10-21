@@ -44,10 +44,13 @@ public class MemberDAOImpl implements MemberDAO {
 	public Map<String, Boolean> getIDInfo(String id) {
 		String a = sqlSession.selectOne("mappers.MemberDAO-mapper.getIDInfo", id);
 		Map<String, Boolean> chkResult = new HashMap<>();
+		System.out.println(a);
 		if (a == null)
 			chkResult.put("chkResult", true);
 		else
 			chkResult.put("chkResult", false);
+
+		System.out.println(chkResult);
 		return chkResult;
 	}
 

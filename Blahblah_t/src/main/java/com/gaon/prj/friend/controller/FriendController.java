@@ -50,7 +50,7 @@ public class FriendController {
 	public String followerist(Model model, HttpServletRequest request) {
 		Object temp_memberVO= request.getSession().getAttribute("member");
 		memberVO= (MemberVO)temp_memberVO;
-		List<MemberVO> followerList = friendSVC.getFollowingList(memberVO.getId());
+		List<MemberVO> followerList = friendSVC.getFollowerList(memberVO.getId());
 		model.addAttribute("followerList",followerList);
 		return "friend/followerList";
 	}
