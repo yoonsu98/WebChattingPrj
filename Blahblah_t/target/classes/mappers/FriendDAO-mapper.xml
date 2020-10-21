@@ -23,13 +23,22 @@
 		resultType="com.gaon.prj.member.vo.MemberVO">
 		select id , nickname from member_tbl where id = #{id}
 	</select>
-	<select id="setFollowing" parameterType="hashMap"
-		resultType="String">
+	<insert id="setFollowing" parameterType="hashMap">
 		insert into friend_tbl
 		(fiid,feid)
 		values(
 		#{followingID},
 		#{followerID}
 		)
-	</select>
+	</insert>
+	<insert id="sendDM" parameterType="com.gaon.prj.friend.vo.MessageVO">
+		insert into message_tbl
+		(mtitle,mcontent,mtoid, mfromid)
+		values(
+		#{messageTitle},
+		#{messageContent},
+		#{messageTo},
+		#{messageFrom}
+		)
+	</insert>
 </mapper>

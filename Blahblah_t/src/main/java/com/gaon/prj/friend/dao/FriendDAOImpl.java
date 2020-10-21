@@ -44,12 +44,25 @@ public class FriendDAOImpl implements FriendDAO {
 	public Map<String, Boolean> setFollowing(HashMap<String,String> IDInfo){
 
 		System.out.println(IDInfo);
-		String a = sqlSession.selectOne("mappers.FriendDAO-mapper.setFollowing", IDInfo);
+		int a = sqlSession.selectOne("mappers.FriendDAO-mapper.setFollowing", IDInfo);
 		Map<String, Boolean> chkResult = new HashMap<>();
-		if (a == null)
+		if (a == 0)
 			chkResult.put("chkResult", true);
 		else
 			chkResult.put("chkResult", false);
+		return chkResult;
+	}
+	@Override
+	public Map<String, Boolean> sendDM(HashMap<String,String> messageInfo){
+
+		System.out.println(messageInfo);
+		
+		 int a = sqlSession.insert("mappers.FriendDAO-mapper.sendDM",messageInfo);
+		 
+		Map<String, Boolean> chkResult = new HashMap<>();
+		
+		 if (a == 1) chkResult.put("chkResult", true);
+		 else chkResult.put("chkResult", false);
 		return chkResult;
 	}
 }

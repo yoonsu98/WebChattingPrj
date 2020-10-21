@@ -38,6 +38,14 @@ public class FriendController {
 	public String myPage() {
 		return "friend/myPage";
 	}
+	@RequestMapping("/DMSendList")
+	public String DMSendList() {
+		return "friend/DMSendList";
+	}
+	@RequestMapping("/DMRecieveList")
+	public String DMRecieveList() {
+		return "friend/DMRecieveList";
+	}
 	@RequestMapping("/followingList")
 	public String followingList(Model model, HttpServletRequest request) {
 		Object temp_memberVO= request.getSession().getAttribute("member");
@@ -63,5 +71,9 @@ public class FriendController {
 	@RequestMapping(value="/setFollowing", method= RequestMethod.POST)
 	public @ResponseBody Map<String, Boolean> setFollowing(@RequestBody HashMap<String, String> IDInfo) throws Exception {
 		return friendSVC.setFollowing(IDInfo);
+	}
+	@RequestMapping(value="/sendDM", method= RequestMethod.POST)
+	public @ResponseBody Map<String, Boolean> sendDM(@RequestBody HashMap<String, String> messageInfo) throws Exception {
+		return friendSVC.sendDM(messageInfo);
 	}
 }

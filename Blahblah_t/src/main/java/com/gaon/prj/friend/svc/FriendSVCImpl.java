@@ -38,4 +38,9 @@ public class FriendSVCImpl implements FriendSVC{
 	public Map<String, Boolean> setFollowing(HashMap<String,String> IDInfo){
 		return friendDAO.setFollowing(IDInfo);
 	}
+
+	@Override
+	public Map<String, Boolean> sendDM(HashMap<String,String> messageInfo){
+		return friendDAO.sendDM(messageInfo);
+	}
 }
