@@ -23,18 +23,28 @@
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 <script type="text/javascript">
  	var ws;
  	//var userid = '${param.id}';
 	var userid = '${member.id}';
-
+	
 	$(document).ready(function(){
         $("#sendBtn").click(function(){
         	sendMsg();
         });
     });
+	
+	$(document).ready(function(){
+        $("#refresh").click(function(){
+        	console.log("새로고침");
+        	
+        	
+        });
+    });
 
-	 //websocket을 지정한 URL로 연결
+	
+	//websocket을 지정한 URL로 연결
     var sock= new SockJS("<c:url value="/echo"/>");
     //websocket 서버에서 메시지를 보내면 자동으로 실행된다.
     sock.onmessage = addMsg;
@@ -50,12 +60,7 @@
 
  	function addMsg(msg){
 		var data = msg.data;
-		
 		$('#msgArea').append(data+"<br/>");
-		//var userid = JSON.parse(data).target;
-		/* if (userid=="${member.id}"){
-			$('#msgArea').append(data+"<br/>");
- 	 	} */
  	 	
  	}
  	
@@ -93,6 +98,7 @@
     
 </script>
 
+    
 </head>
 
 <body>
@@ -101,12 +107,11 @@
 	<!-- nav -->
 	<%@ include file="/resources/include/main/nav.jsp"%>
 	<main>
-	
+    
 	<!-- 채팅폼 -->
 	<div class="container">
 		<div class="msg_history">
 			<div id="msgArea"></div>
-			
          </div>
       <div class="type_msg">
       <div class="input_msg_write">
