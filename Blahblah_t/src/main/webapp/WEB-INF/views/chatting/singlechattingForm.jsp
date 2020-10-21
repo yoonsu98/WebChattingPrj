@@ -24,45 +24,72 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
- 
-    $(document).ready(function(){
+ 	var ws;
+ 	//var userid = '${param.id}';
+	var userid = '${member.id}';
+
+	$(document).ready(function(){
         $("#sendBtn").click(function(){
-            sendMessage();
+        	sendMsg();
         });
     });
-    
-    //websocket을 지정한 URL로 연결
+
+	 //websocket을 지정한 URL로 연결
     var sock= new SockJS("<c:url value="/echo"/>");
     //websocket 서버에서 메시지를 보내면 자동으로 실행된다.
-    sock.onmessage = onMessage;
+    sock.onmessage = addMsg;
     //websocket 과 연결을 끊고 싶을때 실행하는 메소드
     sock.onclose = onClose;
-    
-    
-    function sendMessage(){
-        //websocket으로 메시지를 보내겠다.
-      	console.log($("#message").val())
-        if($("#message").val()==""){
+	sock.onopen = onOpen;
+	
+    function onOpen(evt){
+    	    
+		$("#msgArea").append("연결됨<br/>");
+		register();
+	}
+
+ 	function addMsg(msg){
+		var data = msg.data;
+		
+		$('#msgArea').append(data+"<br/>");
+		//var userid = JSON.parse(data).target;
+		/* if (userid=="${member.id}"){
+			$('#msgArea').append(data+"<br/>");
+ 	 	} */
+ 	 	
+ 	}
+ 	
+	function register(){
+		var msg = {
+				type : 'register',
+				userid : '${member.id}'
+		};
+		sock.send(JSON.stringify(msg));
+	}
+
+	function sendMsg(){
+		console.log("메세지 보냄");
+		var msg = {
+			type : 'chat',
+			target :  $("#targetUser").val(),
+			message : $("#chatMsg").val()
+
+		};
+
+		if($("#chatMsg").val()==""){
         	alert("메시지를 입력해주세요.");
         }
         else{
-	        var senderName= "${member.nickname}";
-	        sock.send(senderName+ " : "+$("#message").val());
+        	$('#msgArea').append($("#chatMsg").val()+"<br/>");
+    		sock.send(JSON.stringify(msg));
         }
-        
+       
+		
+		};
+	function onClose(evt){
+		$("#msgArea").append("연결 끊김");
 	}
-            
-    //evt 파라미터는 websocket이 보내준 데이터다.
-    function onMessage(evt){  //변수 안에 function자체를 넣음.
-        var data = evt.data;
-        
-        $("#data").append(data+"<br/>");
-        /* sock.close(); */
-    }
     
-    function onClose(evt){
-        $("#data").append("연결 끊김");
-    }
     
 </script>
 
@@ -74,16 +101,18 @@
 	<!-- nav -->
 	<%@ include file="/resources/include/main/nav.jsp"%>
 	<main>
-
+	
 	<!-- 채팅폼 -->
 	<div class="container">
 		<div class="msg_history">
-			<div id="data"></div>
+			<div id="msgArea"></div>
 			
          </div>
       <div class="type_msg">
       <div class="input_msg_write">
-            <input type="text" class="write_msg" id="message" placeholder="Type a message" />
+            <input type="text" class="write_msg" id="chatMsg" placeholder="Type a message" />
+            <input type ="text" id="targetUser">
+            
             <button class="msg_send_btn" type="button" id="sendBtn"><i class="fa fa-paper-plane-o" aria-hidden="ture"></i></button>
       </div>
       </div>
