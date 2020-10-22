@@ -8,8 +8,10 @@ import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.gaon.prj.friend.dao.FriendDAO;
+import com.gaon.prj.friend.vo.MessageVO;
 import com.gaon.prj.member.vo.MemberVO;
 
 @Service
@@ -42,5 +44,16 @@ public class FriendSVCImpl implements FriendSVC{
 	@Override
 	public Map<String, Boolean> sendDM(HashMap<String,String> messageInfo){
 		return friendDAO.sendDM(messageInfo);
+	}
+	@Override
+	public List<MessageVO> getSendMessageList(String id){
+		return friendDAO.getSendMessageList(id);
+	}
+	@Override
+	public List<MessageVO> getReceiveMessageList(String id){
+		return friendDAO.getReceiveMessageList(id);
+	}
+	public MessageVO getDMDetail(String messageID) {
+		return friendDAO.getDMDetail(messageID);
 	}
 }

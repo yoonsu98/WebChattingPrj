@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+import com.gaon.prj.friend.vo.MessageVO;
 import com.gaon.prj.member.vo.MemberVO;
 
 public interface FriendSVC {
@@ -13,4 +15,7 @@ public interface FriendSVC {
 	public MemberVO getOneMemberInfo(String id);
 	public Map<String, Boolean> setFollowing(HashMap<String, String> IDInfo);
 	public Map<String, Boolean> sendDM(HashMap<String, String> messageInfo);
+	public List<MessageVO> getSendMessageList(String id);
+	public List<MessageVO> getReceiveMessageList(String id);
+	public MessageVO getDMDetail(String messageID);
 }

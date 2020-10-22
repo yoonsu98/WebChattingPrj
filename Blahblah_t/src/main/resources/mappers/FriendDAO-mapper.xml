@@ -32,13 +32,28 @@
 		)
 	</insert>
 	<insert id="sendDM" parameterType="com.gaon.prj.friend.vo.MessageVO">
+		<selectKey keyProperty="mid" resultType="int" order="BEFORE">
+			select mid_seq.nextval From dual
+		</selectKey>
 		insert into message_tbl
-		(mtitle,mcontent,mtoid, mfromid)
+		(mid, mtitle,mcontent,mtoid, mfromid)
 		values(
+		#{mid, jdbcType=	INTEGER  },
 		#{messageTitle},
 		#{messageContent},
 		#{messageTo},
 		#{messageFrom}
 		)
 	</insert>
+	<select id="getSendMessageList" parameterType="String"
+		resultType="com.gaon.prj.friend.vo.MessageVO">
+		select mid, mtitle,mdate from message_tbl where mfromid = #{id}
+	</select>
+		<select id="getReceiveMessageList" parameterType="String"
+		resultType="com.gaon.prj.friend.vo.MessageVO">
+		select mid, mtitle,mdate from message_tbl where mtoid = #{id}
+	</select>
+	<select id = "getDMDetail" parameterType="String" resultType="com.gaon.prj.friend.vo.MessageVO">
+		select mtitle,mcontent,mtoid,mfromid,mdate from message_tbl where mid= #{messageID}
+	</select>
 </mapper>

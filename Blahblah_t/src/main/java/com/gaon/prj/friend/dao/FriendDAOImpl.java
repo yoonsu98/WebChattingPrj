@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.gaon.prj.friend.vo.MessageVO;
 import com.gaon.prj.member.vo.MemberVO;
 
 @Repository
@@ -64,5 +65,21 @@ public class FriendDAOImpl implements FriendDAO {
 		 if (a == 1) chkResult.put("chkResult", true);
 		 else chkResult.put("chkResult", false);
 		return chkResult;
+	}
+	@Override
+	public List<MessageVO> getSendMessageList(String id){
+		List<MessageVO>sendMessageList = sqlSession.selectList("mappers.FriendDAO-mapper.getSendMessageList",id);
+		return sendMessageList;
+	}
+	@Override
+	public List<MessageVO> getReceiveMessageList(String id){
+		List<MessageVO>receiveMessageList = sqlSession.selectList("mappers.FriendDAO-mapper.getReceiveMessageList",id);
+		System.out.println(receiveMessageList);
+		return receiveMessageList;
+	}
+	@Override
+	public MessageVO getDMDetail(String messageID) {
+		MessageVO detailDM = sqlSession.selectOne("mappers.FriendDAO-mapper.getDMDetail",messageID);
+		return detailDM;
 	}
 }

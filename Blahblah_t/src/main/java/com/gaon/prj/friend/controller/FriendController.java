@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gaon.prj.board.vo.BoardVO;
 import com.gaon.prj.friend.svc.FriendSVC;
-import com.gaon.prj.friend.vo.FriendVO;
+import com.gaon.prj.friend.vo.MessageVO;
 import com.gaon.prj.member.vo.MemberVO;
 
 @Controller
@@ -39,12 +38,25 @@ public class FriendController {
 		return "friend/myPage";
 	}
 	@RequestMapping("/DMSendList")
-	public String DMSendList() {
+	public String DMSendList(Model model, HttpServletRequest request) {
+		Object temp_memberVO = request.getSession().getAttribute("member");
+		memberVO = (MemberVO)temp_memberVO;
+		List<MessageVO> sendMessageList = friendSVC.getSendMessageList(memberVO.getId());
+		model.addAttribute("sendMessageList",sendMessageList);
 		return "friend/DMSendList";
 	}
 	@RequestMapping("/DMRecieveList")
-	public String DMRecieveList() {
+	public String DMRecieveList(Model model, HttpServletRequest request) {
+		Object temp_memberVO = request.getSession().getAttribute("member");
+		memberVO = (MemberVO)temp_memberVO;
+		List<MessageVO> receiveMessageList = friendSVC.getReceiveMessageList(memberVO.getId());
+		System.out.println(receiveMessageList);
+		model.addAttribute("receiveMessageList",receiveMessageList);
 		return "friend/DMRecieveList";
+	}
+	@GetMapping("/DMDetail/{id}")
+	public String DMDetail(@PathVariable("id") String id, Model model) {
+		return "friend/DMDetail";
 	}
 	@RequestMapping("/followingList")
 	public String followingList(Model model, HttpServletRequest request) {
@@ -75,5 +87,9 @@ public class FriendController {
 	@RequestMapping(value="/sendDM", method= RequestMethod.POST)
 	public @ResponseBody Map<String, Boolean> sendDM(@RequestBody HashMap<String, String> messageInfo) throws Exception {
 		return friendSVC.sendDM(messageInfo);
+	}
+	@RequestMapping(value="/getDMDetail", method= RequestMethod.POST)
+	public @ResponseBody MessageVO getDMDetail(@RequestBody HashMap<String, String> messageID) throws Exception {
+		return friendSVC.getDMDetail(messageID.get("mid"));
 	}
 }
