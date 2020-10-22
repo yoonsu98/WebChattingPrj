@@ -43,7 +43,7 @@ public class BoardController {
 		return "board/writeBoard";
 	}
 
-	@GetMapping("/viewBoard/{pnum}")
+	@GetMapping(value = "/viewBoard/{pnum}")
 	public String viewBoard(@PathVariable("pnum") int pnum, BoardVO view, Model model) {
 		view = boardSVC.viewBoard(pnum);
 		boardSVC.increaseRcnt(pnum);
@@ -53,10 +53,10 @@ public class BoardController {
 
 	@ResponseBody
 	@RequestMapping(value = "/writeTextBoard", method = RequestMethod.POST, produces = "application/json")
-	public int writeTextBoard(@RequestBody HashMap<String, String> writeBoardInfo, BoardVO boardVO) {
-		boardVO.setWriter(writeBoardInfo.get("writer"));
-		boardVO.setTitle(writeBoardInfo.get("title"));
-		boardVO.setContent(writeBoardInfo.get("content"));
+	public int writeTextBoard(@RequestBody HashMap<String, String> boardInfo, BoardVO boardVO) {
+		boardVO.setWriter(boardInfo.get("writer"));
+		boardVO.setTitle(boardInfo.get("title"));
+		boardVO.setContent(boardInfo.get("content"));
 		return boardSVC.writeBoard(boardVO);
 	}
 
@@ -68,5 +68,26 @@ public class BoardController {
 		else {
 			return "member/loginForm";
 		}
+	}
+	
+	@GetMapping(value = "/updateViewForm")
+	public String updateViewForm(Model model,@RequestParam("pnum") int pnum) {
+		model.addAttribute("upview", boardSVC.viewBoard(pnum));
+		return "board/updateViewForm";
+	}
+	
+	@RequestMapping(value="/updateView", method=RequestMethod.POST)
+	public String updateView(@RequestBody HashMap<String, String> boardInfo,BoardVO boardVO)
+	{
+		boardVO.setTitle(boardInfo.get("title"));
+		boardVO.setContent(boardInfo.get("content"));		
+		boardSVC.updateView(boardVO);
+		return "board/boardList";
+	}
+	
+	@RequestMapping(value="/deleteView", method=RequestMethod.POST, produces = "application/json")
+	public String deleteView(@RequestBody HashMap<String, String> boardInfo,BoardVO boardVO,@RequestParam("pnum") int pnum) {
+		boardSVC.deleteView(pnum);
+		return "board/boardList";
 	}
 }

@@ -14,33 +14,43 @@ import com.gaon.prj.paging.PagingVO;
 @Service
 public class BoardSVCImpl implements BoardSVC {
 
-	@Inject	
+	@Inject
 	@Qualifier("boardDAOImpl")
 	BoardDAO boardDAO;
-	
+
 	@Override
 	public int writeBoard(BoardVO boardVO) {
 		return boardDAO.writeBoard(boardVO);
 	}
+
 	@Override
 	public Integer countBoard() {
 		return boardDAO.countBoard();
 	}
-	
+
 	@Override
-	public List<BoardVO> boardList(PagingVO paging){
+	public List<BoardVO> boardList(PagingVO paging) {
 		List<BoardVO> list = null;
 		list = boardDAO.boardList(paging);
 		return list;
 	}
-	
+
 	@Override
 	public BoardVO viewBoard(int pnum) {
 		boardDAO.increaseRcnt(pnum);
 		return boardDAO.viewBoard(pnum);
 	}
-	
+
 	public void increaseRcnt(int pnum) {
 		return;
 	}
+	
+	@Override
+	public void deleteView(int pnum) {
+		boardDAO.deleteView(pnum);
+	}
+	public void updateView(BoardVO boardVO) {
+		boardDAO.updateView(boardVO);
+	}
+
 }

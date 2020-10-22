@@ -21,10 +21,10 @@
 		let title = document.getElementById("title").value;
 		let content = document.getElementById("content").value;
 		
-		const writeBoardInfo = JSON.stringify({writer:writer, title:title,content:content});
+		const boardInfo = JSON.stringify({writer:writer, title:title,content:content});
 
 		$.ajax({
-			data : writeBoardInfo,
+			data : boardInfo,
 			url : "${contextPath}/prj/board/writeTextBoard",
 			type : "post",
 			dataType : "text",

@@ -21,7 +21,8 @@
 		SELECT ROWNUM RN, A.*
 		FROM (
 		SELECT *
-		FROM BOARD_TBL
+		FROM
+		BOARD_TBL
 		ORDER BY PNUM DESC
 		) A
 		)
@@ -34,7 +35,13 @@
 		SELECT PNUM,WRITER,TITLE,CONTENT,RCNT,WDATE FROM BOARD_TBL
 		WHERE PNUM = #{PNUM}
 	</select>
-
+	
+	<select id="updateViewForm"
+		parameterType="com.gaon.prj.board.vo.BoardVO"
+		resultType="com.gaon.prj.board.vo.BoardVO">
+		SELECT TITLE,CONTENT WHERE PNUM=#{PNUM}
+	</select>
+	
 	<update id="increaseRcnt" parameterType="int">
 		UPDATE BOARD_TBL SET
 		RCNT = RCNT+1 WHERE PNUM=#{PNUM}
@@ -45,4 +52,15 @@
 		BOARD_TBL
 	</select>
 
+	<update id="updateView"
+		parameterType="com.gaon.prj.board.vo.BoardVO">
+		UPDATE BOARD_TBL
+		SET TITLE = #{title}, CONTENT=#{content}
+		WHERE PNUM=#{PNUM}
+	</update>
+
+	<delete id="deleteView" parameterType="int">
+		DELETE FROM BOARD_TBL
+		WHERE PNUM = #{PNUM}
+	</delete>
 </mapper>
