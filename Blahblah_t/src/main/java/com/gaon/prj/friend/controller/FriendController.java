@@ -84,6 +84,14 @@ public class FriendController {
 	public @ResponseBody Map<String, Boolean> setFollowing(@RequestBody HashMap<String, String> IDInfo) throws Exception {
 		return friendSVC.setFollowing(IDInfo);
 	}
+	@RequestMapping(value="/setUnFollowing", method= RequestMethod.POST)
+	public @ResponseBody Map<String, Boolean> setUnFollowing(@RequestBody HashMap<String, String> IDInfo) throws Exception {
+		return friendSVC.setUnFollowing(IDInfo);
+	}
+	@RequestMapping(value="/chkFollowState", method= RequestMethod.POST)
+	public @ResponseBody Map<String, Boolean> getFollowState(@RequestBody HashMap<String,String> IDInfo) throws Exception {
+		return friendSVC.getFollowState(IDInfo);
+	}
 	@RequestMapping(value="/sendDM", method= RequestMethod.POST)
 	public @ResponseBody Map<String, Boolean> sendDM(@RequestBody HashMap<String, String> messageInfo) throws Exception {
 		return friendSVC.sendDM(messageInfo);

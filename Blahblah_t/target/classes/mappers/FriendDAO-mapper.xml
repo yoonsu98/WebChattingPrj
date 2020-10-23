@@ -31,6 +31,13 @@
 		#{followerID}
 		)
 	</insert>
+	<delete id="setUnFollowing" parameterType="hashMap" >
+		delete from friend_tbl where 
+		fiid = #{followingID} and feid=#{followerID}
+	</delete>
+	<select id="getFollowState" parameterType="hashMap" resultType="String">
+		select fiid from friend_tbl where fiid = #{followingID} and feid=#{followerID}
+	</select>
 	<insert id="sendDM" parameterType="com.gaon.prj.friend.vo.MessageVO">
 		<selectKey keyProperty="mid" resultType="int" order="BEFORE">
 			select mid_seq.nextval From dual

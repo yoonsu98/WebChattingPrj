@@ -13,6 +13,7 @@
 	src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 
 <script>
+
 	function friendFollow() {
 		var followerID = "${member.id}";
 		var followingID = "${friend.id}";
@@ -28,7 +29,7 @@
 			contentType : "application/json",
 			success : function(data) {
 				if (data.chkResult) {
-					alert("성공");
+					alert("Following Completed ;->");
 				} else {
 					{
 						alert("실패");
@@ -38,7 +39,36 @@
 			error : function(errorThrown) {
 				alert(errorThrown.statusText);
 			}
-		})
+		});
+		location.reload(true);
+	}
+	function friendUnfollow() {
+		var followerID = "${member.id}";
+		var followingID = "${friend.id}";
+		const IDInfo = JSON.stringify({
+			followingID : followingID,
+			followerID : followerID
+		});
+		$.ajax({
+			url : "${contextPath}/prj/friend/setUnFollowing",
+			type : "post",
+			data : IDInfo,
+			dataType : "json",
+			contentType : "application/json",
+			success : function(data) {
+				if (data.chkResult) {
+					alert("UnFollow Your Friend ;-<");
+				} else {
+					{
+						alert("errorror ;-<");
+					}
+				}
+			},
+			error : function(errorThrown) {
+				alert(errorThrown.statusText);
+			}
+		});
+		location.reload(true);
 	}
 	function sendDM(){
 		if (idCheck()) {
@@ -47,13 +77,11 @@
  			let messageTitle = document.getElementById('MessageTitle').value;
  			let messageContent = document.getElementById('MessageContent').value;
 			const messageInfo = JSON.stringify({
-			
 				messageTo : messageTo,
 				messageFrom: messageFrom,
 				messageTitle: messageTitle,
 				messageContent :messageContent
 			});
-			debugger;
  			$.ajax({
 				data : messageInfo,
 				url : "${contextPath}/prj/friend/sendDM",
@@ -72,6 +100,7 @@
 					console.log("실패");
 				}
 			});  
+			location.reload(true);
 		}
 		else{
 			alert('잘못된 아이디 정보입니다!');
@@ -125,11 +154,8 @@
 				<div class="div_info">레벨</div>
 			</div>
 			<c:if test="${not empty sessionScope.member}">
-				<div class="div_btn">
-					<button class="btn btn-primary" type="button"
-						onClick="friendFollow()">Follow</button>
-					<button class="btn btn-primary" type="button" id="sendDMbtn">DM</button>
-					<button class="btn btn-primary" type="button">Chatting</button>
+			
+				<div id="btn_group_div" class="div_btn">
 				</div>
 			</c:if>
 			<c:if test="${empty sessionScope.member}">
@@ -175,13 +201,13 @@
 	// Get the modal
 	var modal = document.getElementById('sendDMPopup');
 	// Get the button that opens the modal
-	var btn = document.getElementById("sendDMbtn");
+	//var btn = document.getElementById("sendDMbtn");
 	// Get the <span> element that closes the modal
 	var span = document.getElementsByClassName("close")[0];
 	// When the user clicks on the button, open the modal 
-	btn.onclick = function() {
+/* 	btn.onclick = function() {
 		modal.style.display = "block";
-	}
+	} */
 	// When the user clicks on <span> (x), close the modal
 	span.onclick = function() {
 		modal.style.display = "none";
@@ -191,6 +217,50 @@
 		if (event.target == modal) {
 			modal.style.display = "none";
 		}
+	}
+	function sendDMClick(){
+		modal.style.display = "block";
+	}
+	function chkFollowState(){
+		var result;
+		var followerID = "${member.id}";
+		var followingID = "${friend.id}";
+		const IDInfo = JSON.stringify({
+			followingID : followingID,
+			followerID : followerID
+		});
+		$.ajax({
+			url : "${contextPath}/prj/friend/chkFollowState",
+			type : "post",
+			data : IDInfo,
+			async: false,
+			dataType : "json",
+			contentType : "application/json",
+			success : function(data) {
+
+	 			if (data.chkResult) {
+		 			result =  true;
+				} else {
+		 			result =  false;
+				} 
+			},
+			error : function(errorThrown) {
+				alert(errorThrown.statusText);
+			}
+		});
+
+		return result;
+	}
+	var chkState = chkFollowState();
+
+	if(chkState==true){
+		$('#btn_group_div').html('<button class="btn btn-primary" type="button" onClick="friendFollow()">Follow</button> <t />');
+		$('#btn_group_div').append('<button class="btn btn-primary" type="button" onClick="sendDMClick()" id="sendDMbtn">DM</button> <t />');
+		$('#btn_group_div').append('<button class="btn btn-primary" type="button">Chatting</button> <t />');
+	}else if(chkState==false){
+		$('#btn_group_div').html('<button class="btn btn-primary" type="button" onClick="friendUnfollow()">UnFollow</button> <t />');
+		$('#btn_group_div').append('<button class="btn btn-primary" type="button"  onClick="sendDMClick()" id="sendDMbtn">DM</button><t /> <t />');
+		$('#btn_group_div').append('<button class="btn btn-primary" type="button">Chatting</button> <t />');
 	}
 </script>
 </html>
