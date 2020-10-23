@@ -42,13 +42,13 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public void updateView(BoardVO boardVO) {
-		sqlSession.update("mappers.BoardDAO-mapper.updateView", boardVO);
+	public int updateView(BoardVO boardVO) {
+		return sqlSession.update("mappers.BoardDAO-mapper.updateView", boardVO);
 	}
 
 	@Override
 	public void deleteView(int pnum) {
-		sqlSession.delete("mappers.BoardDAO-mapper.deleveView", pnum);
+		sqlSession.delete("mappers.BoardDAO-mapper.deleteView", pnum);
 	}
 
 }

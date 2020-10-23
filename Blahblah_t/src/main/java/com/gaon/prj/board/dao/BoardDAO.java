@@ -12,5 +12,5 @@ public interface BoardDAO {
 	public void increaseRcnt(int pnum);
 	public Integer countBoard();
 	public void deleteView(int pnum);
-	public void updateView(BoardVO boardVO);
+	public int updateView(BoardVO boardVO);
 }

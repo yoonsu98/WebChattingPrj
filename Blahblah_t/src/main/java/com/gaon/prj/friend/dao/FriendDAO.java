@@ -19,4 +19,7 @@ public interface FriendDAO {
 	public List<MessageVO> getSendMessageList(String id);
 	public List<MessageVO> getReceiveMessageList(String id);
 	public MessageVO getDMDetail(String messageID);
+	
+	public Integer countFiidList();
+	public Integer countFeidList();
 }

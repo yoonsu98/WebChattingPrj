@@ -49,8 +49,9 @@ public class BoardSVCImpl implements BoardSVC {
 	public void deleteView(int pnum) {
 		boardDAO.deleteView(pnum);
 	}
-	public void updateView(BoardVO boardVO) {
-		boardDAO.updateView(boardVO);
+	
+	public int updateView(BoardVO boardVO) {
+		return boardDAO.updateView(boardVO);
 	}
 
 }

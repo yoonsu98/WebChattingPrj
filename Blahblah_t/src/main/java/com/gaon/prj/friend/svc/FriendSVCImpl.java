@@ -63,4 +63,11 @@ public class FriendSVCImpl implements FriendSVC{
 	public MessageVO getDMDetail(String messageID) {
 		return friendDAO.getDMDetail(messageID);
 	}
+	
+	public Integer countFiidList() {
+		return friendDAO.countFiidList();
+	}
+	public Integer countFeidList() {
+		return friendDAO.countFeidList();
+	}
 }

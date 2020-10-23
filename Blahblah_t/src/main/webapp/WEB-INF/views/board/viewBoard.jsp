@@ -21,30 +21,9 @@
 		}
 	
 function deleteView(pnum){
-	let title = document.getElementById("title").value;
-	let content = document.getElementById("content").value;
-	
-	const boardInfo = JSON.stringify({title:title,content:content});
-
-	$.ajax({
-		data :boardInfo,
-		url : "${contextPath}/prj/board/deleteView",
-		type : "post",
-		dataType : "text",
-		contentType : "application/json; charset = UTF-8",
-		success : function(data){
-			console.log(data);
-			if(data == 1){
-				alert("삭제가 완료되었습니다.");
-				location.href = "${contextPath}/prj/board/boardList";}
-			else{
-				alert("삭제를 실패했습니다.");
-			}
-		},
-		error : function(data){
-			alert("error")
-		}
-	})
+		location.href="${contextPath}/prj/board/deleteView?pnum="+pnum;
+		alert("삭제되었습니다.");
+		location.href="${contextPath}/prj/board/boardList";
 }
 </script>
 <body>
@@ -82,7 +61,7 @@ function deleteView(pnum){
 		<c:if test="${sessionScope.member.nickname eq view.writer }">
 			<input type="button" class="btn btn-default pull-left"
 				onClick="updateView(${view.pnum })" value="수정하기" />
-			<input type="button" class="btn btn-default pull-left" value="삭제하기" />
+			<input type="button" class="btn btn-default pull-left" onclick = "deleteView(${view.pnum})" value="삭제하기" />
 		</c:if>
 
 
