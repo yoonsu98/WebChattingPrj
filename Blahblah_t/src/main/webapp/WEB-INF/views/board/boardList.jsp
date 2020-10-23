@@ -19,7 +19,6 @@
 	function pagingMove(curPage){
     	location.href = "boardList?curPage="+curPage;
   }
-
 </script>
 <body>
 	<!-- uppermost -->

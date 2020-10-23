@@ -15,6 +15,38 @@
 
 </head>
 
+<script>
+	function updateView(pnum){
+		location.href = "${contextPath}/prj/board/updateViewForm?pnum="+pnum;
+		}
+	
+function deleteView(pnum){
+	let title = document.getElementById("title").value;
+	let content = document.getElementById("content").value;
+	
+	const boardInfo = JSON.stringify({title:title,content:content});
+
+	$.ajax({
+		data :boardInfo,
+		url : "${contextPath}/prj/board/deleteView",
+		type : "post",
+		dataType : "text",
+		contentType : "application/json; charset = UTF-8",
+		success : function(data){
+			console.log(data);
+			if(data == 1){
+				alert("삭제가 완료되었습니다.");
+				location.href = "${contextPath}/prj/board/boardList";}
+			else{
+				alert("삭제를 실패했습니다.");
+			}
+		},
+		error : function(data){
+			alert("error")
+		}
+	})
+}
+</script>
 <body>
 	<!-- uppermost -->
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
@@ -38,17 +70,19 @@
 	</div>
 	<div class="container">
 		<input type="button" class="btn btn-default pull-right"
-				onClick="location.href='/prj/board/boardList'" value="목록"/>
-		<c:if test="${empty sessionScope.member}">
-			<input type="button" class="btn btn-default pull-right" value="칭찬하기" />
-			<input type="button" class="btn btn-default pull-right" value="신고하기" />
+			onClick="location.href='/prj/board/boardList'" value="목록" />
+		<c:if
+			test="${!empty sessionScope.member && sessionScope.member.nickname ne view.writer }">
+			<input type="button" class="btn btn-default pull-left" value="칭찬하기" />
+			<input type="button" class="btn btn-default pull-left" value="신고하기" />
 		</c:if>
 	</div>
 
 	<div class="container">
 		<c:if test="${sessionScope.member.nickname eq view.writer }">
-			<input type="button" class="btn btn-default pull-right" value="수정하기" />
-			<input type="button" class="btn btn-default pull-right" value="삭제하기" />
+			<input type="button" class="btn btn-default pull-left"
+				onClick="updateView(${view.pnum })" value="수정하기" />
+			<input type="button" class="btn btn-default pull-left" value="삭제하기" />
 		</c:if>
 
 

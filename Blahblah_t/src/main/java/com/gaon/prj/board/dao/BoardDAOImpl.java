@@ -20,23 +20,35 @@ public class BoardDAOImpl implements BoardDAO {
 	public int writeBoard(BoardVO boardVO) {
 		return sqlSession.insert("mappers.BoardDAO-mapper.writeBoard", boardVO);
 	}
+
 	@Override
 	public Integer countBoard() {
 		return sqlSession.selectOne("mappers.BoardDAO-mapper.countBoard");
 	}
-	
+
 	@Override
-	public List<BoardVO> boardList(PagingVO paging){
-		return sqlSession.selectList("mappers.BoardDAO-mapper.boardList",paging);
+	public List<BoardVO> boardList(PagingVO paging) {
+		return sqlSession.selectList("mappers.BoardDAO-mapper.boardList", paging);
 	}
 
 	@Override
 	public BoardVO viewBoard(int pnum) {
-		return sqlSession.selectOne("mappers.BoardDAO-mapper.viewBoard",pnum);
+		return sqlSession.selectOne("mappers.BoardDAO-mapper.viewBoard", pnum);
 	}
-	
+
 	@Override
 	public void increaseRcnt(int pnum) {
-		sqlSession.update("mappers.BoardDAO-mapper.increaseRcnt",pnum);
+		sqlSession.update("mappers.BoardDAO-mapper.increaseRcnt", pnum);
 	}
+
+	@Override
+	public void updateView(BoardVO boardVO) {
+		sqlSession.update("mappers.BoardDAO-mapper.updateView", boardVO);
+	}
+
+	@Override
+	public void deleteView(int pnum) {
+		sqlSession.delete("mappers.BoardDAO-mapper.deleveView", pnum);
+	}
+
 }
