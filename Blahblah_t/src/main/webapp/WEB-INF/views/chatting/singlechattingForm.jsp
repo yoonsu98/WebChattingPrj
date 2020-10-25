@@ -45,7 +45,7 @@
 	sock.onopen = onOpen;
 	
     function onOpen(evt){
-		//$("#msgArea").append(userid+"님이 입장하셨습니다.<br/>");
+		$("#msgArea").append(userid+"님이 입장하셨습니다.<br/>");
 		register();
 	}
 

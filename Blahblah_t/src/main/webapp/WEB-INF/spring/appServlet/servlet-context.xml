@@ -42,17 +42,24 @@
 			<beans:bean id="pageInterceptor" class="com.gaon.prj.interceptor.PageInterceptor"/>
 		</interceptor>
 	</interceptors>
-	
+
+	<context:component-scan
+		base-package="com.gaon.prj" />
+
 	<websocket:handlers allowed-origins="*">
-		<websocket:mapping handler="echoHandler" path="/echo" />
+		<websocket:mapping handler="echoHandler" path="/chat" />
 		<websocket:sockjs websocket-enabled="true"/>
 	</websocket:handlers>
     
 	<beans:bean id="echoHandler" class="com.gaon.prj.common.util.HandlerChat"></beans:bean>
 	
-	<context:component-scan
-		base-package="com.gaon.prj" />
-
-
-
+	<websocket:handlers>
+	    <websocket:mapping handler="WebSocketHandler" path="/echo"/>
+	    <websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>
+	    <websocket:sockjs/>
+	</websocket:handlers>
+	<beans:bean id="WebSocketHandler" class="com.gaon.prj.common.WebSocketHandler"/>
+	
 </beans:beans>

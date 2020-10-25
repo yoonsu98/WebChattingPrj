@@ -42,6 +42,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		sessionList.add(session);
 		log.info("{} 연결됨" , session.getId());
+		
 	}
 	 
 	//클라이언트가 웹 소켓 서버로 메시지를 전송했을 때 실행
@@ -56,7 +57,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		if(type.equals("register")) {
 			Map<String, Object> map;
 			map = session.getAttributes();
-			
+			log.info("hihi");
 			System.out.println(map.get("member"));
 			
 			System.out.println("등록");
