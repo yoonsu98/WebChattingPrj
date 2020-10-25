@@ -24,7 +24,6 @@ public class FriendDAOImpl implements FriendDAO {
 	@Override
 	public List<MemberVO> getFollowerList(String id){
 		List<MemberVO>followerMemberInfo = sqlSession.selectList("mappers.FriendDAO-mapper.getFollowerMemberInfo",id);
-		
 		return followerMemberInfo;
 	}
 	@Override
@@ -97,5 +96,15 @@ public class FriendDAOImpl implements FriendDAO {
 	public MessageVO getDMDetail(String messageID) {
 		MessageVO detailDM = sqlSession.selectOne("mappers.FriendDAO-mapper.getDMDetail",messageID);
 		return detailDM;
+	}
+	
+	@Override
+	public Integer countFiidList() {
+		return sqlSession.selectOne("mappers.FriendDAO-mapper.countFiidList");
+	}
+	
+	@Override
+	public Integer countFeidList() {
+		return sqlSession.selectOne("mappers.FriendDAO-mapper.countFeidList");
 	}
 }

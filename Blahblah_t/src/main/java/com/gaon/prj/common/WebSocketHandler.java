@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RequestMapping(value="/echo", method=RequestMethod.GET)
 public class WebSocketHandler extends TextWebSocketHandler {
+	
+	
+	
 	// 세션 리스트
 	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 	private Logger log = LoggerFactory.getLogger(WebSocketHandler.class);
@@ -26,6 +30,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	private Map<String, Object> userMap;
 	
 	ObjectMapper mapper = new ObjectMapper();
+	
 	
 	public WebSocketHandler() {
 		userMap = new HashMap<String, Object>();
@@ -37,6 +42,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		sessionList.add(session);
 		log.info("{} 연결됨" , session.getId());
+		
 	}
 	 
 	//클라이언트가 웹 소켓 서버로 메시지를 전송했을 때 실행
@@ -48,10 +54,17 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		String type = (String)object.get("type");
 		
 		//1:1 chat - 등록
-		if(type.equals("register")) { 
+		if(type.equals("register")) {
+			Map<String, Object> map;
+			map = session.getAttributes();
+			log.info("hihi");
+			System.out.println(map.get("member"));
+			
 			System.out.println("등록");
 			String user = (String)object.get("userid");
 			userMap.put(user, session);
+			System.out.println(userMap.keySet().toArray()); //세션에 들어온 사람들 
+		
 		}
 		
 		//1:1 chat - 채팅
@@ -67,12 +80,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			}
 		}
 		
-		else {
-			//모든 유저에게 메시지 출력
-			for(WebSocketSession sess : sessionList) {
-				sess.sendMessage(new TextMessage(message.getPayload()));
-				}
-		}
 	}
 	
 	// 클라이언트 연결을 끊었을 떄 실행

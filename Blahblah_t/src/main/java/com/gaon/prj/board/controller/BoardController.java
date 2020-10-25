@@ -76,17 +76,19 @@ public class BoardController {
 		return "board/updateViewForm";
 	}
 	
-	@RequestMapping(value="/updateView", method=RequestMethod.POST)
-	public String updateView(@RequestBody HashMap<String, String> boardInfo,BoardVO boardVO)
+	@ResponseBody
+	@RequestMapping(value="/updateView", method=RequestMethod.POST, produces = "application/json")
+	public int updateView(@RequestBody HashMap<String, String> boardInfo,BoardVO boardVO)
 	{
+		boardVO.setPnum(Integer.parseInt(boardInfo.get("pnum")));
+		boardVO.setWriter(boardInfo.get("writer"));
 		boardVO.setTitle(boardInfo.get("title"));
-		boardVO.setContent(boardInfo.get("content"));		
-		boardSVC.updateView(boardVO);
-		return "board/boardList";
+		boardVO.setContent(boardInfo.get("content"));
+		return boardSVC.updateView(boardVO);
 	}
 	
-	@RequestMapping(value="/deleteView", method=RequestMethod.POST, produces = "application/json")
-	public String deleteView(@RequestBody HashMap<String, String> boardInfo,BoardVO boardVO,@RequestParam("pnum") int pnum) {
+	@GetMapping(value="/deleteView")
+	public String deleteView(@RequestParam("pnum") int pnum) {
 		boardSVC.deleteView(pnum);
 		return "board/boardList";
 	}

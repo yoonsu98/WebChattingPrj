@@ -9,16 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gaon.prj.friend.svc.FriendSVC;
 import com.gaon.prj.friend.vo.MessageVO;
 import com.gaon.prj.member.vo.MemberVO;
+import com.gaon.prj.paging.PagingVO;
 
 @Controller
 @RequestMapping("/friend/*")
@@ -59,19 +62,27 @@ public class FriendController {
 		return "friend/DMDetail";
 	}
 	@RequestMapping("/followingList")
-	public String followingList(Model model, HttpServletRequest request) {
+	public String followingList(Model model, HttpServletRequest request,PagingVO paging,@RequestParam(defaultValue="1") int curPage) {
 		Object temp_memberVO= request.getSession().getAttribute("member");
 		memberVO= (MemberVO)temp_memberVO;
+		
+		int totalFiid =  friendSVC.countFiidList();
+		
+		paging = new PagingVO(totalFiid,curPage);
 		List<MemberVO> followingList = friendSVC.getFollowingList(memberVO.getId());
 		model.addAttribute("followingList",followingList);
+		model.addAttribute("paging",paging);
 		return "friend/followingList";
 	}
 	@RequestMapping("/followerList")
-	public String followerist(Model model, HttpServletRequest request) {
+	public String followerist(Model model, HttpServletRequest request,PagingVO paging,@RequestParam(defaultValue="1") int curPage) {
 		Object temp_memberVO= request.getSession().getAttribute("member");
 		memberVO= (MemberVO)temp_memberVO;
+		int totalFeid =  friendSVC.countFeidList();
+		paging = new PagingVO(totalFeid,curPage);
 		List<MemberVO> followerList = friendSVC.getFollowerList(memberVO.getId());
 		model.addAttribute("followerList",followerList);
+		model.addAttribute("paging",paging);
 		return "friend/followerList";
 	}
 	@GetMapping("/friendPage/{id}")

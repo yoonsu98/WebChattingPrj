@@ -54,9 +54,9 @@
 
 	<update id="updateView"
 		parameterType="com.gaon.prj.board.vo.BoardVO">
-		UPDATE BOARD_TBL
-		SET TITLE = #{title}, CONTENT=#{content}
-		WHERE PNUM=#{PNUM}
+		update board_tbl
+		set writer = #{writer}, title = #{title}, content = #{content}
+		where pnum = #{pnum}
 	</update>
 
 	<delete id="deleteView" parameterType="int">

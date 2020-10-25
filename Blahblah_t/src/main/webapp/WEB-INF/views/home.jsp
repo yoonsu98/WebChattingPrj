@@ -56,7 +56,7 @@
 				<p>
 					<strong>기능2</strong>
 				</p>
-				<br> <a href="${pageContext.request.contextPath }/chatroom/chatList"><img src="${pageContext.request.contextPath}/resources/img/sub2.jpg" style="width:200; height:200;" alt="Random Name"></a>
+				<br> <a href="${pageContext.request.contextPath }/chatroom/chatList.do"><img src="${pageContext.request.contextPath}/resources/img/sub2.jpg" style="width:200; height:200;" alt="Random Name"></a>
 			</div>
 			<div class="col-sm-4">
 				<p>
