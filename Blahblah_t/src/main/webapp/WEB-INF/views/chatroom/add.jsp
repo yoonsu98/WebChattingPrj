@@ -25,15 +25,14 @@
 <body>
 	<!-- uppermost -->
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
-	<!-- nav -->
-	<%@ include file="/resources/include/main/nav.jsp"%>
+	
 	<main>
 		<div class="container">
 		
 			<h3>채팅방 생성</h3>
 			
 			<div class="con">
-				<form name="addForm" onsubmit="return submitAddForm();" action="${pageContext.request.contextPath}/service/chat/doAdd" method="POST">
+				<form name="addForm" onsubmit="return submitAddForm();" action="${pageContext.request.contextPath}/chatroom/doAdd.do" method="POST">
 					<span>채팅방 이름</span>
 					<div>
 						<input type="text" id="title" name="title"  maxlength="30" placeholder="제목"/>
@@ -46,7 +45,7 @@
 			</div>
 		</div>
 	</main>
-	
+
 	<!-- footer -->
 	<%@ include file="/resources/include/main/footer.jsp"%>
 
