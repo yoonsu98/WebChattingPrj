@@ -1,7 +1,7 @@
 # BlahBlah
-사진공간
-Spring Framework로 웹페이지를 구현.
-Tomcat을 통해 서버를 구현, bootstrap4와 Ajax,Restful API 이용하여 전체적인 UI,UX 개설.
+- 사진공간
+- Spring Framework로 웹페이지를 구현.
+- Tomcat을 통해 서버를 구현, bootstrap4와 Ajax,Restful API 이용하여 전체적인 UI,UX 개설.
 
 # 개발인원
   - 안명성 (역할)
