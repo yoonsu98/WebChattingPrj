@@ -43,9 +43,6 @@
 		</interceptor>
 	</interceptors>
 
-	<context:component-scan
-		base-package="com.gaon.prj" />
-
 	<websocket:handlers allowed-origins="*">
 		<websocket:mapping handler="echoHandler" path="/chat" />
 		<websocket:sockjs websocket-enabled="true"/>
@@ -62,4 +59,8 @@
 	</websocket:handlers>
 	<beans:bean id="WebSocketHandler" class="com.gaon.prj.common.WebSocketHandler"/>
 	
+	<context:component-scan
+		base-package="com.gaon.prj" />
+
+
 </beans:beans>
