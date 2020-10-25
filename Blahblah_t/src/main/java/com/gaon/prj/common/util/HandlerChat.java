@@ -95,7 +95,7 @@ public class HandlerChat extends TextWebSocketHandler {
 		ObjectMapper objectMapper = new ObjectMapper();
 		String now_bang_id = "";
 
-		// 사용자 세션을 리스트에서 제거
+		// 사용자 세션을 리스트에서 제거 
 		for (int i = 0; i < sessionList.size(); i++) {
 			Map<String, Object> map = sessionList.get(i);
 			String bang_id = (String) map.get("bang_id");

@@ -22,7 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}
 	
-	@Override
+	@Override 
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		String uri					= request.getRequestURI();
