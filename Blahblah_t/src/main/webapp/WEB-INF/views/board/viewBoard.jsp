@@ -15,6 +15,17 @@
 
 </head>
 
+<script>
+	function updateView(pnum){
+		location.href = "${contextPath}/prj/board/updateViewForm?pnum="+pnum;
+		}
+	
+function deleteView(pnum){
+		location.href="${contextPath}/prj/board/deleteView?pnum="+pnum;
+		alert("삭제되었습니다.");
+		location.href="${contextPath}/prj/board/boardList";
+}
+</script>
 <body>
 	<!-- uppermost -->
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
@@ -38,17 +49,19 @@
 	</div>
 	<div class="container">
 		<input type="button" class="btn btn-default pull-right"
-				onClick="location.href='/prj/board/boardList'" value="목록"/>
-		<c:if test="${empty sessionScope.member}">
-			<input type="button" class="btn btn-default pull-right" value="칭찬하기" />
-			<input type="button" class="btn btn-default pull-right" value="신고하기" />
+			onClick="location.href='/prj/board/boardList'" value="목록" />
+		<c:if
+			test="${!empty sessionScope.member && sessionScope.member.nickname ne view.writer }">
+			<input type="button" class="btn btn-default pull-left" value="칭찬하기" />
+			<input type="button" class="btn btn-default pull-left" value="신고하기" />
 		</c:if>
 	</div>
 
 	<div class="container">
 		<c:if test="${sessionScope.member.nickname eq view.writer }">
-			<input type="button" class="btn btn-default pull-right" value="수정하기" />
-			<input type="button" class="btn btn-default pull-right" value="삭제하기" />
+			<input type="button" class="btn btn-default pull-left"
+				onClick="updateView(${view.pnum })" value="수정하기" />
+			<input type="button" class="btn btn-default pull-left" onclick = "deleteView(${view.pnum})" value="삭제하기" />
 		</c:if>
 
 

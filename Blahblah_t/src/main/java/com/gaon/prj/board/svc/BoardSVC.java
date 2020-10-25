@@ -11,4 +11,6 @@ public interface BoardSVC {
 	public BoardVO viewBoard(int pnum);
 	public Integer countBoard();
 	public void increaseRcnt(int pnum);
+	public void deleteView(int pnum);
+	public int updateView(BoardVO boardVO);
 }

@@ -31,14 +31,26 @@
 		#{followerID}
 		)
 	</insert>
-	<insert id="sendDM" parameterType="com.gaon.prj.friend.vo.MessageVO">
+	<delete id="setUnFollowing" parameterType="hashMap">
+		delete from
+		friend_tbl where
+		fiid = #{followingID} and feid=#{followerID}
+	</delete>
+	<select id="getFollowState" parameterType="hashMap"
+		resultType="String">
+		select fiid from friend_tbl where fiid = #{followingID} and
+		feid=#{followerID}
+	</select>
+	<insert id="sendDM"
+		parameterType="com.gaon.prj.friend.vo.MessageVO">
 		<selectKey keyProperty="mid" resultType="int" order="BEFORE">
-			select mid_seq.nextval From dual
+			select
+			mid_seq.nextval From dual
 		</selectKey>
 		insert into message_tbl
 		(mid, mtitle,mcontent,mtoid, mfromid)
 		values(
-		#{mid, jdbcType=	INTEGER  },
+		#{mid, jdbcType= INTEGER },
 		#{messageTitle},
 		#{messageContent},
 		#{messageTo},
@@ -47,13 +59,27 @@
 	</insert>
 	<select id="getSendMessageList" parameterType="String"
 		resultType="com.gaon.prj.friend.vo.MessageVO">
-		select mid, mtitle,mdate from message_tbl where mfromid = #{id}
+		select mid, mtitle,mdate from message_tbl where mfromid =
+		#{id}
 	</select>
-		<select id="getReceiveMessageList" parameterType="String"
+	<select id="getReceiveMessageList" parameterType="String"
 		resultType="com.gaon.prj.friend.vo.MessageVO">
-		select mid, mtitle,mdate from message_tbl where mtoid = #{id}
+		select mid, mtitle,mdate from message_tbl where mtoid =
+		#{id}
 	</select>
-	<select id = "getDMDetail" parameterType="String" resultType="com.gaon.prj.friend.vo.MessageVO">
-		select mtitle,mcontent,mtoid,mfromid,mdate from message_tbl where mid= #{messageID}
+	<select id="getDMDetail" parameterType="String"
+		resultType="com.gaon.prj.friend.vo.MessageVO">
+		select mtitle,mcontent,mtoid,mfromid,mdate from message_tbl
+		where mid= #{messageID}
+	</select>
+
+	<select id="countFiidList" resultType="Integer">
+		select count(fiid) from
+		friend_tbl
+	</select>
+	
+	<select id="countFeidList" resultType="Integer">
+		select count(feid) from
+		friend_tbl
 	</select>
 </mapper>

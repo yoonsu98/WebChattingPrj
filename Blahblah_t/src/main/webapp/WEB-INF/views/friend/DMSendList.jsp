@@ -29,6 +29,7 @@
 					<th class="text-center">date</th>
 				</tr>
  				<c:forEach var="ml" items="${sendMessageList}">
+ 				
 					<tr>
 						<th class="text-center">${ml.mid }</th>
 						<th class="text-center"><a id="DMdetailBtn" onClick="showDMDetail(${ml.mid})">${ml.mtitle }</a></th>

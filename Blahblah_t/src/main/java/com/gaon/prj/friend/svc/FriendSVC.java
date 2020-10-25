@@ -14,8 +14,12 @@ public interface FriendSVC {
 	public List<MemberVO> getMemberList();
 	public MemberVO getOneMemberInfo(String id);
 	public Map<String, Boolean> setFollowing(HashMap<String, String> IDInfo);
+	public Map<String, Boolean> setUnFollowing(HashMap<String, String> IDInfo);
+	public Map<String, Boolean> getFollowState(HashMap<String,String> IDInfo);
 	public Map<String, Boolean> sendDM(HashMap<String, String> messageInfo);
 	public List<MessageVO> getSendMessageList(String id);
 	public List<MessageVO> getReceiveMessageList(String id);
 	public MessageVO getDMDetail(String messageID);
+	public Integer countFiidList();
+	public Integer countFeidList();
 }

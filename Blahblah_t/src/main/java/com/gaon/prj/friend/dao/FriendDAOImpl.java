@@ -19,13 +19,11 @@ public class FriendDAOImpl implements FriendDAO {
 	@Override
 	public List<MemberVO> getFollowingList(String id){
 		List<MemberVO>followingMemberInfo = sqlSession.selectList("mappers.FriendDAO-mapper.getFollowingMemberInfo",id);
-		System.out.println(followingMemberInfo);
 		return followingMemberInfo;
 	}
 	@Override
 	public List<MemberVO> getFollowerList(String id){
 		List<MemberVO>followerMemberInfo = sqlSession.selectList("mappers.FriendDAO-mapper.getFollowerMemberInfo",id);
-		
 		return followerMemberInfo;
 	}
 	@Override
@@ -37,17 +35,36 @@ public class FriendDAOImpl implements FriendDAO {
 	@Override
 	public MemberVO getOneMemberInfo(String id){
 		MemberVO oneMemberInfo = sqlSession.selectOne("mappers.FriendDAO-mapper.getOneMemberInfo",id);
-		System.out.println(oneMemberInfo);
 		return oneMemberInfo;
 	}
 
 	@Override
 	public Map<String, Boolean> setFollowing(HashMap<String,String> IDInfo){
 
-		System.out.println(IDInfo);
-		int a = sqlSession.selectOne("mappers.FriendDAO-mapper.setFollowing", IDInfo);
+		int a = sqlSession.insert("mappers.FriendDAO-mapper.setFollowing", IDInfo);
 		Map<String, Boolean> chkResult = new HashMap<>();
-		if (a == 0)
+		if (a == 1)
+			chkResult.put("chkResult", true);
+		else
+			chkResult.put("chkResult", false);
+		return chkResult;
+	}
+	@Override
+	public Map<String, Boolean> setUnFollowing(HashMap<String,String> IDInfo){
+		int a = sqlSession.insert("mappers.FriendDAO-mapper.setUnFollowing", IDInfo);
+		Map<String, Boolean> chkResult = new HashMap<>();
+		if (a == 1)
+			chkResult.put("chkResult", true);
+		else
+			chkResult.put("chkResult", false);
+		return chkResult;
+	}
+	@Override
+	public Map<String, Boolean> getFollowState(HashMap<String,String> IDInfo){
+
+		String a = sqlSession.selectOne("mappers.FriendDAO-mapper.getFollowState", IDInfo);
+		Map<String, Boolean> chkResult = new HashMap<>();
+		if (a ==null)
 			chkResult.put("chkResult", true);
 		else
 			chkResult.put("chkResult", false);
@@ -56,7 +73,6 @@ public class FriendDAOImpl implements FriendDAO {
 	@Override
 	public Map<String, Boolean> sendDM(HashMap<String,String> messageInfo){
 
-		System.out.println(messageInfo);
 		
 		 int a = sqlSession.insert("mappers.FriendDAO-mapper.sendDM",messageInfo);
 		 
@@ -74,12 +90,21 @@ public class FriendDAOImpl implements FriendDAO {
 	@Override
 	public List<MessageVO> getReceiveMessageList(String id){
 		List<MessageVO>receiveMessageList = sqlSession.selectList("mappers.FriendDAO-mapper.getReceiveMessageList",id);
-		System.out.println(receiveMessageList);
 		return receiveMessageList;
 	}
 	@Override
 	public MessageVO getDMDetail(String messageID) {
 		MessageVO detailDM = sqlSession.selectOne("mappers.FriendDAO-mapper.getDMDetail",messageID);
 		return detailDM;
+	}
+	
+	@Override
+	public Integer countFiidList() {
+		return sqlSession.selectOne("mappers.FriendDAO-mapper.countFiidList");
+	}
+	
+	@Override
+	public Integer countFeidList() {
+		return sqlSession.selectOne("mappers.FriendDAO-mapper.countFeidList");
 	}
 }

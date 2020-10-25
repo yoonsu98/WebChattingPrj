@@ -40,7 +40,14 @@ public class FriendSVCImpl implements FriendSVC{
 	public Map<String, Boolean> setFollowing(HashMap<String,String> IDInfo){
 		return friendDAO.setFollowing(IDInfo);
 	}
-
+	@Override
+	public Map<String, Boolean> setUnFollowing(HashMap<String,String> IDInfo){
+		return friendDAO.setUnFollowing(IDInfo);
+	}
+	@Override
+	public Map<String, Boolean> getFollowState(HashMap<String,String> IDInfo){
+		return friendDAO.getFollowState(IDInfo);
+	}
 	@Override
 	public Map<String, Boolean> sendDM(HashMap<String,String> messageInfo){
 		return friendDAO.sendDM(messageInfo);
@@ -55,5 +62,12 @@ public class FriendSVCImpl implements FriendSVC{
 	}
 	public MessageVO getDMDetail(String messageID) {
 		return friendDAO.getDMDetail(messageID);
+	}
+	
+	public Integer countFiidList() {
+		return friendDAO.countFiidList();
+	}
+	public Integer countFeidList() {
+		return friendDAO.countFeidList();
 	}
 }
