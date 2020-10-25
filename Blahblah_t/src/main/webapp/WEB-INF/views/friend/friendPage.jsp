@@ -129,7 +129,9 @@
 					<button class="btn btn-primary" type="button"
 						onClick="friendFollow()">Follow</button>
 					<button class="btn btn-primary" type="button" id="sendDMbtn">DM</button>
-					<button class="btn btn-primary" type="button">Chatting</button>
+					<a href="/prj/chatting/singlechattingForm/${friend.id}">
+					
+					<button class="btn btn-primary" type="button" >Chatting</button></a>
 				</div>
 			</c:if>
 			<c:if test="${empty sessionScope.member}">
