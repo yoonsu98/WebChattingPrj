@@ -3,14 +3,28 @@
 <mapper namespace="mappers.ChatroomDAO-mapper">
 
 	<insert id="add" parameterType="map">
-		insert into chatroom_tbl
+		insert into roomlist_tbl
 		(cno,id,title) values
 		(room_seq.nextval,#{id},#{title})
 	</insert>
-
-	<select id="roomList"
-		resultType="com.gaon.prj.chatroom.vo.ChatroomVO">
-		select cno,id,title,cdate from chatroom_tbl
+	
+	<select id="roomList" resultType="com.gaon.prj.chatroom.vo.ChatroomVO">	
+		select cno,id,title,cdate from roomlist_tbl order by cno desc
 	</select>
 	
+	<select id="findInfo" parameterType="com.gaon.prj.chatroom.vo.ChatroomVO" resultType="int">
+		select cno from roomlist_tbl where id = #{id} and title = #{title}
+	</select>
+	
+	<select id="findOwner" resultType="String">
+		select id from roomlist_tbl where cno = #{cno}
+	</select>
+	
+	<delete id="delRoom">
+		delete roomlist_tbl where cno = #{cno}
+	</delete>
+	
+	<select id="keyword" resultType="String">
+		select word from keyword_tbl where kno = #{kno}
+	</select>
 </mapper>

@@ -18,18 +18,16 @@
 <body>
 	<!-- uppermost -->
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
-	<!-- nav -->
-	<%@ include file="/resources/include/main/nav.jsp"%>
 	
 	<main>
 		<div class="container">
 			<ul class="list-group">
-				<li class="list-group-item">방제목<span class="badge">접속자</span><span class="badge">아이디</span></li>
+				<li class="list-group-item">방제목<span class="badge">아이디</span></li>
 				<c:forEach var="row" items="${list }">
-				<li class="list-group-item"><a href="#">${row.title }</a><span class="badge">0</span><span class="badge">${row.id }</span></li>
+				<li class="list-group-item"><a href="${pageContext.request.contextPath }/chatroom/chat.do/${row.cno }?bang_id=${row.title}">${row.title }</a><span class="badge">${row.id }</span></li>
 				</c:forEach>
 			</ul>
-		<button type="button" class="btn btn-primary" onClick="location.href='${pageContext.request.contextPath}/service/chat/add'">방생성</button>
+		<button type="button" class="btn btn-primary" onClick="location.href='${pageContext.request.contextPath}/chatroom/add.do'">방생성</button>
 		</div>
 	</main>
 
