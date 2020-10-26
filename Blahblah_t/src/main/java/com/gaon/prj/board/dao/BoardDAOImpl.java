@@ -22,8 +22,8 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public Integer countBoard() {
-		return sqlSession.selectOne("mappers.BoardDAO-mapper.countBoard");
+	public int countBoard(PagingVO paging) {
+		return sqlSession.selectOne("mappers.BoardDAO-mapper.countBoard",paging);
 	}
 
 	@Override

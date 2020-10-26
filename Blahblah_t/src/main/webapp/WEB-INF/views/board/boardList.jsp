@@ -16,9 +16,25 @@
 </head>
 
 <script>
-	function pagingMove(curPage){
-    	location.href = "boardList?curPage="+curPage;
-  }
+	function pagingMove(curPage) {
+		location.href = "boardList" + '${paging.makeSearch(curPage)}';
+	}
+
+	function searchView() {
+		var inputSearchOption = $('#searchOptionSel');
+		var inputKeyword = $('#keyword');
+
+		if (inputKeyword.val() == "") {
+			alert("검색어를 입력하세요.");
+			return;
+		} else {
+
+			var url = "boardList" + '${paging.makeQuery(1)}' + "&searchOption="
+					+ inputSearchOption.val() + "&keyword="
+					+ encodeURIComponent(inputKeyword.val());
+		}
+		window.location.href = url;
+	}
 </script>
 <body>
 	<!-- uppermost -->
@@ -28,14 +44,14 @@
 
 	<div class="container">
 		<div class="text-center">
-			<form>
-				<select name="search">
-					<option value="title" selected>제목</option>
-					<option value="content">내용</option>
-					<option value="writer">작성자</option>
-				</select> <input type="text" name="search" value="" />
-				<button onClick="#">검색</button>
-			</form>
+			<select id="searchOptionSel" name="">
+				<option value="title"<c:out value="${paging.searchOption=='title'?'selected':'' }"/>>제목</option>
+				<option value="content"<c:out value="${paging.searchOption=='content'?'selected':'' }"/>>내용</option>
+				<option value="writer"<c:out value="${paging.searchOption=='writer'?'selected':'' }"/>>작성자</option>
+			</select> <input name="keyword" id="keyword" type="text"
+				value="${paging.keyword }">
+			<button id="searrchBtn" class="btn btn-primary"
+				onClick="searchView()">검색</button>
 
 			<table class="table" style="text-align: center;">
 				<thead>
@@ -65,39 +81,40 @@
 				<div class="col">
 					<ul class="btn-group pagination">
 						<c:if test="${paging.curPage ne 1}">
-							<li class="page-item"><a class="page-link" a href="#"
-								onClick="pagingMove(1)"><<</a></li>
+							<li class="page-item"><a class="page-link" a
+								href="boardList${paging.makeSearch(1) }"><<</a></li>
 						</c:if>
 						<c:if test="${paging.curPage ne 1}">
-							<li class="page-item"><a class="page-link" a href="#"
-								onClick="pagingMove(${paging.prevPage })"><</a></li>
+							<li class="page-item"><a class="page-link" a
+								href="boardList${paging.makeSearch(paging.prevPage) }"><</a></li>
 						</c:if>
 						<c:forEach var="pageNum" begin="${paging.startPage }"
 							end="${paging.endPage }">
 							<c:choose>
 								<c:when test="${pageNum eq  paging.curPage}">
 									<li class="page-item"><span style="font-weight: bold;">
-											<a class="page-link" a href="#"
-											onClick="pagingMove(${pageNum })"
+											<a class="page-link" a
+											href="boardList${paging.makeSearch(pageNum) }"
 											style="font-weight: bold; color: red;"> ${pageNum } </a>
 									</span></li>
 								</c:when>
 								<c:otherwise>
-									<li class="page-item"><a class="page-link" a href="#"
-										onClick="pagingMove(${pageNum })">${pageNum }</a></li>
+									<li class="page-item"><a class="page-link" a
+										href="boardList${paging.makeSearch(pageNum)}">${pageNum }</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
 						<c:if
 							test="${paging.curPage ne paging.pageCnt && paging.pageCnt > 0}">
-							<li class="page-item"><a class="page-link" a href="#"
-								onClick="pagingMove(${paging.nextPage })">></a></li>
+							<li class="page-item"><a class="page-link" a
+								href="boardList${paging.makeSearch(paging.nextPage)}">></a></li>
 						</c:if>
 						<c:if
 							test="${paging.curRange ne paging.rangeCnt && paging.rangeCnt > 0}">
-							<li class="page-item"><a class="page-link" a href="#"
-								onClick="pagingMove(${paging.pageCnt })">>></a></li>
+							<li class="page-item"><a class="page-link" a
+								href="boardList${paging.makeSearch(paging.pageCnt)}">>></a></li>
 						</c:if>
+
 					</ul>
 				</div>
 			</div>

@@ -10,7 +10,7 @@ public interface BoardDAO {
 	public List<BoardVO> boardList(PagingVO paging);
 	public BoardVO viewBoard(int pnum);
 	public void increaseRcnt(int pnum);
-	public Integer countBoard();
+	public int countBoard(PagingVO paging);
 	public void deleteView(int pnum);
 	public int updateView(BoardVO boardVO);
 }
