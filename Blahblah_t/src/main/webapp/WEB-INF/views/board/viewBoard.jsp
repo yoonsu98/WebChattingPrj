@@ -20,10 +20,16 @@
 		location.href = "${contextPath}/prj/board/updateViewForm?pnum="+pnum;
 		}
 	
-function deleteView(pnum){
+	function deleteView(pnum){
 		location.href="${contextPath}/prj/board/deleteView?pnum="+pnum;
 		alert("삭제되었습니다.");
 		location.href="${contextPath}/prj/board/boardList";
+
+	function praiseMem(){
+			alert("오키");
+
+	function danMem(){
+		alert("오키");
 }
 </script>
 <body>
@@ -52,19 +58,65 @@ function deleteView(pnum){
 			onClick="location.href='/prj/board/boardList'" value="목록" />
 		<c:if
 			test="${!empty sessionScope.member && sessionScope.member.nickname ne view.writer }">
-			<input type="button" class="btn btn-default pull-left" value="칭찬하기" />
-			<input type="button" class="btn btn-default pull-left" value="신고하기" />
+			<button class="btn btn-default pull-left" data-toggle="modal"
+				data-target="#praiseModal">칭찬하기</button>
+			<button class="btn btn-default pull-left" data-toggle="modal"
+				data-target="#danModal">신고하기</button>
 		</c:if>
 	</div>
+
 
 	<div class="container">
 		<c:if test="${sessionScope.member.nickname eq view.writer }">
 			<input type="button" class="btn btn-default pull-left"
 				onClick="updateView(${view.pnum })" value="수정하기" />
-			<input type="button" class="btn btn-default pull-left" onclick = "deleteView(${view.pnum})" value="삭제하기" />
+			<input type="button" class="btn btn-default pull-left"
+				onclick="deleteView(${view.pnum})" value="삭제하기" />
 		</c:if>
+	</div>
 
+	<!-- Modal -->
+	<div class="modal fade" id="praiseModal" role="dialog">
+		<!-- 사용자 지정 부분① : id명 -->
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					<!-- 사용자 지정 부분② : 타이틀 -->
+				</div>
+				<div class="modal-body">
+					<input type="text" class="form-control" id="praiseReason"
+						name="praiseReason" placeholder="칭찬하는 이유가 무엇인가요?">
+					<!-- 사용자 지정 부분③ : 텍스트 메시지 -->
+				</div>
+				<div class="modal-footer">
+					<a id="praiseBtn" type = "button" class="btn btn-default" onClick="praiseMem()">칭찬하기</a>
+				</div>
+			</div>
+		</div>
+	</div>
 
+	<!-- Modal -->
+	<div class="modal fade" id="danModal" role="dialog">
+		<!-- 사용자 지정 부분① : id명 -->
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					<!-- 사용자 지정 부분② : 타이틀 -->
+				</div>
+				<div class="modal-body">
+					<input type="text" class="form-control" id="danReason"
+						name="danReason" placeholder="신고하는하는 이유가 무엇인가요?">
+					<!-- 사용자 지정 부분③ : 텍스트 메시지 -->
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" onClick="danMem()">칭찬하기</button>
+				</div>
+			</div>
+		</div>
 	</div>
 	<!-- footer -->
 	<%@ include file="/resources/include/main/footer.jsp"%>

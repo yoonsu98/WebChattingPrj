@@ -16,10 +16,6 @@
 </head>
 
 <script>
-	function pagingMove(curPage) {
-		location.href = "boardList" + '${paging.makeSearch(curPage)}';
-	}
-
 	function searchView() {
 		var inputSearchOption = $('#searchOptionSel');
 		var inputKeyword = $('#keyword');

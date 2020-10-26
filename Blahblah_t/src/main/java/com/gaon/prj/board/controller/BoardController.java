@@ -94,4 +94,14 @@ public class BoardController {
 		boardSVC.deleteView(pnum);
 		return "board/boardList";
 	}
+	
+	@RequestMapping("/praiseMem")
+	public String praiseMem() {
+		return "board/boardList";
+	}
+	
+	@RequestMapping("/danMem")
+	public String danMem() {
+		return "board/boardList";
+	}
 }
