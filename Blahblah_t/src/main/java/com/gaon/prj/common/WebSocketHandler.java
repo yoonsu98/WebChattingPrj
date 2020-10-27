@@ -1,5 +1,6 @@
 package com.gaon.prj.common;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +64,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			System.out.println("등록");
 			String user = (String)object.get("userid");
 			userMap.put(user, session);
-			System.out.println(userMap.keySet().toArray()); //세션에 들어온 사람들 
 		
 		}
 		

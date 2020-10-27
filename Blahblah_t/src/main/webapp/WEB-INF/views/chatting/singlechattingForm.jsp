@@ -23,18 +23,71 @@
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+    google.load("language", "1");
+
+    function google_language_for_div(detectID, transID, lang) {
+      var text = document.getElementById(detectID).innerHTML;
+      google.language.detect(text, function(result) {
+        if (!result.error && result.language) {
+          google.language.translate(text, result.language, lang,
+                                    function(result) {
+            var translated = document.getElementById(transID);
+            if (result.translation) {
+              translated.innerHTML = result.translation;
+            }
+          });
+        }
+      });
+    }
+
+    function google_language_for_input(detectID, transID, lang) {
+      var text = document.getElementById(detectID).value;
+      google.language.detect(text, function(result) {
+        if (!result.error && result.language) {
+          google.language.translate(text, result.language, lang,
+                                    function(result) {
+            var translated = document.getElementById(transID);
+            if (result.translation) {
+              translated.innerHTML = result.translation;
+            }
+          });
+        }
+      });
+    }
+
+
+    </script>
 <script type="text/javascript">
  	var ws;
 	var userid = '${member.id}';
+
 	
 	$(document).ready(function(){
+        $("#chatMsg").keypress(function (e){
+        	if (e.which == 13){
+        		sendMsg()
+        		$("#chatMsg").val('');	
+	        }
+        });
+
         $("#sendBtn").click(function(){
-        	sendMsg();
-        	$("#chatMsg").val('');
+        	sendMsg()
+    		$("#chatMsg").val('');	
         	
         });
+     
+        $("#transBtn").click(function(){
+        	
+        	//$("#chatMsg").val('hii');
+        	
+        }); 
         
     });
+	
 
 	//websocket을 지정한 URL로 연결
     var sock= new SockJS("<c:url value="/echo"/>");
@@ -45,7 +98,7 @@
 	sock.onopen = onOpen;
 	
     function onOpen(evt){
-		$("#msgArea").append(userid+"님이 입장하셨습니다.<br/>");
+		//$("#msgArea").append(userid+"님이 입장하셨습니다.<br/>");
 		register();
 	}
 
@@ -102,7 +155,6 @@
 			minutes = '0'+minutes;
 		}
 		
-		console.log("메세지 보냄");
 		var msg = {
 			type : 'chat',
 			target :  '${recv_id}',
@@ -138,20 +190,22 @@
 		$("#msgArea").append(userid+"님이 퇴장하셨습니다.<br/>");
 	}
 
-	
 
 </script>
 </head>
 
 <body>
+	<span class="notranslate">
 	<!-- uppermost -->
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
 	<!-- nav -->
 	<%@ include file="/resources/include/main/nav.jsp"%>
-	
+	</span>
 	<!-- 채팅폼 -->
 	<div class="container">
 	<h3 class=" text-center">Messaging</h3>
+	<div id="google_translate_element"></div>
+	
 	<div class="messaging">
       <div class="inbox_msg">
           
@@ -163,14 +217,28 @@
           <div class="type_msg">
             <div class="input_msg_write">
               <input type="text" class="write_msg" id="chatMsg" placeholder="Type a message" />
-              <button class="msg_send_btn" type="button"  id="sendBtn"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+              <button class="translate_btn" type="button"  id="transBtn" >Eng</button>
+              <button class="msg_send_btn"  id="sendBtn"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
             </div>
           </div>
         </div>
       </div>
     </div></div>
-   
+    <span class="notranslate">
 	<!-- footer -->
 	<%@ include file="/resources/include/main/footer.jsp"%>
+	</span>
 </body>
 </html>
+
+<script>
+	function googleTranslateElementInit() {
+		new google.translate.TranslateElement({
+			pageLanguage: 'ko',	
+			includedLanguages: 'ko,zh-CN,zh-TW,ja,vi,th,tl,km,my,mn,ru,en,fr,ar',
+			layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+			autoDisplay: false
+		}, 'google_translate_element');
+	}
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

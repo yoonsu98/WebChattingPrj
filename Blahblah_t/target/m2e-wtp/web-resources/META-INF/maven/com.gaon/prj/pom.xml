@@ -210,8 +210,8 @@
 			<artifactId>json-simple</artifactId>
 			<version>1.1.1</version>
 		</dependency>
-		
-	
+
+
 		<!--for jackson settings End -->
 		<!-- spring 시큐리티 시작 -->
 		<dependency>
@@ -251,27 +251,33 @@
 			<version>1.9.2</version>
 		</dependency>
 
-        <!-- 웹 소켓 시작 -->
+		<!-- 웹 소켓 시작 -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-websocket</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20160810</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-messaging</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
 		<!-- 웹 소켓 끝 -->
-        
+
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-translate</artifactId>
+			<version>1.14.0</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>
