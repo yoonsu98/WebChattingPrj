@@ -13,6 +13,13 @@
 		)
 	</insert>
 
+	<insert id="blacklist"
+		parameterType="com.gaon.prj.member.vo.MemberVO">
+		<if test="dcnt > 5">
+			insert into blacklist_tbl(bnickname) values(#{nickname})
+		</if>
+	</insert>
+
 	<select id="boardList"
 		parameterType="com.gaon.prj.paging.PagingVO"
 		resultType="com.gaon.prj.board.vo.BoardVO">
@@ -44,9 +51,11 @@
 		RCNT = RCNT+1 WHERE PNUM=#{PNUM}
 	</update>
 
-	<select id="countBoard" parameterType="com.gaon.prj.paging.PagingVO" resultType="int">
+	<select id="countBoard"
+		parameterType="com.gaon.prj.paging.PagingVO" resultType="int">
 		SELECT COUNT(*) FROM BOARD_TBL
-		WHERE PNUM > 0 <include refid="searchView"></include>
+		WHERE PNUM > 0
+		<include refid="searchView"></include>
 	</select>
 
 	<update id="updateView"
@@ -61,6 +70,23 @@
 		DELETE FROM BOARD_TBL
 		WHERE PNUM = #{PNUM}
 	</delete>
+
+	<update id="praiseMem"
+		parameterType="com.gaon.prj.member.vo.MemberVO">
+		update member_tbl
+		set gcnt = gcnt+1 where nickname =
+		#{nickname}
+	</update>
+
+	<update id="danMem"
+		parameterType="com.gaon.prj.member.vo.MemberVO">
+		update member_tbl
+		set dcnt = dcnt+1 where nickname = #{nickname}
+	</update>
+	
+	<select id = "getDcnt" parameterType = "com.gaon.prj.member.vo.MemberVO" resultType="int">
+		select dcnt from member_tbl where nickname = #{nickname}
+	</select>
 
 	<sql id="searchView">
 		<if test="searchOption=='title' and keyword != '' ">

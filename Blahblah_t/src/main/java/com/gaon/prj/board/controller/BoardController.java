@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gaon.prj.member.vo.MemberVO;
 import com.gaon.prj.board.svc.BoardSVC;
 import com.gaon.prj.board.vo.BoardVO;
 import com.gaon.prj.paging.PagingVO;
@@ -66,7 +67,7 @@ public class BoardController {
 
 	@RequestMapping(value = "/loginWriteBoard", method = RequestMethod.POST)
 	public String loginWriteBoard(HttpSession session) {
-		if (session.getAttribute("member") != null) {
+		if (session.getAttribute("member") != null ) {
 			return "board/writeBoard";
 		} else {
 			return "member/loginForm";
@@ -95,13 +96,20 @@ public class BoardController {
 		return "board/boardList";
 	}
 	
-	@RequestMapping("/praiseMem")
-	public String praiseMem() {
+	@GetMapping("/praiseMem")
+	public String praiseMem(@RequestParam(defaultValue = "") String nickname,MemberVO memberVO) {
+		memberVO.setNickname(nickname);
+		boardSVC.praiseMem(memberVO);
 		return "board/boardList";
 	}
 	
-	@RequestMapping("/danMem")
-	public String danMem() {
+	@GetMapping("/danMem")
+	public String danMem(@RequestParam(defaultValue = "") String nickname,MemberVO memberVO) {
+		memberVO.setNickname(nickname);
+		memberVO.setDcnt(boardSVC.getDcnt(memberVO));
+		System.out.println(boardSVC.getDcnt(memberVO));
+		boardSVC.danMem(memberVO);
+		boardSVC.blacklist(memberVO);
 		return "board/boardList";
 	}
 }
