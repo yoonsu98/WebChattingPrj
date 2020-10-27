@@ -14,19 +14,16 @@
 	</insert>
 
 	<select id="boardList"
-		parameterType="com.gaon.prj.board.vo.BoardVO"
+		parameterType="com.gaon.prj.paging.PagingVO"
 		resultType="com.gaon.prj.board.vo.BoardVO">
-		SELECT *
-		FROM (
-		SELECT ROWNUM RN, A.*
-		FROM (
-		SELECT *
-		FROM
-		BOARD_TBL
+		SELECT * FROM (
+		SELECT ROWNUM RN, A.* FROM (
+		SELECT * FROM BOARD_TBL
+		WHERE PNUM > 0
+		<include refid="searchView"></include>
 		ORDER BY PNUM DESC
 		) A
-		)
-		WHERE RN BETWEEN #{start} AND #{end}
+		) WHERE RN BETWEEN #{start} AND #{end}
 	</select>
 
 	<select id="viewBoard"
@@ -35,27 +32,28 @@
 		SELECT PNUM,WRITER,TITLE,CONTENT,RCNT,WDATE FROM BOARD_TBL
 		WHERE PNUM = #{PNUM}
 	</select>
-	
+
 	<select id="updateViewForm"
 		parameterType="com.gaon.prj.board.vo.BoardVO"
 		resultType="com.gaon.prj.board.vo.BoardVO">
 		SELECT TITLE,CONTENT WHERE PNUM=#{PNUM}
 	</select>
-	
+
 	<update id="increaseRcnt" parameterType="int">
 		UPDATE BOARD_TBL SET
 		RCNT = RCNT+1 WHERE PNUM=#{PNUM}
 	</update>
 
-	<select id="countBoard" resultType="Integer">
-		SELECT COUNT(*) FROM
-		BOARD_TBL
+	<select id="countBoard" parameterType="com.gaon.prj.paging.PagingVO" resultType="int">
+		SELECT COUNT(*) FROM BOARD_TBL
+		WHERE PNUM > 0 <include refid="searchView"></include>
 	</select>
 
 	<update id="updateView"
 		parameterType="com.gaon.prj.board.vo.BoardVO">
 		update board_tbl
-		set writer = #{writer}, title = #{title}, content = #{content}
+		set writer = #{writer}, title =
+		#{title}, content = #{content}
 		where pnum = #{pnum}
 	</update>
 
@@ -63,4 +61,18 @@
 		DELETE FROM BOARD_TBL
 		WHERE PNUM = #{PNUM}
 	</delete>
+
+	<sql id="searchView">
+		<if test="searchOption=='title' and keyword != '' ">
+			AND TITLE like '%'||#{keyword}||'%'
+		</if>
+
+		<if test="searchOption=='content' and keyword != '' ">
+			AND CONTENT like '%'||#{keyword}||'%'
+		</if>
+
+		<if test="searchOption=='writer' and keyword != '' ">
+			AND WRITER like '%'||#{keyword}||'%'
+		</if>
+	</sql>
 </mapper>

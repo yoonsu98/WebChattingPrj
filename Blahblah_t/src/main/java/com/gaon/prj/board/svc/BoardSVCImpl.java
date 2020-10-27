@@ -24,8 +24,8 @@ public class BoardSVCImpl implements BoardSVC {
 	}
 
 	@Override
-	public Integer countBoard() {
-		return boardDAO.countBoard();
+	public int countBoard(PagingVO paging) {
+		return boardDAO.countBoard(paging);
 	}
 
 	@Override
