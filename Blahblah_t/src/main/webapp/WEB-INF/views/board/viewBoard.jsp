@@ -50,6 +50,21 @@
 			</tr>
 		</table>
 	</div>
+	
+	<!--  댓글  -->
+    <div class="container">
+        <label for="content">comment</label>
+        <form name="commentInsertForm">
+            <div class="input-group">
+               <input type="hidden" name="pnum" value="${view.pnum}"/>
+               <input type="hidden" name="nickname" value="${sessionScope.member.nickname}"/>
+               <input type="text" class="form-control" id="commentContent" name="commentContent" placeholder="내용을 입력하세요.">
+               <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" name="commentInsertBtn">등록</button>
+               </span>
+              </div>
+        </form>
+    </div>
 	<div class="container">
 		<input type="button" class="btn btn-default pull-right"
 			onClick="location.href='/prj/board/boardList'" value="목록" />
