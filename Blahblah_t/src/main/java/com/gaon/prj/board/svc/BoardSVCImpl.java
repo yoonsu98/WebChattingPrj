@@ -11,6 +11,7 @@ import com.gaon.prj.board.dao.BoardDAO;
 import com.gaon.prj.board.vo.BoardVO;
 import com.gaon.prj.member.vo.MemberVO;
 import com.gaon.prj.paging.PagingVO;
+import com.gaon.prj.reply.ReplyVO;
 
 @Service
 public class BoardSVCImpl implements BoardSVC {
@@ -73,5 +74,10 @@ public class BoardSVCImpl implements BoardSVC {
 	public int getDcnt(MemberVO memberVO)
 	{
 		return boardDAO.getDcnt(memberVO);
+	}
+	
+	public List<ReplyVO> replyList(ReplyVO replyVO)
+	{
+		return boardDAO.replyList(replyVO);
 	}
 }

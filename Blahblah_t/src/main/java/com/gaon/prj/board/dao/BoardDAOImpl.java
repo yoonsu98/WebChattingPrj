@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.gaon.prj.board.vo.BoardVO;
 import com.gaon.prj.member.vo.MemberVO;
 import com.gaon.prj.paging.PagingVO;
+import com.gaon.prj.reply.ReplyVO;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -73,5 +74,11 @@ public class BoardDAOImpl implements BoardDAO {
 	public int getDcnt(MemberVO memberVO)
 	{
 		return sqlSession.selectOne("mappers.BoardDAO-mapper.getDcnt",memberVO);
+	}
+	
+	@Override
+	public List<ReplyVO> replyList(ReplyVO replyVO)
+	{
+		return sqlSession.selectList("mappers-BoardDAO-mapper.replyList",replyVO);
 	}
 }

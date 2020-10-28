@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gaon.prj.member.vo.MemberVO;
 import com.gaon.prj.board.svc.BoardSVC;
 import com.gaon.prj.board.vo.BoardVO;
+import com.gaon.prj.member.vo.MemberVO;
 import com.gaon.prj.paging.PagingVO;
+import com.gaon.prj.reply.ReplyVO;
 
 @Controller
 @RequestMapping(value = "/board/*")

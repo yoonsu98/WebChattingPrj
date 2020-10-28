@@ -5,6 +5,7 @@ import java.util.List;
 import com.gaon.prj.board.vo.BoardVO;
 import com.gaon.prj.member.vo.MemberVO;
 import com.gaon.prj.paging.PagingVO;
+import com.gaon.prj.reply.ReplyVO;
 
 public interface BoardDAO {
 	public int writeBoard(BoardVO boardVO);
@@ -18,4 +19,5 @@ public interface BoardDAO {
 	public int danMem(MemberVO memberVO);
 	public int blacklist(MemberVO memberVO);
 	public int getDcnt(MemberVO memberVO);
+	public List<ReplyVO> replyList(ReplyVO replyVO);
 }
