@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.gaon.prj.board.dao.BoardDAO;
 import com.gaon.prj.board.vo.BoardVO;
+import com.gaon.prj.member.vo.MemberVO;
 import com.gaon.prj.paging.PagingVO;
+import com.gaon.prj.reply.ReplyVO;
 
 @Service
 public class BoardSVCImpl implements BoardSVC {
@@ -24,8 +26,8 @@ public class BoardSVCImpl implements BoardSVC {
 	}
 
 	@Override
-	public Integer countBoard() {
-		return boardDAO.countBoard();
+	public int countBoard(PagingVO paging) {
+		return boardDAO.countBoard(paging);
 	}
 
 	@Override
@@ -53,5 +55,29 @@ public class BoardSVCImpl implements BoardSVC {
 	public int updateView(BoardVO boardVO) {
 		return boardDAO.updateView(boardVO);
 	}
-
+	
+	public int praiseMem(MemberVO memberVO)
+	{
+		return boardDAO.praiseMem(memberVO);
+	}
+	
+	public int danMem(MemberVO memberVO)
+	{
+		return boardDAO.danMem(memberVO);
+	}
+	
+	public int blacklist(MemberVO memberVO)
+	{
+		return boardDAO.blacklist(memberVO);
+	}
+	
+	public int getDcnt(MemberVO memberVO)
+	{
+		return boardDAO.getDcnt(memberVO);
+	}
+	
+	public List<ReplyVO> replyList(ReplyVO replyVO)
+	{
+		return boardDAO.replyList(replyVO);
+	}
 }

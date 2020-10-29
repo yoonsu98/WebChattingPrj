@@ -23,18 +23,56 @@
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+ 
+ 
 <script type="text/javascript">
+
  	var ws;
 	var userid = '${member.id}';
+
 	
 	$(document).ready(function(){
+        $("#chatMsg").keypress(function (e){
+        	if (e.which == 13){
+        		sendMsg()
+        		$("#chatMsg").val('');	
+	        }
+        });
+
         $("#sendBtn").click(function(){
-        	sendMsg();
-        	$("#chatMsg").val('');
+        	sendMsg()
+    		$("#chatMsg").val('');	
         	
         });
-        
-    });
+     
+        $("#transBtn").click(function(){
+
+     
+        	let aft_transchat;
+       		let chat = document.getElementById('chatMsg').value;
+       		const bef_transchat = JSON.stringify({chat:chat}); 
+
+       	   	$.ajax({
+       			url:"${contextPath}/prj/chatting/getTransChat" ,
+       			type: "post",
+       			data: bef_transchat,
+       			async:false,
+       			dataType: "json",
+       			contentType:"application/json",
+       			success: function(data){
+           			aft_transchat = data.trans_chat;
+       			},
+       			error: function(errorThrown){
+           			
+       				alert(errorThrown.statusText);
+       			}
+       	   	})
+       	 	$("#chatMsg").val(aft_transchat);
+ 	
+        }); 
+	});
 
 	//websocket을 지정한 URL로 연결
     var sock= new SockJS("<c:url value="/echo"/>");
@@ -102,7 +140,6 @@
 			minutes = '0'+minutes;
 		}
 		
-		console.log("메세지 보냄");
 		var msg = {
 			type : 'chat',
 			target :  '${recv_id}',
@@ -138,20 +175,22 @@
 		$("#msgArea").append(userid+"님이 퇴장하셨습니다.<br/>");
 	}
 
-	
 
 </script>
 </head>
 
 <body>
+	<span class="notranslate">
 	<!-- uppermost -->
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
 	<!-- nav -->
 	<%@ include file="/resources/include/main/nav.jsp"%>
-	
+	</span>
 	<!-- 채팅폼 -->
 	<div class="container">
 	<h3 class=" text-center">Messaging</h3>
+	<div id="google_translate_element"></div>
+	
 	<div class="messaging">
       <div class="inbox_msg">
           
@@ -163,14 +202,28 @@
           <div class="type_msg">
             <div class="input_msg_write">
               <input type="text" class="write_msg" id="chatMsg" placeholder="Type a message" />
-              <button class="msg_send_btn" type="button"  id="sendBtn"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+              <button class="translate_btn" type="button"  id="transBtn" >Eng</button>
+              <button class="msg_send_btn"  id="sendBtn"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
             </div>
           </div>
         </div>
       </div>
     </div></div>
-   
+    <span class="notranslate">
 	<!-- footer -->
 	<%@ include file="/resources/include/main/footer.jsp"%>
+	</span>
 </body>
 </html>
+
+<script>
+	function googleTranslateElementInit() {
+		new google.translate.TranslateElement({
+			pageLanguage: 'ko',	
+			includedLanguages: 'ko,zh-CN,zh-TW,ja,vi,th,tl,km,my,mn,ru,en,fr,ar',
+			layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+			autoDisplay: false
+		}, 'google_translate_element');
+	}
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

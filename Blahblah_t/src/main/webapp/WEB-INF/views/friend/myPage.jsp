@@ -26,6 +26,10 @@
 						class="img_people">
 				</div>
 				<div class="div_info">${member.nickname }</div>
+				<div class="div_info">칭찬받은 횟수 : ${member.gcnt }</div>
+				<c:if test="${sessionScope.member.dcnt > 5 }">
+				<div class="div_info">당신은 블랙리스트입니다.</div>
+			</c:if>
 				<div class="div_info">한국</div>
 				<div class="div_info">레벨</div>
 			</div>

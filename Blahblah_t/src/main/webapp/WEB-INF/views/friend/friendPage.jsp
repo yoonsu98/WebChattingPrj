@@ -257,11 +257,11 @@
 	if(chkState==true){
 		$('#btn_group_div').html('<button class="btn btn-primary" type="button" onClick="friendFollow()">Follow</button> <t />');
 		$('#btn_group_div').append('<button class="btn btn-primary" type="button" onClick="sendDMClick()" id="sendDMbtn">DM</button> <t />');
-		$('#btn_group_div').append('<button class="btn btn-primary" type="button">Chatting</button> <t />');
+		$('#btn_group_div').append('<a href="/prj/chatting/singlechattingForm/${friend.id}"><button class="btn btn-primary" type="button" >Chatting</button></a> <t />');
 	}else if(chkState==false){
 		$('#btn_group_div').html('<button class="btn btn-primary" type="button" onClick="friendUnfollow()">UnFollow</button> <t />');
 		$('#btn_group_div').append('<button class="btn btn-primary" type="button"  onClick="sendDMClick()" id="sendDMbtn">DM</button><t /> <t />');
-		$('#btn_group_div').append('<button class="btn btn-primary" type="button">Chatting</button> <t />');
+		$('#btn_group_div').append('<a href="/prj/chatting/singlechattingForm/${friend.id}"><button class="btn btn-primary" type="button" >Chatting</button></a> <t />');
 	}
 </script>
 </html>
