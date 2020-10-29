@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mappers.VideoChatroomDAO-mapper">
+
+	<select id="getchatList"
+		resultType="com.gaon.prj.videochatting.vo.VideoChatroomVO">
+		select vcno,vcid,vctitle,vcdate from videochatroom_tbl order by vcno desc
+	</select>
+	<insert id="addVideoChatRoom" parameterType="map">
+		insert into
+		videochatroom_tbl
+		(vcno,vcid,vctitle) values
+		(videoroom_seq.nextval,#{id},#{title})
+	</insert>
+	<select id="findInfo"
+		parameterType="com.gaon.prj.videochatting.vo.VideoChatroomVO" resultType="int">
+		select
+		vcno from videochatroom_tbl where vcid = #{vcid} and vctitle = #{vctitle}
+	</select>
+		<select id="findOwner" resultType="String">
+		select vcid from videochatroom_tbl where vcno = #{vcno}
+	</select>
+</mapper>
