@@ -20,6 +20,14 @@
 
 </head>
 <script>
+
+	$(document).ready(function(){
+	    $("#pw").keypress(function (e){
+	    	if (e.which == 13){
+	    		fn_loginFn()
+	        }
+	    });
+	});
 	function fn_loginFn() {
 
 		let id = document.getElementById('id').value;
