@@ -8,7 +8,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.gaon.prj.board.vo.BoardVO;
+import com.gaon.prj.member.vo.MemberVO;
 import com.gaon.prj.paging.PagingVO;
+import com.gaon.prj.reply.ReplyVO;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -50,5 +52,33 @@ public class BoardDAOImpl implements BoardDAO {
 	public void deleteView(int pnum) {
 		sqlSession.delete("mappers.BoardDAO-mapper.deleteView", pnum);
 	}
-
+	@Override
+	public int praiseMem(MemberVO memberVO)
+	{
+		return sqlSession.update("mappers.BoardDAO-mapper.praiseMem",memberVO);
+	}
+	
+	@Override
+	public int danMem(MemberVO memberVO)
+	{
+		return sqlSession.update("mappers.BoardDAO-mapper.danMem",memberVO);
+	}
+	
+	@Override
+	public int blacklist(MemberVO memberVO)
+	{
+		return sqlSession.insert("mappers.BoardDAO-mapper.blacklist",memberVO);
+	}
+	
+	@Override
+	public int getDcnt(MemberVO memberVO)
+	{
+		return sqlSession.selectOne("mappers.BoardDAO-mapper.getDcnt",memberVO);
+	}
+	
+	@Override
+	public List<ReplyVO> replyList(ReplyVO replyVO)
+	{
+		return sqlSession.selectList("mappers-BoardDAO-mapper.replyList",replyVO);
+	}
 }
