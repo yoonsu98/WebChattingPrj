@@ -42,4 +42,8 @@ public class VideoChatroomSVCImpl implements VideoChatroomSVC {
 	public String findOwner(int vcno) {
 		return videoChatroomDAO.findOwner(vcno);
 	}
+	@Override
+	public int deleteRoomInfo(int vcno) {
+		return videoChatroomDAO.deleteRoomInfo(vcno);
+	}
 }

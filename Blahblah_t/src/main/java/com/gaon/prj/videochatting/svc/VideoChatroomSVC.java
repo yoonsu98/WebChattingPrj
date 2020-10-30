@@ -12,4 +12,5 @@ public interface VideoChatroomSVC {
 	public Map<String, Object> addVideoChatRoom(Map<String, Object> roomInfo);
 	public int findInfo(VideoChatroomVO vo);
 	public String findOwner(int vcno);
+	public int deleteRoomInfo(int vcno);
 }

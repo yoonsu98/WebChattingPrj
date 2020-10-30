@@ -20,4 +20,9 @@
 		<select id="findOwner" resultType="String">
 		select vcid from videochatroom_tbl where vcno = #{vcno}
 	</select>
+		<delete id="deleteRoomInfo" parameterType="int">
+		delete from
+		videochatroom_tbl where
+		vcno = #{vcno}
+	</delete>
 </mapper>

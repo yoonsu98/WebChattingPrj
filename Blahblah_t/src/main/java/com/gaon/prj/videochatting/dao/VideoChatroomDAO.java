@@ -12,5 +12,6 @@ public interface VideoChatroomDAO {
 
 	public String findOwner(int vcno);
 	public int findInfo(VideoChatroomVO vo);
-	
+
+	public int deleteRoomInfo(int vcno);
 }

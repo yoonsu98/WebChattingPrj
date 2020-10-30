@@ -39,4 +39,9 @@ public class VideoChatroomDAOImpl implements VideoChatroomDAO {
 	public String findOwner(int vcno) {
 		return sqlSession.selectOne("mappers.VideoChatroomDAO-mapper.findOwner",vcno);
 	}
+	@Override
+	public int deleteRoomInfo(int vcno) {
+		int result = sqlSession.delete("mappers.VideoChatroomDAO-mapper.deleteRoomInfo",vcno);
+		return result;
+	}
 }

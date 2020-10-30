@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gaon.prj.board.svc.BoardSVC;
 import com.gaon.prj.board.vo.BoardVO;
+import com.gaon.prj.member.vo.MemberVO;
 import com.gaon.prj.paging.PagingVO;
+import com.gaon.prj.reply.ReplyVO;
 
 @Controller
 @RequestMapping(value = "/board/*")
@@ -27,13 +29,17 @@ public class BoardController {
 	BoardSVC boardSVC;
 
 	@RequestMapping("/boardList")
-	public String boardList(Model model,PagingVO paging,@RequestParam(defaultValue="1") int curPage) {
-		int totalCnt =  boardSVC.countBoard();
-
-		paging = new PagingVO(totalCnt,curPage);
-		List<BoardVO> list = boardSVC.boardList(paging);
+	public String boardList(Model model, PagingVO paging, @RequestParam(defaultValue = "1") int curPage,
+			@RequestParam(defaultValue = "title") String searchOption,
+			@RequestParam(defaultValue = "") String keyword) {
 		
-		model.addAttribute("paging",paging);
+		int totalCnt = boardSVC.countBoard(paging);
+		paging = new PagingVO(totalCnt, curPage);
+		paging.setSearchOption(searchOption);
+		paging.setKeyword(keyword);
+		List<BoardVO> list = boardSVC.boardList(paging);
+
+		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		return "board/boardList";
 	}
@@ -62,34 +68,49 @@ public class BoardController {
 
 	@RequestMapping(value = "/loginWriteBoard", method = RequestMethod.POST)
 	public String loginWriteBoard(HttpSession session) {
-		if (session.getAttribute("member")!= null) {
+		if (session.getAttribute("member") != null ) {
 			return "board/writeBoard";
-		}
-		else {
+		} else {
 			return "member/loginForm";
 		}
 	}
-	
+
 	@GetMapping(value = "/updateViewForm")
-	public String updateViewForm(Model model,@RequestParam("pnum") int pnum) {
+	public String updateViewForm(Model model, @RequestParam("pnum") int pnum) {
 		model.addAttribute("upview", boardSVC.viewBoard(pnum));
 		return "board/updateViewForm";
 	}
-	
+
 	@ResponseBody
-	@RequestMapping(value="/updateView", method=RequestMethod.POST, produces = "application/json")
-	public int updateView(@RequestBody HashMap<String, String> boardInfo,BoardVO boardVO)
-	{
+	@RequestMapping(value = "/updateView", method = RequestMethod.POST, produces = "application/json")
+	public int updateView(@RequestBody HashMap<String, String> boardInfo, BoardVO boardVO) {
 		boardVO.setPnum(Integer.parseInt(boardInfo.get("pnum")));
 		boardVO.setWriter(boardInfo.get("writer"));
 		boardVO.setTitle(boardInfo.get("title"));
 		boardVO.setContent(boardInfo.get("content"));
 		return boardSVC.updateView(boardVO);
 	}
-	
-	@GetMapping(value="/deleteView")
+
+	@GetMapping(value = "/deleteView")
 	public String deleteView(@RequestParam("pnum") int pnum) {
 		boardSVC.deleteView(pnum);
+		return "board/boardList";
+	}
+	
+	@GetMapping("/praiseMem")
+	public String praiseMem(@RequestParam(defaultValue = "") String nickname,MemberVO memberVO) {
+		memberVO.setNickname(nickname);
+		boardSVC.praiseMem(memberVO);
+		return "board/boardList";
+	}
+	
+	@GetMapping("/danMem")
+	public String danMem(@RequestParam(defaultValue = "") String nickname,MemberVO memberVO) {
+		memberVO.setNickname(nickname);
+		memberVO.setDcnt(boardSVC.getDcnt(memberVO));
+		System.out.println(boardSVC.getDcnt(memberVO));
+		boardSVC.danMem(memberVO);
+		boardSVC.blacklist(memberVO);
 		return "board/boardList";
 	}
 }

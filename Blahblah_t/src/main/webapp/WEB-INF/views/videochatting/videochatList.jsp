@@ -24,7 +24,7 @@
 			<ul class="list-group">
 				<li class="list-group-item">방제목<span class="badge">아이디</span></li>
 				<c:forEach var="row" items="${list}">
-				<li class="list-group-item"><a href="${pageContext.request.contextPath }/videochatting/videochatroom/${row.vcno }?bang_id=${row.vctitle}">${row.vctitle }</a><span class="badge">${row.vcid }</span></li>
+				<li class="list-group-item"><a href="${pageContext.request.contextPath }/videochatting/videochatroom/${row.vcno}?bang_id=${row.vctitle}">${row.vctitle }</a><span class="badge">${row.vcid }</span></li>
 				</c:forEach>
 			</ul>
 		 <button type="button" class="btn btn-primary" onClick="location.href='${pageContext.request.contextPath}/videochatting/addRoom'">방생성</button>
