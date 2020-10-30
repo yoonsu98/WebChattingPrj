@@ -115,6 +115,7 @@ public class MemberController {
 		randPWInfo.put("email",EmailInfo.get("email"));
 		randPWInfo.put("originPW",randPW);
 		randPWInfo.put("encodePW",pwdEncoder.encode(randPW));
+		
 		return memberSVC.updatePw(randPWInfo);
 	}
 	public String makeRandomPassword() {

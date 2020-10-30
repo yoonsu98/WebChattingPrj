@@ -7,35 +7,39 @@
 <title>VideoChattingRoom</title>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
+	
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/resources/css/custom.css">
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
-    <meta charset="utf-8">
-    <meta name="description" content="WebRTC code samples">
-    <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
-    <meta itemprop="description" content="Client-side WebRTC code samples">
-    <meta itemprop="image" content="../../../images/webrtc-icon-192x192.png">
-    <meta itemprop="name" content="WebRTC code samples">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta id="theme-color" name="theme-color" content="#ffffff">
+<meta charset="utf-8">
+<meta name="description" content="WebRTC code samples">
+<meta name="viewport"
+	content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
+<meta itemprop="description" content="Client-side WebRTC code samples">
+<meta itemprop="image" content="../../../images/webrtc-icon-192x192.png">
+<meta itemprop="name" content="WebRTC code samples">
+<meta name="mobile-web-app-capable" content="yes">
+<meta id="theme-color" name="theme-color" content="#ffffff">
 
-    <base target="_blank">
+<base target="_blank">
 
-    <title>getUserMedia</title>
+<title>getUserMedia</title>
 <style>
-.chat_div{
-	border-style:solid;
-	border-width:2px;
+.chat_div {
+	border-style: solid;
+	border-width: 2px;
 	border-radius: 10px;
-	border-color:gray;
-	margin-left:10%; 
-	margin-right:10%; 
-	margin-top:10px; 
-	width: 80%; 
-	height:30%; 
-	display:none;
-	text-align:left;
+	border-color: gray;
+	margin-left: 10%;
+	margin-right: 10%;
+	margin-top: 10px;
+	width: 80%;
+	height: 30%;
+	display: none;
+	text-align: left;
 	overflow: auto;
 }
 </style>
@@ -45,54 +49,120 @@
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
 	<!-- nav -->
 	<%@ include file="/resources/include/main/nav.jsp"%>
- 
-	<div class="container text-center" >
-  <h3>
-	FaceTime
-  </h3>
-        <video id="localVideo"  autoplay width="480px"></video>
-        <video id="remoteVideo" style="display:none;"  width="480px" autoplay></video>
- <div id="chattinglog" class="chat_div">
- </div>
- <br/><br/>
-  <!--WebRTC related code-->
-  <button id="connectbtn" type="button"  onClick='createOffer();'>
-   접속하기</button><br/><br/>
-  <input id="messageInput" type="text" style="display:none;" class="form-control"
-   placeholder="message"><br/>
-  <button id="msgbtn" type="button"  style="display:none;" onClick='sendMessage();'>SEND</button>
-  <!--WebRTC related code-->
 
- </div>
+	<div class="container text-center">
+		<h3>FaceTime</h3>
+		<video id="localVideo" autoplay width="480px"></video>
+		<video id="remoteVideo" autoplay width="480px"></video>
+		<div id="chattinglog" style="display:block;" class="chat_div" ></div>
+		<br />
+		<br />
+		<!--WebRTC related code-->
+		<br />
+		<br /> <input id="messageInput" type="text" 
+			class="form-control" placeholder="message"><br />
+		<button id="msgbtn" type="button" 
+			onClick='sendMessage();'>SEND</button>
+		<button id="closebtn" type="button" 
+			onClick='sendClose();'>CLOSE</button>
+		<!--WebRTC related code-->
+
+	</div>
 	<!-- footer -->
 	<%@ include file="/resources/include/main/footer.jsp"%>
+	
+		<!-- The Modal -->
+	<div id="ExitPopup" class="modal">
+		<!-- Modal content -->
+		<div class="modal-content">
+			<div>
+				<span class="close">&times;</span>
+				<p>알림</p>
+			</div>
+			<div id="exitDiv" class="form-group">
+			</div>
+			<div>
+				<button type="button" onClick="directClose();" class="btn btn-default">나가기</button>
+			</div>
+		</div>
+
+	</div>
+	
 </body>
 <script>
-const constraints = window.constraints = {
-		  audio: false,
-		  video: true
-		};
+
+//for WebRTC Connectione
+let localStream;
+const configuration = {
+		  iceServers: [{ url: 'stun:stun2.1.google.com:19302' }]
+		}
+var friendId ; 
+var callee =  new RTCPeerConnection();
+var caller = new RTCPeerConnection(configuration);
+var dataChannel;
+var input = document.getElementById("messageInput");
+var localVideo = document.getElementById("localVideo");
+var remoteVideo = document.getElementById("remoteVideo");
+var exitCount = 5;
+//Get the modal
+var modal = document.getElementById('ExitPopup');
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+navigator.getUserMedia({
+    video: true,
+    audio: false
+}, getUserMediaSuccess, getUserMediaError);
 //connecting to our signaling server 
 var conn = new WebSocket("ws://localhost:8080/prj/socket");
 conn.onopen = function() {
     console.log("Connected to the signaling server");
+ 	let vcno = "${roomInfo.vcno}";
+ /*    var setting_data = JSON.stringify({
+		vcno : "${roomInfo.vcno}",
+		id : '${member.id}'
+		}); */
+    send({
+        event : "enter",
+		vcno : "${roomInfo.vcno}",
+		id : '${member.id}'
+    });
+    $('#chattinglog').append("<t/><p> "+'${member.id}'+" 님이 입장하셨습니다.</p>");
+    $('#chattinglog').scrollTop($("#chattinglog")[0].scrollHeight);
     initialize();
 };
+function getUserMediaSuccess(stream) {
+    localVideo.srcObject = stream;
+    stream.getTracks().forEach(track => {
+    caller.addTrack(track, stream);});
+}
+function getUserMediaError(e){
+    console.log(e);
+}
 conn.onmessage = function(msg) {
     console.log("Got message", msg.data);
     var content = JSON.parse(msg.data);
     var data = content.data;
     switch (content.event) {
+    case "chat":
+        receiveChat(data);
+        break;
+     case "enter":
+    	receiveEnter(content.id);
+        break; 
     // when somebody wants to call us -> SDP 정보교환을 위함
     case "offer":
-        handleOffer(data);
+        receiveOffer(data);
         break;
     case "answer":
-        handleAnswer(data);
+    	receiveAnswer(data);
         break;
     // when a remote peer sends an ice candidate to us
     case "candidate":
         handleCandidate(data);
+        break;
+    case "close":
+        receiveClose();
         break;
     default:
         break;
@@ -103,100 +173,72 @@ function send(message) {
     conn.send(JSON.stringify(message));
 }
 
-// for WebRTC Connection
-var peerConnection;
-var dataChannel;
-var input = document.getElementById("messageInput");
-
 async function initialize() {
-	//사용자 media stream 가져오기
-	const localStream = await navigator.mediaDevices.getUserMedia(constraints);
-	//사용자 media stream을 local video에 출력
-	handleSuccess(localStream);
-    var configuration = null;
-	//rtc 연결을 위한 peer connection 생성
-    peerConnection = new RTCPeerConnection(configuration);
-    //localStream을 tracking하기 위함
-    localStream.getTracks().forEach(track => {
-        peerConnection.addTrack(track, localStream);
-    });
-    //상대 (remote)/원격 stream을 받아와서 remoteVideo에 출력
-    const remoteStream = new MediaStream();
-    const remoteVideo = document.querySelector('#remoteVideo');
-    remoteVideo.srcObject = remoteStream;
-    peerConnection.addEventListener('track', async (event) => {
-        remoteStream.addTrack(event.track, remoteStream);
-    });
     // Setup ice handling
     //네트워크 정보 송신을 위함
-    peerConnection.onicecandidate = function(event) {
+    caller.onicecandidate = function(event) {
         if (event.candidate) {
             send({
                 event : "candidate",
                 data : event.candidate
             });
+	//caller.addIceCandidate(event.candidate);
         }
-    };
-    //상대방(원격)이 datachannel을 생성했을 때 발생하는 이벤트에 대한 핸들러
-    peerConnection.ondatachannel = function(event) {
-        var receiveChannel = event.channel;
-        receiveChannel.onmessage = function(event) {
-           console.log("ondatachannel message:", event.data);
-
-           $('#chattinglog').append("<t/><p> New Friend: "+event.data+"</p>");
-           $('#chattinglog').scrollTop($("#chattinglog")[0].scrollHeight);
-        };
-        
-     };
-   
-    // creating data channel
-    dataChannel = peerConnection.createDataChannel("dataChannel", {
-        reliable : true
-    });
-
-    dataChannel.onerror = function(error) {
-        console.log("Error occured on datachannel:", error);
-    };
-
-    // when we receive a message from the other peer, printing it on the console
-    dataChannel.onmessage = function(event) {
-        console.log("message:", event.data);
-    };
-
-    dataChannel.onclose = function() {
-        console.log("data channel is closed");
     };
 
 }
-function handleSuccess(stream) {
-	//local 사용자 media 정보를 localvideo에 출력
-	  const video = document.querySelector('#LocalVideo');
-	  const videoTracks = stream.getVideoTracks();
-	  console.log('Got stream with constraints:', constraints);
-	  console.log(`Using video device: ${videoTracks[0].label}`);
-	  window.stream = stream; // make variable available to browser console
-	  video.srcObject = stream;
-	}
+caller.ontrack = handleCalleeOnTrack;
+function handleCalleeOnTrack(event){
+	
+	remoteVideo.srcObject = event.streams[0];
+
+}
+
 function createOffer() {
 	//제안생성
-    peerConnection.createOffer(function(offer) {
+    caller.createOffer(function(offer) {
         send({
             event : "offer",
             data : offer
         });
-        peerConnection.setLocalDescription(offer);
+    caller.setLocalDescription(offer);
+	//callee.setRemoteDescription(offer);
+
     }, function(error) {
         alert("Error creating an offer");
     });
 }
+function sendClose(){
+	send({
+        event : "close"
+    });
+    location.href= "${pageContext.request.contextPath }/videochatting/videochatList";
+}
+function receiveChat(chat){
+    $('#chattinglog').append("<t/><p> "+friendId+":"+ chat+"</p>");
+    $('#chattinglog').scrollTop($("#chattinglog")[0].scrollHeight);
 
-function handleOffer(offer) {
-	//지정된 세션에 대한 설명 
-    peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+}
+function receiveEnter(id){
 
-    // create and send an answer to an offer
-    peerConnection.createAnswer(function(answer) {
-        peerConnection.setLocalDescription(answer);
+	debugger;
+    console.log("Entered successfully!!");
+    friendId = id;
+    setTimeout(function(){
+        createOffer();
+      }, 1000);
+    $('#chattinglog').append("<t/><p> "+id+" 님이 입장하셨습니다.</p>");
+    $('#chattinglog').scrollTop($("#chattinglog")[0].scrollHeight);
+	
+}
+function receiveOffer(sdp){
+	caller.setRemoteDescription(new RTCSessionDescription(sdp));
+	//callee.setRemoteDescription(sdp);
+	createAnswer();
+}
+function createAnswer(){
+	caller.createAnswer(function(answer) {
+		caller.setLocalDescription(answer);
         send({
             event : "answer",
             data : answer
@@ -205,37 +247,79 @@ function handleOffer(offer) {
         alert("Error creating an answer");
     });
 
-};
+}
 
-function handleCandidate(candidate) {
-    peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-};
-
-function handleAnswer(answer) {
-    peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+function receiveAnswer(sdp){
+    caller.setRemoteDescription(new RTCSessionDescription(sdp));
     console.log("connection established successfully!!");
-    jQuery('#remoteVideo').show();
-    jQuery('#messageInput').show();
-    jQuery('#msgbtn').show();
-    jQuery('#chattinglog').show();
-    $('#connectbtn').css("display","none");
-    const remoteStream = new  MediaStream();
-    const remoteVideo = document.querySelector('#remoteVideo');
-    remoteVideo.srcObject = remoteStream;
+}
 
-    peerConnection.addEventListener('track', async (answer) => {
-        remoteStream.addTrack(answer.track, remoteStream);
-    }); 
-    
+function receiveClose(){
+	caller.close();
+	caller.onicecandidate=null;
+	caller.ontrack=null;
+    $('#chattinglog').append("<t/><p> Goodbye! </p>");
+    $('#chattinglog').scrollTop($("#chattinglog")[0].scrollHeight);
+    modal.style.display = "block";
+    removeRoomID();
+    setInterval(function(){
+    	exit_Timer();
+      }, 1000);
+}
+function handleCandidate(candidate) {
+    caller.addIceCandidate(new RTCIceCandidate(candidate));
 };
+
 //생성된 datachannel에 데이터보내기
 function sendMessage() {
-	
-    dataChannel.send(input.value);
+    //dataChannel.send(input.value);
+    send({
+        event : "chat",
+        data : input.value
+    });
     $('#chattinglog').append("<t/><p> Me: "+input.value+"</p>");
-
     $('#chattinglog').scrollTop($("#chattinglog")[0].scrollHeight);
     input.value = "";
+}
+
+
+// exit modal pop up 
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+	modal.style.display = "none";
+}
+function exit_Timer(){
+	if(exitCount == 0){
+		
+		location.href="${pageContext.request.contextPath }/videochatting/videochatList";;
+	}
+	exitCount = exitCount -1;
+	$('#exitDiv').html("<t/><p>"+exitCount+" 초 후에 방이 종료됩니다. </p>");
+
+}
+function directClose(){
+	location.href="${pageContext.request.contextPath }/videochatting/videochatList";
+}
+function removeRoomID(){
+ 	let vcno = "${roomInfo.vcno}";
+	const roomInfo = JSON.stringify({
+		vcno : vcno
+	});
+	console.log(roomInfo);
+	$.ajax({
+		data : roomInfo,
+		url : "${contextPath}/prj/videochatting/deleteRoomInfo",
+		type : "post",
+		dataType : "text",
+		contentType : "application/json; charset=UTF-8",
+		success : function(data) {
+			console.log(data);
+		},
+		error : function(data) {
+			alert("실패");
+		}
+	});
+	
 }
 </script>
 </html>
