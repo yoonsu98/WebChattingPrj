@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.gaon.prj.chatroom.vo.ChatroomVO;
+import com.gaon.prj.paging.PagingVO;
 
 @Repository
 public class ChatroomDAOImpl implements ChatroomDAO {
@@ -21,8 +22,8 @@ public class ChatroomDAOImpl implements ChatroomDAO {
 	}
 	
 	@Override
-	public List<ChatroomVO> roomList() {
-		return sqlSession.selectList("mappers.ChatroomDAO-mapper.roomList");
+	public List<ChatroomVO> roomList(PagingVO paging) {
+		return sqlSession.selectList("mappers.ChatroomDAO-mapper.roomList",paging);
 	}
 	
 	@Override
@@ -43,5 +44,10 @@ public class ChatroomDAOImpl implements ChatroomDAO {
 	@Override
 	public String keyword(int kno) {
 		return sqlSession.selectOne("mappers.ChatroomDAO-mapper.keyword",kno);
+	}
+	
+	@Override
+	public int total() {
+		return sqlSession.selectOne("mappers.ChatroomDAO-mapper.totalCnt");
 	}
 }

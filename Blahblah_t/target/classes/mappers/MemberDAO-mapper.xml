@@ -41,4 +41,8 @@
 		set pw= #{pw} 
 		where email = #{email}
 	</update>
+	
+	<select id="findID" parameterType="String" resultType="String">
+		select id from member_tbl where email = #{email}
+	</select>
 </mapper>

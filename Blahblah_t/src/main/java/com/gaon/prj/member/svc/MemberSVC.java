@@ -13,4 +13,5 @@ public interface MemberSVC {
 	public Map<String, Boolean> getIDInfo(String id);
 	public Map<String, Boolean> sendEmailforPW(String email);
 	public Map<String, Boolean> updatePw(HashMap<String,String> randPWInfo);
+	public String findID(String email);
 }

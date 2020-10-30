@@ -145,6 +145,7 @@
 </head>
 <body>
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
+	<%@ include file="/resources/include/main/nav.jsp"%>
 	<h2 class="container-fluid text-center bg-grey">대화방</h2>
 	<div class="container-fluid text-center bg-grey">
 		<div class="divChat"

@@ -136,5 +136,10 @@ public class MemberDAOImpl implements MemberDAO {
 
 		return chkResult;
 	}
+	
+	@Override
+	public String findID(String email) {
+		return sqlSession.selectOne("mappers.MemberDAO-mapper.findID",email);
+	}
 
 }
