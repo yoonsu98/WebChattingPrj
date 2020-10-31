@@ -25,43 +25,10 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-
-    google.load("language", "1");
-
-    function google_language_for_div(detectID, transID, lang) {
-      var text = document.getElementById(detectID).innerHTML;
-      google.language.detect(text, function(result) {
-        if (!result.error && result.language) {
-          google.language.translate(text, result.language, lang,
-                                    function(result) {
-            var translated = document.getElementById(transID);
-            if (result.translation) {
-              translated.innerHTML = result.translation;
-            }
-          });
-        }
-      });
-    }
-
-    function google_language_for_input(detectID, transID, lang) {
-      var text = document.getElementById(detectID).value;
-      google.language.detect(text, function(result) {
-        if (!result.error && result.language) {
-          google.language.translate(text, result.language, lang,
-                                    function(result) {
-            var translated = document.getElementById(transID);
-            if (result.translation) {
-              translated.innerHTML = result.translation;
-            }
-          });
-        }
-      });
-    }
-
-
-    </script>
+ 
+ 
 <script type="text/javascript">
+
  	var ws;
 	var userid = '${member.id}';
 
@@ -81,13 +48,31 @@
         });
      
         $("#transBtn").click(function(){
-        	
-        	//$("#chatMsg").val('hii');
-        	
+
+     
+        	let aft_transchat;
+       		let chat = document.getElementById('chatMsg').value;
+       		const bef_transchat = JSON.stringify({chat:chat}); 
+
+       	   	$.ajax({
+       			url:"${contextPath}/prj/chatting/getTransChat" ,
+       			type: "post",
+       			data: bef_transchat,
+       			async:false,
+       			dataType: "json",
+       			contentType:"application/json",
+       			success: function(data){
+           			aft_transchat = data.trans_chat;
+       			},
+       			error: function(errorThrown){
+           			
+       				alert(errorThrown.statusText);
+       			}
+       	   	})
+       	 	$("#chatMsg").val(aft_transchat);
+ 	
         }); 
-        
-    });
-	
+	});
 
 	//websocket을 지정한 URL로 연결
     var sock= new SockJS("<c:url value="/echo"/>");
@@ -218,7 +203,7 @@
             <div class="input_msg_write">
               <input type="text" class="write_msg" id="chatMsg" placeholder="Type a message" />
               <button class="translate_btn" type="button"  id="transBtn" >Eng</button>
-              <button class="msg_send_btn"  id="sendBtn"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+              <button class="msg_send_btn" id="sendBtn"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
             </div>
           </div>
         </div>

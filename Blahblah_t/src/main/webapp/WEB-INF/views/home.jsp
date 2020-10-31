@@ -48,9 +48,9 @@
 		<div class="row">
 			<div class="col-sm-4">
 				<p>
-					<strong>기능1</strong>
+					<strong>화상채팅</strong>
 				</p>
-				<br> <img src="${pageContext.request.contextPath}/resources/img/sub1.png" style="width:200; height:200;" alt="Random Name">
+				<br><a href="${pageContext.request.contextPath }/videochatting/videochatList"><img src="${pageContext.request.contextPath}/resources/img/sub1.png" style="width:200; height:200;" alt="Random Name"></a>
 			</div>
 			<div class="col-sm-4">
 				<p>

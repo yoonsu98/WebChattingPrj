@@ -77,8 +77,14 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 	
 	@Override
-	public List<ReplyVO> replyList(ReplyVO replyVO)
+	public List<ReplyVO> replyList(int pnum)
 	{
-		return sqlSession.selectList("mappers-BoardDAO-mapper.replyList",replyVO);
+		return sqlSession.selectList("mappers.BoardDAO-mapper.replyList",pnum);
+	}
+	
+	@Override
+	public int insertComment(ReplyVO replyVO)
+	{
+		return sqlSession.insert("mappers.BoardDAO-mapper.comment",replyVO);
 	}
 }

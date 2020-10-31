@@ -101,31 +101,45 @@ public class MemberDAOImpl implements MemberDAO {
 		String setfrom = "224wltn@gmail.com";
 		String tomail = randPWInfo.get("email"); // 받는 사람 이메일
 		try {
+
+			System.out.println("1");
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 
+			System.out.println("2");
 			messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동을 안함
 			messageHelper.setTo(tomail); // 받는사람 이메일
 			messageHelper.setSubject("BlahBlah 새로운 비밀번호 입니다."); // 메일제목은 생략이 가능하다
 			messageHelper.setText("새로운 비밀번호는 [  " + randPWInfo.get("originPW") + "  ]입니다."); // 메일 내용
 			mailSender.send(message);
 
+			System.out.println("3");
 			
 			 tempMember.setEmail(randPWInfo.get("email"));
 			 tempMember.setPw(randPWInfo.get("encodePW"));
 			 try{
+
+					System.out.println("업데이트ㅡㅡ");
 				 sqlSession.update("mappers.MemberDAO-mapper.updatePw", tempMember);
 
 					chkResult.put("chkResult", true);
 			 }catch(Exception e2) {
+
+					System.out.println("에러"+e2);
 					chkResult.put("chkResult", false);
 			 }
 
 		} catch (Exception e) {
+			System.out.println("에러"+e);
 			chkResult.put("chkResult", false);
 		}
 
 		return chkResult;
+	}
+	
+	@Override
+	public String findID(String email) {
+		return sqlSession.selectOne("mappers.MemberDAO-mapper.findID",email);
 	}
 
 }

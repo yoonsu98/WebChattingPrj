@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import com.gaon.prj.board.vo.BoardVO;
 import com.gaon.prj.chatroom.svc.ChatroomSVC;
 import com.gaon.prj.chatroom.vo.ChatroomVO;
+import com.gaon.prj.paging.PagingVO;
 
 @Controller
 @RequestMapping("/chatroom/*")
@@ -31,14 +33,19 @@ public class ChatroomController {
 	ChatroomSVC chatroomSVC;
 	
 	@RequestMapping(value = "/chatList.do", method = RequestMethod.GET)
-	public String chatList(Model model, ChatroomVO vo) {
-		List<ChatroomVO> list = chatroomSVC.roomList();
+	public String chatList(Model model, ChatroomVO vo, PagingVO paging, @RequestParam(defaultValue="1") int curPage) {
+		int totalCnt = chatroomSVC.total();
+		System.out.println(totalCnt);
+		paging = new PagingVO(totalCnt,curPage);
+		List<ChatroomVO> list = chatroomSVC.roomList(paging);
 		model.addAttribute("list",list);
+		model.addAttribute("paging",paging);
+		System.out.println(paging.toString());
 		return "chatroom/chatList";
 	}
 	
 	/**
-	 * (중고거래)채팅방 만들기 페이지 이동
+	 * 채팅방 만들기 페이지 이동
 	 * @return
 	 */
 	@RequestMapping(value = "/add.do", method = RequestMethod.GET)
@@ -46,7 +53,7 @@ public class ChatroomController {
 		return "chatroom/add";
 	}
 	/**
-	 * (중고거래) 채팅방 만들기 처리
+	 * 채팅방 만들기 처리
 	 * @param param
 	 * @return
 	 * @throws UnsupportedEncodingException 

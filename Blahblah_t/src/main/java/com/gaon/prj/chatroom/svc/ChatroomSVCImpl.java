@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.gaon.prj.chatroom.dao.ChatroomDAO;
 import com.gaon.prj.chatroom.vo.ChatroomVO;
+import com.gaon.prj.paging.PagingVO;
 
 @Service
 public class ChatroomSVCImpl implements ChatroomSVC {
@@ -28,8 +29,8 @@ public class ChatroomSVCImpl implements ChatroomSVC {
 	}
 
 	@Override
-	public List<ChatroomVO> roomList() {
-		return chatroomDAO.roomList();
+	public List<ChatroomVO> roomList(PagingVO paging) {
+		return chatroomDAO.roomList(paging);
 	}
 
 	@Override
@@ -49,5 +50,10 @@ public class ChatroomSVCImpl implements ChatroomSVC {
 	@Override
 	public String keyword(int kno) {
 		return chatroomDAO.keyword(kno);
+	}
+	
+	@Override
+	public int total() {
+		return chatroomDAO.total();
 	}
 }

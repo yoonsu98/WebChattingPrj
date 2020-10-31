@@ -25,6 +25,8 @@
 <body>
 	<!-- uppermost -->
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
+	<!-- nav -->
+	<%@ include file="/resources/include/main/nav.jsp"%>
 	
 	<main>
 		<div class="container">

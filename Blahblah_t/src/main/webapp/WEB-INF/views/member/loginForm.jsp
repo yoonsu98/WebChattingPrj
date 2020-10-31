@@ -20,8 +20,15 @@
 
 </head>
 <script>
-	function fn_loginFn() {
 
+	$(document).ready(function(){
+	    $("#pw").keypress(function (e){
+	    	if (e.which == 13){
+	    		fn_loginFn()
+	        }
+	    });
+	});
+	function fn_loginFn() {
 		let id = document.getElementById('id').value;
 		let pw = document.getElementById('pw').value;
 		const memberInfo = JSON.stringify({
@@ -38,7 +45,7 @@
 				console.log(data);
 				if (data == 1) {
 					alert("로그인 되었습니다.");
-					location.href = "${contextPath}/prj";
+					location.href = document.referrer;
 				} else {
 					alert("회원정보를 다시 확인해주세요.");
 				}
@@ -72,7 +79,8 @@
 				<button type="button" onClick="fn_loginFn()" class="btn btn-default">로그인</button>
 				<input type="button" class="btn btn-default"
 					onClick="location.href='/prj/member/joinForm'" value="회원가입">
-				<input type="button" class="btn btn-default" value="아이디 찾기">
+				<input type="button" class="btn btn-default" id="findIDbtn"
+					value="아이디 찾기">
 				<button type="button" class="btn btn-default" id="findPWbtn">
 					비밀번호 찾기</button>
 			</form>
@@ -98,6 +106,29 @@
 			<div>
 				<button type="button" onClick="ajaxCallFindPassword();"
 					class="btn btn-default">임시 비밀번호 전송</button>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- 아이디 찾기 -->
+	<div id="FineIDPopup" class="modal">
+
+		<!-- Modal content -->
+		<div class="modal-content">
+			<div>
+				<span class="close">&times;</span>
+				<p>아이디 찾기</p>
+			</div>
+			<div class="form-group">
+				<label for="EntertheEmail"></label> <input type="text"
+					class="form-control" id="Emailcheck" name="Emailcheck"
+					placeholder="이메일 입력">
+				<div class="result"></div>
+			</div>
+			<div>
+				<button type="button" onClick="ajaxCallID();"
+					class="btn btn-default">아이디 찾기</button>
 			</div>
 		</div>
 
@@ -191,6 +222,43 @@
 					}
 				},
 				error : function(e) {
+					console.log("실패");
+				}
+			});
+		}
+	</script>
+
+	<!-- 아이디 찾기 -->
+	<script>
+		$('#findIDbtn').click(function() {
+			$('#FineIDPopup').css("display", "block");
+
+			$('.close').click(function() {
+				$('#FineIDPopup').css("display", "none");
+			})
+		})
+		function ajaxCallID() {
+			let email = document.getElementById('Emailcheck').value;
+			const info = JSON.stringify({
+				email : email
+			});
+			$.ajax({
+				data : info,
+				url : "${contextPath}/prj/member/findID",
+				type : "post",
+				dataType : "text",
+				contentType : "application/json; charset=UTF-8",
+				success : function(data) {
+					if (data.length > 3) {
+						$(".result").text("ID : " + data);
+						$(".result").css("color", "green");
+					} else {
+						$(".result").text("등록된 정보가 없습니다");
+						$(".result").css("color", "red");
+					}
+				},
+				error : function(e) {
+					console.log(e);
 					console.log("실패");
 				}
 			});

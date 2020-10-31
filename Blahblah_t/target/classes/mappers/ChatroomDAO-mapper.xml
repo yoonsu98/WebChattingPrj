@@ -27,4 +27,8 @@
 	<select id="keyword" resultType="String">
 		select word from keyword_tbl where kno = #{kno}
 	</select>
+	
+	<select id="totalCnt" resultType="int">
+		select count(*) from roomlist_tbl
+	</select>
 </mapper>

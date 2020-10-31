@@ -6,11 +6,7 @@
 		parameterType="com.gaon.prj.board.vo.BoardVO">
 		insert into board_tbl
 		(pnum,writer,title,content)
-		values(board_tbl_seq.nextval,
-		#{writer},
-		#{title},
-		#{content}
-		)
+		values(board_tbl_seq.nextval,#{writer},#{title},#{content})
 	</insert>
 
 	<insert id="blacklist"
@@ -87,13 +83,13 @@
 		select dcnt from member_tbl where nickname = #{nickname}
 	</select>
 
-	<!-- <insert id = "reply" parameterType="com.gaon.prj.reply.ReplyVO">
-		insert insert into reply_tbl(cnum,bnum,cid,reply,parent) values(reply_tbl_seq.nextval, #{bnum}, #{cid}, #{reply},#{cnum})
+	<insert id = "comment" parameterType="com.gaon.prj.reply.ReplyVO">
+		insert into comment_tbl(cnum,bnum,cid,reply,parent) values(comment_tbl_seq.nextval,#{bnum},#{cid},#{reply},#{cnum})
 	</insert>
 	
-	<select id = "replyList" parameterType = "com.gaon.prj.relpy.ReplyVO" resultType="com.gaon.prj.reply.ReplyVO">
-		select * from reply_tbl where bnum = #{bnum}
-	</select> -->
+	<select id = "replyList" resultType="com.gaon.prj.reply.ReplyVO">
+		select * from comment_tbl where bnum = #{bnum}
+	</select>
 	
 	<sql id="searchView">
 		<if test="searchOption=='title' and keyword != '' ">

@@ -1,9 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <html>
 <head>
 <title>웹소켓 채팅</title>
+
+<style>
+<%@ include file="/resources/css/singlechat.css"%>
+</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -27,14 +33,52 @@
 		sendEnter : function() {
 			this._sendMessage('${param.bang_id}', 'CMD_ENTER', $('#message')
 					.val(), $('#userid').val());
-			$('#message').val('');
+			$('#message').val('');divChatData
 		},
 		
 		receiveMessage : function(msgData) {
 
 			// 정의된 CMD 코드에 따라서 분기 처리
 			if (msgData.cmd == 'CMD_MSG_SEND') {
-				$('#divChatData').append('<div>' + msgData.msg + '</div>');
+				
+				//$('#divChatData').append('<div>' + msgData.msg + '</div>');
+				// 받은 메세지
+				if (msgData.userid != '${member.id}'){
+					$('#divChatData').append(' <div class="incoming_msg">'+
+							'<div class="incoming_msg_img">'+
+							'<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">'+
+							'<p>'+msgData.userid+'</p>'+
+							'</div>'+
+							' <div class="received_msg">'+
+							'<div class="received_withd_msg">'+
+							' <p>'+
+							msgData.msg+
+			            	'</p>'+
+			            	' <span class="time_date"> '+
+			            	msgData.time+
+			            	'</span>'+
+			            	'</div>'+
+			            	'</div>'+
+			            	'</div>'
+							)
+				}
+				// 보낸 메세지
+				else{
+					$('#divChatData').append('<div class="outgoing_msg">'+
+		                	'<div class="sent_msg">'+
+		                	' <p>'+
+		                	msgData.msg+
+		                	'</p>'+
+		                	' <span class="time_date"> '+
+		                	msgData.time+
+		                	'</span>'+
+		                	'</div>'+
+		                	'</div>'
+		                	);
+			
+
+				}
+			
 				scroll_down();
 			}
 			// 입장
@@ -144,25 +188,36 @@
 </style>
 </head>
 <body>
+	<!-- uppermost -->
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
-	<h2 class="container-fluid text-center bg-grey">대화방</h2>
-	<div class="container-fluid text-center bg-grey">
-		<div class="divChat"
-			style="width: 100%; height: 71%; padding: 10px; overflow-y: scroll; word-break: break-all; border-bottom: solid 1px #e1e3e9;">
-			<div id="divChatData">
-				<font color="red">&nbsp;&nbsp;<b>[알림]</b></font><br> <font
+	<!-- nav -->
+	<%@ include file="/resources/include/main/nav.jsp"%>
+	
+	<h2 class="container-fluid text-center bg-grey">대화방</h2>	
+	<div class="container">
+	<div class="messaging ">
+      <div class="inbox_msg">
+        <div class="container-fluid text-center">
+        
+          <div class="divChat" id="msg_his" 
+          style="width: 100%; height: 71%; padding: 10px; overflow-y: scroll; word-break: break-all; border-bottom: solid 1px #e1e3e9;">
+          
+          	<div id="divChatData">
+          		<font color="red">&nbsp;&nbsp;<b>[알림]</b></font><br> <font
 					color="red">* 도움이 필요하시면 /도움말 입력하세요!!</font><br> <font
 					color="red">* 즐거운 채팅 되세요 ^_^</font><br>
-			</div>
-		</div>
-		<div style="width: 100%; height: 10%; padding: 10px;">
-			<input type="text" id="message" size="110"
-				onkeypress="if(event.keyCode==13){webSocket.sendChat();}" /> <input
-				type="button" class="btn btn-primary" id="btnSend" value="채팅전송"
-				onclick="webSocket.sendChat()" /> <input type="hidden" id="userid"
-				value="${sessionScope.member.id }" />
-		</div>
-		<div>
+          	</div>
+ 
+          </div>
+          <div class="type_msg">
+            <div class="input_msg_write">
+              <input type="text" class="write_msg" id="message" placeholder="Type a message" onkeypress="if(event.keyCode==13){webSocket.sendChat();}" />
+              <button class="msg_send_btn" id="btnSend" > <i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+			  <input type="hidden" id="userid" value="${sessionScope.member.id }" />
+        
+            </div>
+          </div>
+          <div>
 			<c:choose>
 				<c:when test="${owner eq sessionScope.member.id }">
 					<input type="button" class="btn btn-primary" value="채팅종료"
@@ -174,7 +229,10 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
-	</div>
+        </div>
+      </div>
+    </div></div>
+    
 
 
 	<!-- footer -->

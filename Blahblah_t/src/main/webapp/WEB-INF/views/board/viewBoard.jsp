@@ -24,16 +24,49 @@
 		location.href="${contextPath}/prj/board/deleteView?pnum="+pnum;
 		alert("삭제되었습니다.");
 		location.href="${contextPath}/prj/board/boardList";
-		
-	function danMem(){
-		alert("오키");
-}
+	}
+	function insertComment(){
+		let bnum = document.getElementById('pnum').value;
+		let cid = document.getElementById('nickname').value;
+		let reply = document.getElementById('commentContent').value;
+					
+		const commentInfo = JSON.stringify({bnum:bnum, cid:cid,reply:reply});
+
+		$.ajax({
+			data : commentInfo,
+			url : "${contextPath}/prj/board/insertComment",
+			type : "post",
+			dataType : "text",
+			contentType : "application/json; charset = UTF-8",
+			success : function(data){
+				console.log(data);
+				if(data == 1){
+					alert("등록이 완료되었습니다.");
+					location.href = "${contextPath}/prj/board/viewBoard/"+bnum;}
+				else{
+					alert("등록을 실패했습니다.");
+				}
+			},
+			error:function(request,status,error){
+			    alert("로그인을 해주세요.");}
+		})
+	}
 </script>
+
 <body>
 	<!-- uppermost -->
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
 	<!-- nav -->
 	<%@ include file="/resources/include/main/nav.jsp"%>
+
+	<div class="container">
+		<c:if test="${sessionScope.member.nickname eq view.writer }">
+			<input type="button" class="btn btn-default pull-left"
+				onClick="updateView(${view.pnum })" value="수정하기" />
+			<input type="button" class="btn btn-default pull-left"
+				onclick="deleteView(${view.pnum})" value="삭제하기" />
+		</c:if>
+	</div>
 	<div class="container">
 		<table class="table" border="1" style="text-align: center;">
 			<tr>
@@ -45,28 +78,49 @@
 				<th class="text-center">조회수 : ${view.rcnt }</th>
 				<th class="text-center">작성일 : ${view.wdate }</th>
 			</tr>
-			<tr>
+			<tr height="500px">
 				<th class="text-center" colspan="3">${view.content }</th>
 			</tr>
 		</table>
 	</div>
-	
+
 	<!--  댓글  -->
-    <div class="container">
-        <label for="content">comment</label>
-        <form name="commentInsertForm">
-            <div class="input-group">
-               <input type="hidden" name="pnum" value="${view.pnum}"/>
-               <input type="hidden" name="nickname" value="${sessionScope.member.nickname}"/>
-               <input type="text" class="form-control" id="commentContent" name="commentContent" placeholder="내용을 입력하세요.">
-               <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" name="commentInsertBtn">등록</button>
-               </span>
-              </div>
-        </form>
-    </div>
 	<div class="container">
-		<input type="button" class="btn btn-default pull-right"
+		<table class="table" border="1" style="text-align: center;">
+			<c:forEach items="${replyList}" var="replyList">
+				<tr>
+					<th class="text-center">${replyList.cid }</th>
+					<th class="text-center" width="400px">${replyList.reply }</th>
+					<th class="text-center">${replyList.cdate }</th>
+
+					<td align="center"><c:if
+							test="${sessionScope.member.nickname eq view.writer }">
+							<button type="button" class="btn btn-default  pull-right"
+								onClick="deleteComment()">삭제</button>
+							<button type="button" class="btn btn-default  pull-right"
+								onClick="updateComment()">수정</button>
+						</c:if></td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
+
+	<div class="container">
+		<label for="content">comment</label>
+		<div class="input-group">
+			<input type="hidden" name="pnum" id="pnum" value="${view.pnum}" /> <input
+				type="hidden" name="nickname" id="nickname"
+				value="${sessionScope.member.nickname}" /> <input type="text"
+				class="form-control" id="commentContent" name="commentContent"
+				placeholder="내용을 입력하세요."> <span class="input-group-btn">
+				<button type="button" class="btn btn-default pull-right"
+					onClick="insertComment()">등록</button>
+			</span>
+		</div>
+	</div>
+
+	<div class="container">
+		<input type="button" class="btn btn-default pull-left"
 			onClick="location.href='/prj/board/boardList'" value="목록" />
 		<c:if
 			test="${!empty sessionScope.member && sessionScope.member.nickname ne view.writer }">
@@ -76,16 +130,6 @@
 				data-target="#praiseModal">칭찬하기</button>
 			<button class="btn btn-default pull-left" data-toggle="modal"
 				data-target="#danModal">신고하기</button>
-		</c:if>
-	</div>
-
-
-	<div class="container">
-		<c:if test="${sessionScope.member.nickname eq view.writer }">
-			<input type="button" class="btn btn-default pull-left"
-				onClick="updateView(${view.pnum })" value="수정하기" />
-			<input type="button" class="btn btn-default pull-left"
-				onclick="deleteView(${view.pnum})" value="삭제하기" />
 		</c:if>
 	</div>
 

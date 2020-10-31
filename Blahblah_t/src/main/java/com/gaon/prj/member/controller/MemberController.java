@@ -1,7 +1,6 @@
 package com.gaon.prj.member.controller;
 
 import java.util.HashMap;
-
 import java.util.Map;
 import java.util.Random;
 
@@ -116,6 +115,7 @@ public class MemberController {
 		randPWInfo.put("email",EmailInfo.get("email"));
 		randPWInfo.put("originPW",randPW);
 		randPWInfo.put("encodePW",pwdEncoder.encode(randPW));
+		
 		return memberSVC.updatePw(randPWInfo);
 	}
 	public String makeRandomPassword() {
@@ -129,4 +129,14 @@ public class MemberController {
 		pass = String.copyValueOf(randChar);
 		return pass;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="findID", method=RequestMethod.POST, produces = "application/json")
+	public String findID(@RequestBody HashMap<String,String> info) {
+		String email = info.get("email");
+		String result = memberSVC.findID(email);
+		System.out.println(result);
+		return result;
+	}
+	
 }

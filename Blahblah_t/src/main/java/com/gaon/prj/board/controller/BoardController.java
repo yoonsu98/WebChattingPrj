@@ -54,6 +54,9 @@ public class BoardController {
 		view = boardSVC.viewBoard(pnum);
 		boardSVC.increaseRcnt(pnum);
 		model.addAttribute("view", view);
+		
+		List<ReplyVO> replyList = boardSVC.replyList(pnum);
+		model.addAttribute("replyList",replyList);
 		return "board/viewBoard";
 	}
 
@@ -112,5 +115,14 @@ public class BoardController {
 		boardSVC.danMem(memberVO);
 		boardSVC.blacklist(memberVO);
 		return "board/boardList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/insertComment", method = RequestMethod.POST, produces = "application/json")
+	public int insertComment(@RequestBody HashMap<String, String> commentInfo, ReplyVO replyVO) {
+		replyVO.setBnum(Integer.parseInt(commentInfo.get("bnum")));
+		replyVO.setCid(commentInfo.get("cid"));
+		replyVO.setReply(commentInfo.get("reply"));
+		return boardSVC.insertComment(replyVO);
 	}
 }

@@ -69,14 +69,18 @@ public class HandlerChat extends TextWebSocketHandler {
 				WebSocketSession sess = (WebSocketSession) mapSessionList.get("session");
 				String msg = mapReceive.get("msg");
 				if (bang_id.equals(mapReceive.get("bang_id"))) {
-					if(!msg.equals("/도움말") && !msg.equals("/지우개") && !msg.equals("/제시어") ) {
+					if(msg.charAt(0) != '/' ) {
 					Map<String, String> mapToSend = new HashMap<String, String>();
 					Date t = new Date();
 					SimpleDateFormat time = new SimpleDateFormat("hh:mm:ss");
 					mapToSend.put("bang_id", bang_id);
 					mapToSend.put("cmd", "CMD_MSG_SEND");
-					mapToSend.put("msg",   mapReceive.get("userid") + " : " + msg + " " + time.format(t));
-
+					mapToSend.put("msg", msg);
+					mapToSend.put("userid", mapReceive.get("userid"));
+					mapToSend.put("time", time.format(t));
+					
+					//mapToSend.put("msg",   mapReceive.get("userid") + " : " + msg + " " + time.format(t));
+					
 					String jsonStr = objectMapper.writeValueAsString(mapToSend);
 					sess.sendMessage(new TextMessage(jsonStr));
 					}
