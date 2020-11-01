@@ -44,4 +44,9 @@ public class VideoChatroomDAOImpl implements VideoChatroomDAO {
 		int result = sqlSession.delete("mappers.VideoChatroomDAO-mapper.deleteRoomInfo",vcno);
 		return result;
 	}
+	@Override
+	public int peopleCount(int vcno) {
+		int result = sqlSession.update("mappers.VideoChatroomDAO-mapper.peopleCount",vcno);
+		return result;
+	}
 }

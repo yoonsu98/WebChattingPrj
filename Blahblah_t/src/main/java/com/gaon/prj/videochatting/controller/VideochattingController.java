@@ -75,8 +75,13 @@ public class VideochattingController {
 	 
 	}*/
 	@RequestMapping(value="/deleteRoomInfo", method= RequestMethod.POST)
-	public @ResponseBody int setFollowing(@RequestBody HashMap<String, Integer> roomInfo ,HttpSession session) throws Exception {
+	public @ResponseBody int deleteRoomInfo(@RequestBody HashMap<String, Integer> roomInfo ,HttpSession session) throws Exception {
 		session.removeAttribute("roomInfo");
 		return videochatroomSVC.deleteRoomInfo(roomInfo.get("vcno"));
 	}
+	@RequestMapping(value="/peopleCount", method= RequestMethod.POST)
+	public @ResponseBody int peopleCount(@RequestBody HashMap<String, Integer> roomInfo ,HttpSession session) throws Exception {
+		return videochatroomSVC.peopleCount(roomInfo.get("vcno"));
+	}
+	
 }

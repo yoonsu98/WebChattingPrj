@@ -145,10 +145,11 @@ conn.onmessage = function(msg) {
     var data = content.data;
     switch (content.event) {
     case "chat":
-        receiveChat(data);
+        receiveChat(data,content.id);
         break;
      case "enter":
     	receiveEnter(content.id);
+    	debugger;
         break; 
     // when somebody wants to call us -> SDP 정보교환을 위함
     case "offer":
@@ -162,7 +163,7 @@ conn.onmessage = function(msg) {
         handleCandidate(data);
         break;
     case "close":
-        receiveClose();
+        receiveClose(content.vcid);
         break;
     default:
         break;
@@ -212,10 +213,14 @@ function sendClose(){
 	send({
         event : "close"
     });
+	caller.close();
+	caller.onicecandidate=null;
+	caller.ontrack=null;
+    conn.close();
     location.href= "${pageContext.request.contextPath }/videochatting/videochatList";
 }
-function receiveChat(chat){
-    $('#chattinglog').append("<t/><p> "+friendId+":"+ chat+"</p>");
+function receiveChat(chat,id){
+    $('#chattinglog').append("<t/><p> "+id+":"+ chat+"</p>");
     $('#chattinglog').scrollTop($("#chattinglog")[0].scrollHeight);
 
 }
@@ -258,10 +263,13 @@ function receiveClose(){
 	caller.close();
 	caller.onicecandidate=null;
 	caller.ontrack=null;
+	conn.close();
     $('#chattinglog').append("<t/><p> Goodbye! </p>");
     $('#chattinglog').scrollTop($("#chattinglog")[0].scrollHeight);
+
+	removeRoomID();
     modal.style.display = "block";
-    removeRoomID();
+    //removeRoomID();
     setInterval(function(){
     	exit_Timer();
       }, 1000);
@@ -270,12 +278,11 @@ function handleCandidate(candidate) {
     caller.addIceCandidate(new RTCIceCandidate(candidate));
 };
 
-//생성된 datachannel에 데이터보내기
 function sendMessage() {
-    //dataChannel.send(input.value);
     send({
         event : "chat",
-        data : input.value
+        data : input.value,
+        id : "${member.id}"
     });
     $('#chattinglog').append("<t/><p> Me: "+input.value+"</p>");
     $('#chattinglog').scrollTop($("#chattinglog")[0].scrollHeight);
@@ -290,11 +297,10 @@ span.onclick = function() {
 }
 function exit_Timer(){
 	if(exitCount == 0){
-		
 		location.href="${pageContext.request.contextPath }/videochatting/videochatList";;
 	}
-	exitCount = exitCount -1;
 	$('#exitDiv').html("<t/><p>"+exitCount+" 초 후에 방이 종료됩니다. </p>");
+	exitCount = exitCount -1;
 
 }
 function directClose(){

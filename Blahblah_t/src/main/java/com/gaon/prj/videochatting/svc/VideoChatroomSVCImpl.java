@@ -46,4 +46,8 @@ public class VideoChatroomSVCImpl implements VideoChatroomSVC {
 	public int deleteRoomInfo(int vcno) {
 		return videoChatroomDAO.deleteRoomInfo(vcno);
 	}
+	@Override
+	public int peopleCount(int vcno) {
+		return videoChatroomDAO.peopleCount(vcno);
+	}
 }

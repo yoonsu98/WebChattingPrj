@@ -13,4 +13,5 @@ public interface VideoChatroomSVC {
 	public int findInfo(VideoChatroomVO vo);
 	public String findOwner(int vcno);
 	public int deleteRoomInfo(int vcno);
+	public int peopleCount(int vcno);
 }

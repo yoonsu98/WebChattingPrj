@@ -24,7 +24,13 @@
 			<ul class="list-group">
 				<li class="list-group-item">방제목<span class="badge">아이디</span></li>
 				<c:forEach var="row" items="${list}">
-				<li class="list-group-item"><a href="${pageContext.request.contextPath }/videochatting/videochatroom/${row.vcno}?bang_id=${row.vctitle}">${row.vctitle }</a><span class="badge">${row.vcid }</span></li>
+				<c:if test="${row.vcpeople eq 2}">
+				<li class="list-group-item"><span style="color:gray">${row.vctitle }</span><span class="badge">${row.vcpeople }/2</span><span class="badge">${row.vcid }</span></li>
+				</c:if>
+				<c:if test="${row.vcpeople eq 1}">
+				<li class="list-group-item"><a onclick="enterChatroom(${row.vcno});" href="${pageContext.request.contextPath }/videochatting/videochatroom/${row.vcno}?bang_id=${row.vctitle}">${row.vctitle }</a><span class="badge">${row.vcpeople }/2</span><span class="badge">${row.vcid }</span></li>
+				</c:if>
+				<%-- <li class="list-group-item"><a onclick="enterChatroom(${row.vcno});" href="${pageContext.request.contextPath }/videochatting/videochatroom/${row.vcno}?bang_id=${row.vctitle}">${row.vctitle }</a><span class="badge">${row.vcpeople }</span><span class="badge">${row.vcid }</span></li> --%>
 				</c:forEach>
 			</ul>
 		 <button type="button" class="btn btn-primary" onClick="location.href='${pageContext.request.contextPath}/videochatting/addRoom'">방생성</button>
@@ -35,4 +41,26 @@
 	<%@ include file="/resources/include/main/footer.jsp"%>
 
 </body>
+<script>
+function enterChatroom(vcno){
+	const roomInfo = JSON.stringify({
+		vcno : vcno
+	});
+	console.log(roomInfo);
+ 	$.ajax({
+		data : roomInfo,
+		url : "${contextPath}/prj/videochatting/peopleCount",
+		type : "post",
+		dataType : "text",
+		contentType : "application/json; charset=UTF-8",
+		success : function(data) {
+			console.log(data);
+		},
+		error : function(data) {
+			alert("실패");
+		}
+	}); 
+	
+}
+</script>
 </html>

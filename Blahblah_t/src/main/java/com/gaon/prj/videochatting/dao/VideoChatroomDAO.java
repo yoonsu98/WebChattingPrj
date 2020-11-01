@@ -14,4 +14,5 @@ public interface VideoChatroomDAO {
 	public int findInfo(VideoChatroomVO vo);
 
 	public int deleteRoomInfo(int vcno);
+	public int peopleCount(int vcno);
 }

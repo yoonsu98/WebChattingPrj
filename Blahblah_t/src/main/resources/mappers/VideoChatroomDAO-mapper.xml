@@ -4,7 +4,7 @@
 
 	<select id="getchatList"
 		resultType="com.gaon.prj.videochatting.vo.VideoChatroomVO">
-		select vcno,vcid,vctitle,vcdate from videochatroom_tbl order by vcno desc
+		select vcno,vcid,vctitle,vcdate,vcpeople from videochatroom_tbl order by vcno desc
 	</select>
 	<insert id="addVideoChatRoom" parameterType="map">
 		insert into
@@ -20,9 +20,16 @@
 		<select id="findOwner" resultType="String">
 		select vcid from videochatroom_tbl where vcno = #{vcno}
 	</select>
-		<delete id="deleteRoomInfo" parameterType="int">
+	<delete id="deleteRoomInfo" parameterType="int">
 		delete from
 		videochatroom_tbl where
 		vcno = #{vcno}
 	</delete>
+	<update id="peopleCount" parameterType="int">
+		update videochatroom_tbl
+		set 
+		vcpeople = 2
+		where
+		vcno = #{vcno}
+	</update>
 </mapper>
