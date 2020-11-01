@@ -13,4 +13,5 @@ public class ReplyVO {
 	private int parent;//PARENT	NUMBER	Yes	"1 "	5	원댓글
 	private int depth;//DEPTH	NUMBER	Yes	"0 "	6	대댓글
 	private Date cdate;//CDATE	TIMESTAMP(6)	Yes	"systimestamp "	7	댓글작성시간
+	private int cgroup;//CGROUP	NUMBER	Yes	1 	8	댓글그룹
 }

@@ -76,8 +76,12 @@ public class BoardSVCImpl implements BoardSVC {
 		return boardDAO.getDcnt(memberVO);
 	}
 	
-	public List<ReplyVO> replyList(ReplyVO replyVO)
+	public List<ReplyVO> replyList(int pnum)
 	{
-		return boardDAO.replyList(replyVO);
+		return boardDAO.replyList(pnum);
+	}
+	public int insertComment(ReplyVO replyVO)
+	{
+		return boardDAO.insertComment(replyVO);
 	}
 }

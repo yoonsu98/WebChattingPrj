@@ -19,5 +19,6 @@ public interface BoardSVC {
 	public int danMem(MemberVO memberVO);
 	public int blacklist(MemberVO memberVO);
 	public int getDcnt(MemberVO memberVO);
-	public List<ReplyVO> replyList(ReplyVO replyVO);
+	public List<ReplyVO> replyList(int pnum);
+	public int insertComment(ReplyVO replyVO);
 }

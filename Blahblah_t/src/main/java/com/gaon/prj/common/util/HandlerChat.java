@@ -75,8 +75,12 @@ public class HandlerChat extends TextWebSocketHandler {
 					SimpleDateFormat time = new SimpleDateFormat("hh:mm:ss");
 					mapToSend.put("bang_id", bang_id);
 					mapToSend.put("cmd", "CMD_MSG_SEND");
-					mapToSend.put("msg",   mapReceive.get("userid") + " : " + msg + " " + time.format(t));
-
+					mapToSend.put("msg", msg);
+					mapToSend.put("userid", mapReceive.get("userid"));
+					mapToSend.put("time", time.format(t));
+					
+					//mapToSend.put("msg",   mapReceive.get("userid") + " : " + msg + " " + time.format(t));
+					
 					String jsonStr = objectMapper.writeValueAsString(mapToSend);
 					sess.sendMessage(new TextMessage(jsonStr));
 					}
