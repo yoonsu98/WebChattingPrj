@@ -43,6 +43,11 @@
 	overflow: auto;
 }
 </style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
+
+<style>
+<%@ include file="/resources/css/singlechat.css"%>
+</style>
 </head>
 <body>
 	<!-- uppermost -->
@@ -220,7 +225,35 @@ function sendClose(){
     location.href= "${pageContext.request.contextPath }/videochatting/videochatList";
 }
 function receiveChat(chat,id){
-    $('#chattinglog').append("<t/><p> "+id+":"+ chat+"</p>");
+	  var hours = (new Date()).getHours();
+	   var minutes = (new Date()).getMinutes();
+
+	   if (hours.toString().length==1){
+	      hours = '0'+hours;
+	   }
+	   if (minutes.toString().length==1){
+	      minutes = '0'+minutes;
+	   }
+	   
+	   $('#chattinglog').append(' <div class="incoming_msg">'+
+	         '<div class="incoming_msg_img">'+
+	         '<img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">'+
+	         '<p>'+id+'</p>'+
+	         '</div>'+
+	         ' <div class="received_msg">'+
+	         '<div class="received_withd_msg">'+
+	         ' <p>'+
+	         chat+
+	           '</p>'+
+	           ' <span class="time_date"> '+
+	           hours+':'+minutes+
+	           '</span>'+
+	           '</div>'+
+	           '</div>'+
+	           '</div>'
+	         )
+		
+    //$('#chattinglog').append("<t/><p> "+id+":"+ chat+"</p>");
     $('#chattinglog').scrollTop($("#chattinglog")[0].scrollHeight);
 
 }
@@ -279,12 +312,35 @@ function handleCandidate(candidate) {
 };
 
 function sendMessage() {
+	var hours = (new Date()).getHours();
+	   var minutes = (new Date()).getMinutes();
+
+	   if (hours.toString().length==1){
+	      hours = '0'+hours;
+	   }
+	   if (minutes.toString().length==1){
+	      minutes = '0'+minutes;
+	   }
+	   
+		
     send({
         event : "chat",
         data : input.value,
         id : "${member.id}"
     });
-    $('#chattinglog').append("<t/><p> Me: "+input.value+"</p>");
+    $('#chattinglog').append('<div class="outgoing_msg">'+
+            '<div class="sent_msg">'+
+            ' <p>'+
+            input.value+
+            '</p>'+
+            ' <span class="time_date"> '+
+            hours+':'+minutes+
+            '</span>'+
+            '</div>'+
+            '</div>'
+            );
+     
+    //$('#chattinglog').append("<t/><p> Me: "+input.value+"</p>");
     $('#chattinglog').scrollTop($("#chattinglog")[0].scrollHeight);
     input.value = "";
 }

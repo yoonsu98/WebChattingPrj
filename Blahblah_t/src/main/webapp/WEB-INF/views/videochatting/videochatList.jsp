@@ -13,12 +13,19 @@
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet">
+
+<style>
+<%@ include file="/resources/css/singlechat.css"%>
+</style>
 <script type="text/javascript">
+
 </script>
 <body>
 	<!-- uppermost -->
 	<%@ include file="/resources/include/main/uppermost.jsp"%>
-	
+	<!-- nav -->
+	<%@ include file="/resources/include/main/nav.jsp"%>
 	<main>
 		<div class="container">
 			<ul class="list-group">

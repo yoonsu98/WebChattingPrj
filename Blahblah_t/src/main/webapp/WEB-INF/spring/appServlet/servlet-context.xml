@@ -32,10 +32,11 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/chatting/**"/>
+			<mapping path="/videochatting/**"/>
 			<beans:bean id="loginInterceptor" class="com.gaon.prj.interceptor.LoginInterceptor"/>
 		</interceptor>
 	</interceptors>
-
+	
 	<websocket:handlers allowed-origins="*">
 		<websocket:mapping handler="echoHandler" path="/chat" />
 		<websocket:sockjs websocket-enabled="true"/>
