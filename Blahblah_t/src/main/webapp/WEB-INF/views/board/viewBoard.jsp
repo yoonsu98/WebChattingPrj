@@ -237,14 +237,11 @@
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="button" id="btnCommentModify"
-						class="btn btn-default"
+					<button type="button" id="btnCommentModify" class="btn btn-default"
 						onclick="modifyComment()">수정하기</button>
-					<button type="button" id="btnModalCancel"
-						class="btn btn-default"
+					<button type="button" id="btnCommentDelete" class="btn btn-default">삭제하기</button>
+					<button type="button" id="btnModalCancel" class="btn btn-default"
 						data-dismiss="modal">취소하기</button>
-					<button type="button" id="btnCommentDelete"
-						class="btn btn-default">삭제하기</button>
 				</div>
 			</div>
 		</div>
