@@ -50,11 +50,10 @@ public class BoardController {
 	}
 
 	@GetMapping(value = "/viewBoard/{pnum}")
-	public String viewBoard(@PathVariable("pnum") int pnum, BoardVO view, Model model) {
+	public String viewBoard(@PathVariable("pnum") int pnum,BoardVO view, Model model,ReplyVO replyVO) {
 		view = boardSVC.viewBoard(pnum);
 		boardSVC.increaseRcnt(pnum);
 		model.addAttribute("view", view);
-		
 		List<ReplyVO> replyList = boardSVC.replyList(pnum);
 		model.addAttribute("replyList",replyList);
 		return "board/viewBoard";
@@ -124,5 +123,19 @@ public class BoardController {
 		replyVO.setCid(commentInfo.get("cid"));
 		replyVO.setReply(commentInfo.get("reply"));
 		return boardSVC.insertComment(replyVO);
+	}
+	
+	@GetMapping(value = "/deleteComment")
+	public String deleteComment(@RequestParam("cnum") int cnum) {
+		boardSVC.deleteComment(cnum);
+		return "board/viewBoard";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/modifyComment", method = RequestMethod.POST, produces = "application/json")
+	public int modifyComment(@RequestBody HashMap<String, String> commentInfo, ReplyVO replyVO) {
+		replyVO.setCnum(Integer.parseInt(commentInfo.get("cnum")));
+		replyVO.setReply(commentInfo.get("comment"));
+		return boardSVC.modifyComment(replyVO);
 	}
 }

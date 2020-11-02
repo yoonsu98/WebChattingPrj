@@ -87,4 +87,17 @@ public class BoardDAOImpl implements BoardDAO {
 	{
 		return sqlSession.insert("mappers.BoardDAO-mapper.comment",replyVO);
 	}
+	
+	@Override
+	public void deleteComment(int cnum)
+	{
+		sqlSession.delete("mappers.BoardDAO-mapper.deleteComment",cnum);
+	}
+	
+	public int modifyComment(ReplyVO replyVO)
+	{
+		return sqlSession.update("mappers.BoardDAO-mapper.modifyComment",replyVO);
+	}
 }
+
+

@@ -21,4 +21,5 @@ public interface BoardDAO {
 	public int getDcnt(MemberVO memberVO);
 	public List<ReplyVO> replyList(int pnum);
 	public int insertComment(ReplyVO replyVO);
-}
+	public void deleteComment(int cnum);
+	public int modifyComment(ReplyVO replyVO);}

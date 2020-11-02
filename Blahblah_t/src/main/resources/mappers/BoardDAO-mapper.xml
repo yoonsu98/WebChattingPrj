@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="mappers.BoardDAO-mapper">
 
+	<!-- 게시판 작성 -->
 	<insert id="writeBoard"
 		parameterType="com.gaon.prj.board.vo.BoardVO">
 		insert into board_tbl
@@ -9,6 +10,7 @@
 		values(board_tbl_seq.nextval,#{writer},#{title},#{content})
 	</insert>
 
+	<!-- 블랙리스트 -->
 	<insert id="blacklist"
 		parameterType="com.gaon.prj.member.vo.MemberVO">
 		<if test="dcnt > 5">
@@ -16,6 +18,7 @@
 		</if>
 	</insert>
 
+	<!-- 게시판 리스트 -->
 	<select id="boardList"
 		parameterType="com.gaon.prj.paging.PagingVO"
 		resultType="com.gaon.prj.board.vo.BoardVO">
@@ -29,24 +32,28 @@
 		) WHERE RN BETWEEN #{start} AND #{end}
 	</select>
 
+	<!-- 게시판 글 보기 -->
 	<select id="viewBoard"
 		parameterType="com.gaon.prj.board.vo.BoardVO"
 		resultType="com.gaon.prj.board.vo.BoardVO">
 		SELECT PNUM,WRITER,TITLE,CONTENT,RCNT,WDATE FROM BOARD_TBL
 		WHERE PNUM = #{PNUM}
 	</select>
-
+	
+	<!-- 게시판 수정 폼 -->
 	<select id="updateViewForm"
 		parameterType="com.gaon.prj.board.vo.BoardVO"
 		resultType="com.gaon.prj.board.vo.BoardVO">
 		SELECT TITLE,CONTENT WHERE PNUM=#{PNUM}
 	</select>
-
+	
+	<!-- 조회수 -->
 	<update id="increaseRcnt" parameterType="int">
 		UPDATE BOARD_TBL SET
 		RCNT = RCNT+1 WHERE PNUM=#{PNUM}
 	</update>
 
+	<!-- 게시판 글 카운팅 -->
 	<select id="countBoard"
 		parameterType="com.gaon.prj.paging.PagingVO" resultType="int">
 		SELECT COUNT(*) FROM BOARD_TBL
@@ -54,6 +61,7 @@
 		<include refid="searchView"></include>
 	</select>
 
+	<!-- 게시판 수정 -->
 	<update id="updateView"
 		parameterType="com.gaon.prj.board.vo.BoardVO">
 		update board_tbl
@@ -62,35 +70,62 @@
 		where pnum = #{pnum}
 	</update>
 
+	<!-- 게시판 삭제 -->
 	<delete id="deleteView" parameterType="int">
 		DELETE FROM BOARD_TBL
 		WHERE PNUM = #{PNUM}
 	</delete>
 
+	<!-- 칭찬 카운팅 -->
 	<update id="praiseMem"
 		parameterType="com.gaon.prj.member.vo.MemberVO">
 		update member_tbl
-		set gcnt = gcnt+1 where nickname = #{nickname}
+		set gcnt = gcnt+1 where nickname =
+		#{nickname}
 	</update>
 
+	<!-- 신고 카운팅 -->
 	<update id="danMem"
 		parameterType="com.gaon.prj.member.vo.MemberVO">
 		update member_tbl
-		set dcnt = dcnt+1 where nickname = #{nickname}
+		set dcnt = dcnt+1 where nickname =
+		#{nickname}
 	</update>
-	
-	<select id = "getDcnt" parameterType = "com.gaon.prj.member.vo.MemberVO" resultType="int">
-		select dcnt from member_tbl where nickname = #{nickname}
+
+	<!-- 신고받은 횟수-->
+	<select id="getDcnt"
+		parameterType="com.gaon.prj.member.vo.MemberVO" resultType="int">
+		select dcnt
+		from member_tbl where nickname = #{nickname}
 	</select>
 
-	<insert id = "comment" parameterType="com.gaon.prj.reply.ReplyVO">
-		insert into comment_tbl(cnum,bnum,cid,reply,parent) values(comment_tbl_seq.nextval,#{bnum},#{cid},#{reply},#{cnum})
+	<!-- 댓글 작성 -->
+	<insert id="comment" parameterType="com.gaon.prj.reply.ReplyVO">
+		insert into
+		comment_tbl(cnum,bnum,cid,reply,parent)
+		values(comment_tbl_seq.nextval,#{bnum},#{cid},#{reply},#{cnum})
 	</insert>
-	
-	<select id = "replyList" resultType="com.gaon.prj.reply.ReplyVO">
-		select * from comment_tbl where bnum = #{bnum}
+
+	<!-- 댓글 수정 -->
+	<update id="modifyComment">
+		update comment_tbl
+		set reply = #{reply}
+		where cnum = #{cnum}
+	</update>
+
+	<!-- 댓글 삭제 -->
+	<delete id="deleteComment">
+		delete from comment_tbl
+		where cnum = #{cnum}
+	</delete>
+
+	<!-- 댓글 리스트 -->
+	<select id="replyList" resultType="com.gaon.prj.reply.ReplyVO">
+		select * from comment_tbl
+		where bnum = #{bnum}
 	</select>
-	
+
+	<!-- 게시판 검색 -->
 	<sql id="searchView">
 		<if test="searchOption=='title' and keyword != '' ">
 			AND TITLE like '%'||#{keyword}||'%'
