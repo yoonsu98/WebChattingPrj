@@ -32,7 +32,7 @@ public class BoardController {
 	public String boardList(Model model, PagingVO paging, @RequestParam(defaultValue = "1") int curPage,
 			@RequestParam(defaultValue = "title") String searchOption,
 			@RequestParam(defaultValue = "") String keyword) {
-		
+
 		int totalCnt = boardSVC.countBoard(paging);
 		paging = new PagingVO(totalCnt, curPage);
 		paging.setSearchOption(searchOption);
@@ -50,12 +50,12 @@ public class BoardController {
 	}
 
 	@GetMapping(value = "/viewBoard/{pnum}")
-	public String viewBoard(@PathVariable("pnum") int pnum,BoardVO view, Model model,ReplyVO replyVO) {
+	public String viewBoard(@PathVariable("pnum") int pnum, BoardVO view, Model model, ReplyVO replyVO) {
 		view = boardSVC.viewBoard(pnum);
 		boardSVC.increaseRcnt(pnum);
 		model.addAttribute("view", view);
 		List<ReplyVO> replyList = boardSVC.replyList(pnum);
-		model.addAttribute("replyList",replyList);
+		model.addAttribute("replyList", replyList);
 		return "board/viewBoard";
 	}
 
@@ -70,7 +70,7 @@ public class BoardController {
 
 	@RequestMapping(value = "/loginWriteBoard", method = RequestMethod.POST)
 	public String loginWriteBoard(HttpSession session) {
-		if (session.getAttribute("member") != null ) {
+		if (session.getAttribute("member") != null) {
 			return "board/writeBoard";
 		} else {
 			return "member/loginForm";
@@ -98,16 +98,16 @@ public class BoardController {
 		boardSVC.deleteView(pnum);
 		return "board/boardList";
 	}
-	
+
 	@GetMapping("/praiseMem")
-	public String praiseMem(@RequestParam(defaultValue = "") String nickname,MemberVO memberVO) {
+	public String praiseMem(@RequestParam(defaultValue = "") String nickname, MemberVO memberVO) {
 		memberVO.setNickname(nickname);
 		boardSVC.praiseMem(memberVO);
 		return "board/boardList";
 	}
-	
+
 	@GetMapping("/danMem")
-	public String danMem(@RequestParam(defaultValue = "") String nickname,MemberVO memberVO) {
+	public String danMem(@RequestParam(defaultValue = "") String nickname, MemberVO memberVO) {
 		memberVO.setNickname(nickname);
 		memberVO.setDcnt(boardSVC.getDcnt(memberVO));
 		System.out.println(boardSVC.getDcnt(memberVO));
@@ -115,27 +115,42 @@ public class BoardController {
 		boardSVC.blacklist(memberVO);
 		return "board/boardList";
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/insertComment", method = RequestMethod.POST, produces = "application/json")
 	public int insertComment(@RequestBody HashMap<String, String> commentInfo, ReplyVO replyVO) {
 		replyVO.setBnum(Integer.parseInt(commentInfo.get("bnum")));
 		replyVO.setCid(commentInfo.get("cid"));
+		int parent = boardSVC.countComment(replyVO);
+		replyVO.setParent(parent+1);
 		replyVO.setReply(commentInfo.get("reply"));
 		return boardSVC.insertComment(replyVO);
 	}
-	
+
 	@GetMapping(value = "/deleteComment")
-	public String deleteComment(@RequestParam("cnum") int cnum) {
+	public String deleteComment(@RequestParam("cnum") int cnum,ReplyVO replyVO) {
+		replyVO.setReply("삭제되었습니다.");
 		boardSVC.deleteComment(cnum);
 		return "board/viewBoard";
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/modifyComment", method = RequestMethod.POST, produces = "application/json")
 	public int modifyComment(@RequestBody HashMap<String, String> commentInfo, ReplyVO replyVO) {
 		replyVO.setCnum(Integer.parseInt(commentInfo.get("cnum")));
 		replyVO.setReply(commentInfo.get("comment"));
 		return boardSVC.modifyComment(replyVO);
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/replyComment", method = RequestMethod.POST, produces = "application/json")
+	public int replyComment(@RequestBody HashMap<String, String> commentInfo, ReplyVO replyVO) {
+		replyVO.setBnum(Integer.parseInt(commentInfo.get("bnum")));
+		replyVO.setCid(commentInfo.get("cid"));
+		replyVO.setParent(Integer.parseInt(commentInfo.get("parent")));
+		int depth = boardSVC.countReply(replyVO);
+		replyVO.setDepth(depth);
+		replyVO.setReply(commentInfo.get("reply"));
+		return boardSVC.replyComment(replyVO);
 	}
 }

@@ -103,7 +103,7 @@
 	<insert id="comment" parameterType="com.gaon.prj.reply.ReplyVO">
 		insert into
 		comment_tbl(cnum,bnum,cid,reply,parent)
-		values(comment_tbl_seq.nextval,#{bnum},#{cid},#{reply},#{cnum})
+		values(comment_tbl_seq.nextval,#{bnum},#{cid},#{reply},#{parent})
 	</insert>
 
 	<!-- 댓글 수정 -->
@@ -114,17 +114,38 @@
 	</update>
 
 	<!-- 댓글 삭제 -->
-	<delete id="deleteComment">
-		delete from comment_tbl
-		where cnum = #{cnum}
-	</delete>
+	<update id="deleteComment">
+		update comment_tbl
+		set reply = #{reply} where cnum = #{cnum}
+	</update>
 
 	<!-- 댓글 리스트 -->
-	<select id="replyList" resultType="com.gaon.prj.reply.ReplyVO">
+	<select id="replyList" parameterType = "com.gaon.prj.reply.ReplyVO" resultType="com.gaon.prj.reply.ReplyVO">
 		select * from comment_tbl
-		where bnum = #{bnum}
+		where bnum = #{bnum} order by parent,depth
 	</select>
 
+	<!-- 대댓글 -->
+	<insert id = "replyComment" parameterType="com.gaon.prj.reply.ReplyVO">
+		insert into
+		comment_tbl(cnum,bnum,cid,reply,parent,depth)
+		values(comment_tbl_seq.nextval,#{bnum},#{cid},#{reply},#{parent},#{depth})
+	</insert>
+	
+	<!-- 댓글 갯수 -->
+	<select id="countComment"
+		parameterType="com.gaon.prj.reply.ReplyVO" resultType="int">
+		select count(*) from comment_tbl
+		where bnum = #{bnum} and depth = 0
+	</select>
+	
+	<!-- 대댓글 갯수 -->
+	<select id="countReply"
+		parameterType="com.gaon.prj.reply.ReplyVO" resultType="int">
+		select count(*) from comment_tbl
+		where bnum = #{bnum} and parent = #{parent}
+	</select>
+	
 	<!-- 게시판 검색 -->
 	<sql id="searchView">
 		<if test="searchOption=='title' and keyword != '' ">

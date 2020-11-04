@@ -25,13 +25,12 @@
 		alert("삭제되었습니다.");
 		location.href="${contextPath}/prj/board/boardList";
 	}
+	
 	function insertComment(){
 		let bnum = document.getElementById('pnum').value;
 		let cid = document.getElementById('nickname').value;
-		let reply = document.getElementById('commentContent').value;
-					
+		let reply = document.getElementById('commentContent').value;	
 		const commentInfo = JSON.stringify({bnum:bnum, cid:cid,reply:reply});
-
 		$.ajax({
 			data : commentInfo,
 			url : "${contextPath}/prj/board/insertComment",
@@ -48,21 +47,21 @@
 				}
 			},
 			error:function(request,status,error){
-			    alert("로그인을 해주세요.");}
+				 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			   }
 		})
 	}
-
+	
 	function deleteComment(cnum){
 		location.href="${contextPath}/prj/board/deleteComment?cnum="+cnum;
 		alert("삭제되었습니다.");
 		location.href="${contextPath}/prj/board/boardList";
 		}
-
+	
 	function modifyComment(cnum) {
 		let comment = document.getElementById('modalContent').value;
 		const commentInfo = JSON.stringify({cnum:cnum, comment:comment
 		});
-
 		$.ajax({
 			data : commentInfo,
 			url : "${contextPath}/prj/board/modifyComment",
@@ -84,6 +83,33 @@
 		})
 	}
 	
+	function replyComment(cnum){
+		let bnum = document.getElementById('rpnum').value;
+		let cid = document.getElementById('rnickname').value;
+		let reply = document.getElementById('modalReplyContent').value;	
+		let parent = document.getElementById('parent').value;
+
+		const commentInfo = JSON.stringify({bnum:bnum, cid:cid,reply:reply,parent:parent});
+		$.ajax({
+			data : commentInfo,
+			url : "${contextPath}/prj/board/replyComment",
+			type : "post",
+			dataType : "text",
+			contentType : "application/json; charset = UTF-8",
+			success : function(data){
+				console.log(data);
+				if(data == 1){
+					alert("등록이 완료되었습니다.");
+					location.href = "${contextPath}/prj/board/viewBoard/"+bnum;}
+				else{
+					alert("등록을 실패했습니다.");
+				}
+			},
+			error:function(request,status,error){
+				 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			   }
+		})
+	}
 </script>
 
 <body>
@@ -132,6 +158,37 @@
 		</table>
 	</div>
 
+	<!--  댓글  -->
+	<div class="container">
+		<table class="table" border="1" style="text-align: center;">
+			<c:forEach items="${replyList}" var="replyList">
+				<tr>
+					<c:if test="${replyList.depth == 0 }">
+						<th class="text-center">${replyList.reply }</th>
+					</c:if>
+					<c:if test="${replyList.depth ne 0 }">
+						<th class="text-center">-> ${replyList.reply }</th>
+					</c:if>
+					<th class="text-center" width="200px">${replyList.cid }</th>
+					<th class="text-center" width="200px">${replyList.cdate }</th>
+
+					<td align="center" width="80px"><c:if
+							test="${sessionScope.member.nickname eq replyList.cid }">
+							<button type="button"
+								onclick="openCommentModal(${replyList.cnum}, '${replyList.reply}' )"
+								class="btn btn-xs btn-circle">
+								<i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>
+							</button>
+							<button type="button"
+								onClick="openReplyModal(${replyList.cnum},${replyList.parent})"
+								class="btn btn-xs btn-circle">
+								<i class="glyphicon glyphicon-hand-right" aria-hidden="true"></i>
+							</button></c:if></td>
+				</tr>
+			</c:forEach>
+		</table>
+	</div>
+
 	<div class="container">
 		<label for="content">comment</label>
 		<div class="input-group">
@@ -144,28 +201,6 @@
 					onClick="insertComment()">등록</button>
 			</span>
 		</div>
-	</div>
-
-	<!--  댓글  -->
-	<div class="container">
-		<table class="table" border="1" style="text-align: center;">
-			<c:forEach items="${replyList}" var="replyList">
-				<tr>
-					<th class="text-center" width="">${replyList.cid }</th>
-					<th class="text-center">${replyList.reply }</th>
-					<th class="text-center" width="200px">${replyList.cdate }</th>
-
-					<td align="center" width="80px"><c:if
-							test="${sessionScope.member.nickname eq replyList.cid }">
-							<button type="button"
-								onclick="openModal(${replyList.cnum}, '${replyList.reply}' )"
-								class="btn btn-xs btn-circle">
-								<i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>
-							</button>
-						</c:if></td>
-				</tr>
-			</c:forEach>
-		</table>
 	</div>
 
 	<!-- Modal -->
@@ -247,6 +282,44 @@
 		</div>
 	</div>
 
+	<!-- Modal -->
+	<div id="replyModal" class="modal fade" tabindex="-1" role="dialog"
+		aria-labelledby="commentModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<c:forEach items="${replyList}" var="replyList">
+								<input type="hidden" name="rpnum" id="rpnum"
+									value="${view.pnum}" />
+								<input type="hidden" name="rnickname" id="rnickname"
+									value="${sessionScope.member.nickname}" />
+								<input type="hidden" name="parent" id="parent"
+									value="${replyList.parent }" />
+							</c:forEach>
+							<label for="modalReplyContent" class="col-form-label">내용</label>
+							<textarea id="modalReplyContent" class="form-control"
+								placeholder="내용을 입력해 주세요." style="resize: none;"></textarea>
+
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="btnReplyComment" class="btn btn-default"
+						onclick="replyComment()">답글달기</button>
+					<button type="button" id="btnModalCancel" class="btn btn-default"
+						data-dismiss="modal">취소하기</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- footer -->
 	<%@ include file="/resources/include/main/footer.jsp"%>
 </body>
@@ -272,12 +345,10 @@
 			modal.style.display = "none";
 		}
 	}
-
 	function praiseMem(){
 		modal.style.display = "none";
 		let nickname = document.getElementById('writer').value;
 		var praiseComment = $('#praiseReason');
-
 		if (praiseComment.val() == "") {
 			alert("입력해주세요.");
 			return;
@@ -311,12 +382,10 @@
 			modal.style.display = "none";
 		}
 	}
-
 	function danMem(){
 		modal.style.display = "none";
 		let nickname = document.getElementById('writer').value;
 		var danComment = $('#danReason');
-
 		if (danComment.val() == "") {
 			alert("입력해주세요.");
 			return;
@@ -330,16 +399,26 @@
 </script>
 
 <script>
-	function openModal(cnum, reply) {
+	function openCommentModal(cnum, comment) {
 
 		$("#commentModal").modal("toggle");
 
-		document.getElementById("modalContent").value = reply;
+		document.getElementById("modalContent").value = comment;
 
 		document.getElementById("btnCommentModify").setAttribute("onclick", "modifyComment("+ cnum +")");
 		document.getElementById("btnCommentDelete").setAttribute("onclick", "deleteComment("+ cnum +")");
 	}
 </script>
 
+<script>
+	function openReplyModal(cnum, parent) {
+
+		$("#replyModal").modal("toggle");
+
+		document.getElementById("parent").value = parent;
+		
+		document.getElementById("btnReplyComment").setAttribute("onclick", "replyComment("+ cnum + ")");
+	}
+</script>
 
 </html>
