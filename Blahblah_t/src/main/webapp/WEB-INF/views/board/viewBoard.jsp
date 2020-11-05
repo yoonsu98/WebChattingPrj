@@ -53,12 +53,14 @@
 	}
 	
 	function deleteComment(cnum){
+		let bnum = document.getElementById('pnum').value;
 		location.href="${contextPath}/prj/board/deleteComment?cnum="+cnum;
 		alert("삭제되었습니다.");
-		location.href="${contextPath}/prj/board/boardList";
+		location.href="${contextPath}/prj/board/viewBoard/"+bnum;;
 		}
 	
 	function modifyComment(cnum) {
+		let bnum = document.getElementById('pnum').value;
 		let comment = document.getElementById('modalContent').value;
 		const commentInfo = JSON.stringify({cnum:cnum, comment:comment
 		});
@@ -72,7 +74,7 @@
 				console.log(data);
 				if (data == 1) {
 					alert("수정이 완료되었습니다.");
-					location.href = "${contextPath}/prj/board/boardList";
+					location.href = "${contextPath}/prj/board/viewBoard/"+bnum;;
 				} else {
 					alert("수정을 실패했습니다.");
 				}
@@ -174,16 +176,21 @@
 
 					<td align="center" width="80px"><c:if
 							test="${sessionScope.member.nickname eq replyList.cid }">
-							<button type="button"
-								onclick="openCommentModal(${replyList.cnum}, '${replyList.reply}' )"
-								class="btn btn-xs btn-circle">
-								<i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>
-							</button>
-							<button type="button"
-								onClick="openReplyModal(${replyList.cnum},${replyList.parent})"
-								class="btn btn-xs btn-circle">
-								<i class="glyphicon glyphicon-hand-right" aria-hidden="true"></i>
-							</button></c:if></td>
+							<c:if test="${replyList.deletenum ne 0 }">
+								<button type="button"
+									onclick="openCommentModal(${replyList.cnum}, '${replyList.reply}' )"
+									class="btn btn-xs btn-circle">
+									<i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>
+								</button>
+								<c:if test="${replyList.depth eq 0 }">
+									<button type="button"
+										onClick="openReplyModal(${replyList.cnum},${replyList.parent})"
+										class="btn btn-xs btn-circle">
+										<i class="glyphicon glyphicon-hand-right" aria-hidden="true"></i>
+									</button>
+								</c:if>
+							</c:if>
+						</c:if></td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -265,6 +272,7 @@
 				<div class="modal-body">
 					<form>
 						<div class="form-group">
+						<input type="hidden" name="pnum" id="pnum" value="${view.pnum}" />
 							<label for="modalContent" class="col-form-label">내용</label>
 							<textarea id="modalContent" class="form-control"
 								placeholder="내용을 입력해 주세요." style="resize: none;"></textarea>

@@ -21,7 +21,7 @@ public interface BoardSVC {
 	public int getDcnt(MemberVO memberVO);
 	public List<ReplyVO> replyList(int pnum);
 	public int insertComment(ReplyVO replyVO);
-	public int deleteComment(int cnum);
+	public int deleteComment(ReplyVO replyVO);
 	public int modifyComment(ReplyVO replyVO);
 	public int replyComment(ReplyVO replyVO);
 	public int countComment(ReplyVO replyVO);

@@ -116,7 +116,7 @@
 	<!-- 댓글 삭제 -->
 	<update id="deleteComment">
 		update comment_tbl
-		set reply = #{reply} where cnum = #{cnum}
+		set reply = #{reply}, deletenum = #{deletenum} where cnum = #{cnum}
 	</update>
 
 	<!-- 댓글 리스트 -->

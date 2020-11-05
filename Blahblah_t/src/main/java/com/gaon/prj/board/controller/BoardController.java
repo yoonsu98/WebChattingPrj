@@ -128,10 +128,11 @@ public class BoardController {
 	}
 
 	@GetMapping(value = "/deleteComment")
-	public String deleteComment(@RequestParam("cnum") int cnum,ReplyVO replyVO) {
+	public int deleteComment(@RequestParam("cnum") int cnum,ReplyVO replyVO) {
+		replyVO.setCnum(cnum);
+		replyVO.setDeletenum(0);
 		replyVO.setReply("삭제되었습니다.");
-		boardSVC.deleteComment(cnum);
-		return "board/viewBoard";
+		return boardSVC.deleteComment(replyVO);
 	}
 
 	@ResponseBody

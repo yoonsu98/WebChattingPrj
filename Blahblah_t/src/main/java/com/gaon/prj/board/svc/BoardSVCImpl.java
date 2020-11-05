@@ -85,9 +85,9 @@ public class BoardSVCImpl implements BoardSVC {
 		return boardDAO.insertComment(replyVO);
 	}
 	
-	public int deleteComment(int cnum)
+	public int deleteComment(ReplyVO replyVO)
 	{
-		return boardDAO.deleteComment(cnum);
+		return boardDAO.deleteComment(replyVO);
 	}
 	
 	public int modifyComment(ReplyVO replyVO)
